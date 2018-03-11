@@ -36,19 +36,23 @@ class QueueController
 
     public function freeTime(Request $req, Response $res, $args)
     {
-        $result = $this->getFreeTime($args);
-
-        return $res->withJson($result+['worker_id'=>$args['worker_id']], 200);
-
+        $result['worker'] = Worker::find($args['worker_id']);
+        $result['free_time'] = $this->getFreeTime($args);
+        return $res->withJson($result, 200);
     }
+
+
+
+
     public function salonServiceFreeTime(Request $req, Response $res, $args)
     {
+
         $salon = Salon::find($args['salon_id']);
         $workers = ServiceWorker::where('service_worker.service_id', $args['service_id'])
             ->leftJoin('services', 'service_worker.service_id', '=', 'services.service_id')
+            ->leftJoin('workers', 'service_worker.worker_id', '=', 'workers.worker_id')
             ->where('service_worker.deleted_at', null)
             ->get();
-
         foreach ($workers as $id=>$worker){
             $result[$id]['user'] = $worker;
             $result[$id]['free_time'] = $this->getFreeTime([
@@ -56,14 +60,14 @@ class QueueController
                 'date'=>$args['date']
             ]);
         }
-
-        return $res->withJson($result+['worker_id'=>$args['worker_id']], 200);
+        return $res->withJson($result, 200);
 
     }
 
     public function salonFreeTime(Request $req, Response $res, $args)
     {
         $salon = Salon::find($args['salon_id']);
+        return $salon;
         $workers = $salon->workers->toArray();
         foreach ($workers as $id=>$worker){
             $result[$id]['user'] = $worker;
@@ -94,12 +98,7 @@ class QueueController
             ->get();
         $result =  Array();
         $j=0;$k=0;
-//        return $res->withJson([
-//            'today'  =>$data_week_day,
-//            '$worker'  =>$worker,
-//            '$schedules'    =>$schedules,
-//            ])
-//            ->withStatus(200);
+//        return ['data'=>$data_week_day, 'worker'=>$worker, 'sched'=> $schedules, 'args'=>$args];
         $schedules_array=[];
         foreach ($schedules as $schedule){
             $unix_start_stamp = \DateTime::createFromFormat("d-m-Y H:i:s", $args['date'].' 00:00:00')
@@ -335,9 +334,20 @@ class QueueController
         $from = \DateTime::createFromFormat("d.m.Y", $req->getParam('from'))->format("Y-m-d");
         $to = \DateTime::createFromFormat("d.m.Y", $req->getParam('to'))->format("Y-m-d");
 
-        $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
-        where('worker_id', $args['worker_id'])->where('time', '>', $from)->
-        where('time', '<', $to)->orderBy('time')->get();
+        $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')
+            ->where('worker_id', $args['worker_id'])
+            ->where('time', '>', $from)
+            ->where('time', '<', $to)
+            ->orderBy('time')
+            ->get();
+        $i=0;
+        foreach ($queue as $value){
+            $customer = Customer::find($value->customer_id);
+            $result[$i]['queue'] = $value;
+            $result[$i]['customer'] = $customer;
+            $i++;
+        }
+
         if (sizeof($queue) == 0) {
             $queue[] = [
                 "queue_id" => null,
@@ -354,7 +364,7 @@ class QueueController
                 "logo" => null
             ];
         }
-        return $res->withJson($queue)
+        return $res->withJson($result)
 
             ->withStatus(200);
 
@@ -463,15 +473,24 @@ The HairTime Team.</p>';
             ] + $args);
 
         $message = array('message' => 'Dear worker you are have new queue!');
+        $message = 'Dear worker you are have new queue: '.$time;
         $user = User::where('entry_type', 'App\Models\Worker')->where('entry_id', $args['worker_id'])->first();
         $worker = Worker::where('worker_id', $args['worker_id'])->first();
         //$customer = Customer::where('customer_id',$req->getParam('customer_id'))->first();
         $ntoken = NToken::where('user_id', $user->user_id)->pluck('n_token');
-        $notification = new Notification();
-        $result = $notification->send_notifications($ntoken, $message);
-        $notification->queue_id = $queue->queue_id;
-        $notification->message = $message;
-        $notification->save();
+        $notification = Notification::create(
+            [
+                'title' =>  'New queue!!!',
+                'message' => $message,
+                'status' => FALSE,
+                'queue_id' => $queue->queue_id,
+                'user_id' => $user->user_id,
+            ]);
+
+//        $result = $notification->send_notifications($ntoken, $message);
+//        $notification->queue_id = $queue->queue_id;
+//        $notification->message = $message;
+//        $notification->save();
         $email = $user->email;
 
         $mail = new EmailController();

@@ -15,7 +15,11 @@ if (PHP_SAPI == 'cli-server') {
 }
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$config = require_once __DIR__ . '/../src/config.php';
+if (file_exists(__DIR__.'/../src/config_local.php')) {
+    $config = require_once __DIR__ . '/../src/config_local.php';
+}else{
+    $config = require_once __DIR__ . '/../src/config.php';
+}
 
 ini_set('date.timezone', 'Asia/Jerusalem');
 date_default_timezone_set('Asia/Jerusalem');

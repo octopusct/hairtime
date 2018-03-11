@@ -120,11 +120,13 @@ class Salon extends Model
      * @param integer $radius
      * @return Collection
      */
-    public static function near($lat, $lng, $radius)
+    public static function near($lat, $lng, $radius, $devMode=false)
     {
         $formula = "(6371*acos(cos(radians({$lat}))*cos(radians(`lat`))*cos(radians(`lng`)-radians({$lng}))+sin(radians({$lat}))*sin(radians(`lat`)))) AS distance";
         $radius = ($radius + $radius * 0.1) / 1000;
-        return static::selectRaw('*, ' . $formula)->having('distance', '<=', $radius)/*->where('status', 'Active')*/->orderBy('distance')->get();
+        return
+            $devMode ? static::selectRaw('*, ' . $formula)->having('distance', '<=', $radius)/*->where('status', 'Active')*/->orderBy('distance')->get()
+                     : static::selectRaw('*, ' . $formula)->having('distance', '<=', $radius)->where('status', 'Active')->orderBy('distance')->get();
     }
 
 }

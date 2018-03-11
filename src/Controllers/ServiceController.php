@@ -49,58 +49,78 @@ class ServiceController extends BaseController
 
     function getBySalon(Request $req, Response $res, $args)
     {
-        $salon_id = $args['salon_id'];
-        if (Salon::where('salon_id', $salon_id)->exists()) {
-            $services = Service::where('salon_id', $salon_id)->get();
-            $i = 0;
-            foreach ($services as $service) {
-                $sw = ServiceWorker::where('service_id', $service['service_id'])->get();
-                $result[$i] = $service;
-                $workers = array();
-                $j = 0;
-                foreach ($sw as $value) {
-                    $worker = Worker::where('worker_id', $value['worker_id'])->first();
-                    $worker = $worker->toArray();
-                    $worker['worker_id'] = $value['worker_id'];
-                    $worker['description'] = $value['description'];
-                    $workers[$j] = $worker;
-                    $j++;
+        try {
+
+
+            $result = array();
+            $salon_id = $args['salon_id'];
+            if (Salon::where('salon_id', $salon_id)->exists()) {
+                $services = Service::where('salon_id', $salon_id)->get();
+                $i = 0;
+                foreach ($services as $service) {
+                    $sw = ServiceWorker::where('service_id', $service['service_id'])->get();
+                    $result[$i] = $service;
+                    if (count($sw) == 0) {
+                        $i++;
+                        continue;
+                    }
+                    $workers = array();
+                    $j = 0;
+                    foreach ($sw as $value) {
+                        $worker = Worker::where('worker_id', $value['worker_id'])->first()->toArray();
+                        $worker['worker_id'] = $value['worker_id'];
+                        $worker['description'] = $value['description'];
+                        $workers[$j] = $worker;
+                        $j++;
+                    }
+
+                    $result[$i]['workers'] = $workers;
+                    $i++;
                 }
-                $result[$i]['workers'] = $workers;
-                $i++;
+
+            } else {
+                return $res->withJson(['message' => "Salon with such salon_id is not found. Check salon_id.", 'status' => 'error', 'error' => "404"])->withStatus(404);
             }
-        } else {
-            return $res->withJson(['message' => "Salon with such salon_id is not found. Check salon_id.", 'status' => 'error', 'error' => "404"])->withStatus(404);
-        }
-        if ($result == null) {
-            $result1 = [
-                "service_id" => null,
-                "salon_id" => null,
-                "name" => null,
-                "duration" => null,
-                "price_min" => null,
-                "price_max" => null,
-                "created_at" => null,
-                "logo" => null,
-            ];
-            $result2 = [
-                "worker_id" => null,
-                "salon_id" => null,
-                "first_name" => null,
-                "last_name" => null,
-                "specialization" => null,
-                "start_year" => null,
-                "phone" => null,
-                "logo" => null,
-                "description" => null,
-            ];
+//            return $res->withJson(['res'=>$result])->withStatus(200);
 
-            $result1["worker"] = [$result2];
-            $result = [$result1];
-        }
-        return $res->withJson($result)
+        }catch(\Exception $exception ){
+            return $res->withJson(['message' => $exception->getMessage(), 'status' => 'error', 'error' => "404"])->withStatus(404);
 
-            ->withStatus(200);
+        }finally{
+            return $res->withJson(['message' => $result ], 200);
+
+        }
+        return $res->withJson(['message' => 'errrorororo' ], 200);
+
+//        return $res->withJson(['message' => 'finaly', 'status' => 'error', 'error' => "404"])->withStatus(404);
+
+//        if (count($result) == 0) {
+//            $result1 = [
+//                "service_id" => null,
+//                "salon_id" => null,
+//                "name" => null,
+//                "duration" => null,
+//                "price_min" => null,
+//                "price_max" => null,
+//                "created_at" => null,
+//                "logo" => null,
+//            ];
+//            $result2 = [
+//                "worker_id" => null,
+//                "salon_id" => null,
+//                "first_name" => null,
+//                "last_name" => null,
+//                "specialization" => null,
+//                "start_year" => null,
+//                "phone" => null,
+//                "logo" => null,
+//                "description" => null,
+//            ];
+//
+//            $result1["worker"] = [$result2];
+//            $result = [$result1];
+//        }
+//        return $res->withJson($result)->withStatus(200);
 
 
     }

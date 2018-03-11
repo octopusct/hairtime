@@ -10,6 +10,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Notification
@@ -28,10 +29,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Notification extends Model
 {
+    use SoftDeletes;
+
     public $timestamps = false;
     protected $table = 'notifications';
-    protected $primaryKey = 'notification_id';
+    protected $primaryKey = 'id';
     protected $fillable = [
+        'id',
+        'user_id',
         'queue_id',
         'title',
         'message',
@@ -39,7 +44,11 @@ class Notification extends Model
     ];
     protected $hidden = [
         'created_at',
+        'updated_at',
+        'deleted_at',
     ];
+    protected $dates = ['deleted_at'];
+
 
     public function send_notifications($tokens, $message)
     {

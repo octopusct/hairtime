@@ -26,6 +26,15 @@ class NotificationController
 
     }
 
+    public function getNoty(Request $req, Response $res, $args)
+    {
+        $noti = Notification::where('user_id', $args['user_id'])
+            ->where('status', false)
+            ->get()
+            ->toArray();
+        return $res->withJson($noti, 200);
+    }
+
     public function tryNotification(Request $req, Response $res)
     {
         $ntoken = NToken::where('user_id', $req->getParam('user_id'))->pluck('n_token');

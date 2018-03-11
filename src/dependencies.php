@@ -45,6 +45,10 @@ $container['validator'] = function ($c) {
     return new \App\Validation\Validator($c);
 };
 
+$container['devMode'] = function () use ($container){
+    return $container['settings']['devMode'];
+};
+
 
 //TODO: turn off debug
 

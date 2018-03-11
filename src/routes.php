@@ -40,6 +40,7 @@ $app->get('/forgot_password/{email}', 'App\Controllers\AuthController:forgotPass
 $app->map(['options', 'post', 'get'], '/telegram', 'App\Components\TelegramBot:index');
 
 $app->group('/queue', function () {
+    $this->get('/salon/{salon_id}/service/{service_id}/{date}', 'App\Controllers\QueueController:salonServiceFreeTime');
     $this->get('/worker/{worker_id}', 'App\Controllers\QueueController:getQueue');
     $this->get('/salon/{salon_id}', 'App\Controllers\QueueController:getSalonQueue');
     $this->get('/customer/{customer_id}', 'App\Controllers\QueueController:getCustomerQueue');
@@ -48,21 +49,25 @@ $app->group('/queue', function () {
     $this->get('/confirm/{queue_id}', 'App\Controllers\QueueController:confirmQueue');
     $this->get('/worker/freetime/{worker_id}/{date}', 'App\Controllers\QueueController:freeTime');
     $this->get('/salon/freetime/{salon_id}/{date}', 'App\Controllers\QueueController:salonFreeTime');
-    $this->get('/salon/{salon_id}/service/{service_id}/{date}', 'App\Controllers\QueueController:salonServiceFreeTime');
-})/*->add(new AuthChecker())*/;
+})->add(new AuthChecker());
+
 
 $app->group('/notification', function () {
-    $this->post('/set_token', function (Request $req, Response $res) {
-        $user = \App\Models\User::where('user_id', ($req->getParam('user_id')))->first();
-        $ntoken = new NToken();
-        $ntoken->n_token = $req->getParam('n_token');
-        $ntoken->user_id = $user->user_id;
-        $ntoken->save();
-        return $res->withJson($ntoken)->withStatus(201);
-    });
-    $this->post('', 'App\Controllers\NotificationController:tryNotification');
-
+    $this->get('/{user_id}', 'App\Controllers\NotificationController:getNoty');
 });
+
+//    $app->group('/notification', function () {
+//    $this->post('/set_token', function (Request $req, Response $res) {
+//        $user = \App\Models\User::where('user_id', ($req->getParam('user_id')))->first();
+//        $ntoken = new NToken();
+//        $ntoken->n_token = $req->getParam('n_token');
+//        $ntoken->user_id = $user->user_id;
+//        $ntoken->save();
+//        return $res->withJson($ntoken)->withStatus(201);
+//    });
+//    $this->post('', 'App\Controllers\NotificationController:tryNotification');
+//
+//});
 
 $app->group('/auth', function () {
     $this->group('/singup', function () {
