@@ -26,21 +26,36 @@ class NotificationController
 
     }
 
-    public function getNoty(Request $req, Response $res, $args)
+    public function getNotification(Request $req, Response $res, $args)
     {
-        $noti = Notification::where('user_id', $args['user_id'])
+        $notification = Notification::where('user_id', $args['user_id'])
             ->where('status', false)
             ->get()
             ->toArray();
-        return $res->withJson($noti, 200);
+        return $res->withJson($notification+[
+                'message'=> count($notification)>0 ? 'OK' : 'User has\'t any notifications',
+                'status'=>'success',
+                'error'=>''
+            ], 200);
     }
 
+    public function setStatus(Request $req,  Response $res)
+    {
+        $result = Notification::find($req->getParam('notification_id'))->update(['status'=>true]);
+        if ($result) {
+            $answer = ['message'=>'OK', 'status'=>'success', 'error'=>''];
+        }else{
+            $answer = ['message'=>'Status not changed!', 'status'=>'error', 'error'=>''];
+        }
+        return $res->withJson($answer, 200);
+    }
+    
     public function tryNotification(Request $req, Response $res)
     {
         $ntoken = NToken::where('user_id', $req->getParam('user_id'))->pluck('n_token');
 
         //return $res->withJson($ntoken)->withStatus(200);
-        $message = array('message' => 'Dear worker you are have new queue!');
+        $message = array('message' => 'Dear worker you are have new queue at: ');
 
         $notification = new Notification();
         $result = $notification->send_notifications($ntoken, $message);

@@ -8,6 +8,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Salon;
 use DateTime;
 use DateTimeZone;
 use Slim\Http\Request;
@@ -17,7 +18,8 @@ class HomeController extends BaseController
 {
     function __invoke(Request $req, Response $res, $args)
     {
-        return $res->withJson(['message' => "Connection success", 'error' => '', 'success' => true])
+        $salon = Salon::find(18);
+        return $res->withJson(['message' => "Connection success", 'salon'=>$salon, 'error' => '', 'success' => true])
             ->withStatus(200);
     }
 }

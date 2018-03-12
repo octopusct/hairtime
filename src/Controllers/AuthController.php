@@ -61,6 +61,7 @@ class AuthController extends BaseController
                 $result[$i]= $error;
                 $i++;
             }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
@@ -135,7 +136,13 @@ The HairTime Team.</p></h6>';
             'phone' => v::phone(),
         ));
         if ($validation->failed()) {
-            return $res->withJson($validation->errors)->withStatus(400);
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         $user = User::where('user_id', $req->getParam('user_id'))->first();
         //return $res->withJson($user, 200);
@@ -171,9 +178,13 @@ The HairTime Team.</p></h6>';
             // 'activation_key' => v::notEmpty()->length(1, 100)->keyExists()
         ));
         if ($validation->failed()) {
-            return $res->withJson($validation->errors)
-                ->withStatus(400)
-                ;
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
             return $res->withJson(['message' => 'This e-mail already exist. Try other e-mail', 'error' => '400'])
@@ -270,9 +281,13 @@ The HairTime Team.</p></h6>';
             // 'activation_key' => v::notEmpty()->length(1, 100)->keyExists()
         ));
         if ($validation->failed()) {
-            return $res->withJson($validation->errors)
-                ->withStatus(400)
-                ;
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
 
         //Key::where('key_body', $req->getParam('activation_key'))->first()->delete();
@@ -370,7 +385,13 @@ The HairTime Team.</p>';
             'salon_id' => v::notEmpty(),
         ]);
         if ($validation->failed()) {
-            return $res->withJson($validation->errors)->withStatus(400);
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
             return $res->withJson(['message' => 'This e-mail already exist. Try other e-mail', 'error' => '400'])->withStatus(400);
@@ -456,9 +477,13 @@ The HairTime Team.</p>';
             'logo' => v::optional(v::url()->length(1, 100))
         ]);
         if ($validation->failed()) {
-            return $res->withJson($validation->errors)
-
-                ->withStatus(400);
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
 
         $token = $this->makeToken();
@@ -509,7 +534,13 @@ The HairTime Team.</p>';
             //'logo' => v::optional(v::url()->length(1, 100))
         ]);
         if ($validation->failed()) {
-            return $res->withJson($validation->errors)->withStatus(400);
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         if ($args['worker_id']){
             $worker = Worker::where('worker_id', $args['worker_id'])->first();
@@ -540,26 +571,30 @@ The HairTime Team.</p>';
             'password' => v::notEmpty()->length(1, 50) //TODO: turn off debug mode
         ));
         if ($validation->failed()) {
-            return $res->withJson($validation->errors)
-                ->withStatus(400);
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
 
         $user = User::where('email', $req->getParam('email'))->first();
         if (empty($user)) {
+            $this->logger->info('SingIn', array('MESSAGE'=>'Wrong email', 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message' => 'Wrong email', 'status' => 'error', 'error' => '403'])
-
                 ->withStatus(403);
         }
         if ($user->password !== $req->getParam('password')) {
+            $this->logger->info('SingIn', array('MESSAGE'=>'Wrong password', 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message' => 'Wrong password', 'status' => 'error', 'error' => '403'])
-
                 ->withStatus(403);
         } else {
             $old_tokens = Token::where('user_id', $user->user_id)->get();
             foreach ($old_tokens as $token){
                 $token->delete();
             }
-
             $token = $this->makeToken();
             $user->tokens()->create([
                 'token' => $token,
@@ -623,9 +658,14 @@ The HairTime Team.</p>';
             'password' => v::notEmpty()->length(1, 50) //TODO: turn off debug mode
         ));
         if ($validation->failed()) {
-            return $res->withJson($validation->errors)
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
 
-                ->withStatus(400);
         }
 
         $id = $req->getParam('user_id');
@@ -685,9 +725,14 @@ The HairTime Team.</p>';
             'email' => v::notEmpty()->email()->length(5, 255)
         ]);
         if ($validation->failed()) {
-            return $res->withJson($validation->errors)
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
 
-                ->withStatus(400);
         }
         $user = User::where('email', $req->getParam('email'))->first();
         $user_name = $user->email;

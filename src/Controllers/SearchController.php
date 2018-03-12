@@ -34,8 +34,8 @@ class SearchController extends BaseController
 
     function aroundSearch(Request $req, Response $res)
     {
-        $lat = str_replace('.', '.', $req->getAttribute('lat'));
-        $lng = str_replace('.', '.', $req->getAttribute('lng'));
+        $lat = str_replace(',', '.', $req->getAttribute('lat'));
+        $lng = str_replace(',', '.', $req->getAttribute('lng'));
         $radius = $req->getAttribute('radius');
         $list = Salon::near($lat, $lng, $radius, $this->devMode)
             ->toArray();

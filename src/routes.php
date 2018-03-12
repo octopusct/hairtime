@@ -53,7 +53,8 @@ $app->group('/queue', function () {
 
 
 $app->group('/notification', function () {
-    $this->get('/{user_id}', 'App\Controllers\NotificationController:getNoty');
+    $this->get('/{user_id}', 'App\Controllers\NotificationController:getNotification');
+    $this->map(['post', 'options'], '', 'App\Controllers\NotificationController:setStatus');
 });
 
 //    $app->group('/notification', function () {
