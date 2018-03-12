@@ -288,7 +288,6 @@ The HairTime Team.</p>';
     {
 
         $user = User::where('email', $req->getParam('email'))->first();
-
         if ($user != null) {
             $message = new Message();
             $message->user_id = $user->user_id;
