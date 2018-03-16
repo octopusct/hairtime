@@ -18,10 +18,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 
-$app->map(['get','options'], '/', App\Controllers\HomeController::class);
+$app->get('/api/', App\Controllers\HomeController::class);
 // $app->post('/', App\Controllers\HomeController::class)->add(new //PermissionChecker(['customer', 'worker', 'admin']));
 
-$app->group('/del', function () {
+$app->group('/api/del', function () {
     $this->delete('', 'App\Controllers\AuthController:delUser');
     $this->delete('/customer/{customer_id:[0-9]*}', 'App\Controllers\AuthController:delUserById')
         ->add(new PermissionChecker(['customer', 'admin']));
@@ -32,14 +32,14 @@ $app->group('/del', function () {
 
 })->add(new AuthChecker());
 
-$app->get('/recalccomments', 'App\Controllers\CommentController:recalc');
+$app->get('/api/recalccomments', 'App\Controllers\CommentController:recalc');
 
-$app->get('/forgot_password/{email}', 'App\Controllers\AuthController:forgotPassword');
+$app->get('/api/forgot_password/{email}', 'App\Controllers\AuthController:forgotPassword');
 
 
-$app->map(['options', 'post', 'get'], '/telegram', 'App\Components\TelegramBot:index');
+$app->map(['options', 'post', 'get'], '/api/telegram', 'App\Components\TelegramBot:index');
 
-$app->group('/queue', function () {
+$app->group('/api/queue', function () {
     $this->get('/salon/{salon_id}/service/{service_id}/{date}', 'App\Controllers\QueueController:salonServiceFreeTime');
     $this->get('/worker/{worker_id}', 'App\Controllers\QueueController:getQueue');
     $this->get('/salon/{salon_id}', 'App\Controllers\QueueController:getSalonQueue');
@@ -47,14 +47,15 @@ $app->group('/queue', function () {
     $this->post('/{worker_id}/{service_id}', 'App\Controllers\QueueController:addQueue');
     $this->delete('/{queue_id}', 'App\Controllers\QueueController:deleteQueue');
     $this->get('/confirm/{queue_id}', 'App\Controllers\QueueController:confirmQueue');
+    $this->options('/confirm/{queue_id}', 'App\Controllers\QueueController:confirmQueue');
     $this->get('/worker/freetime/{worker_id}/{date}', 'App\Controllers\QueueController:freeTime');
     $this->get('/salon/freetime/{salon_id}/{date}', 'App\Controllers\QueueController:salonFreeTime');
 })->add(new AuthChecker());
 
 
-$app->group('/notification', function () {
+$app->group('/api/notification', function () {
     $this->get('/{user_id}', 'App\Controllers\NotificationController:getNotification');
-    $this->map(['post', 'options'], '', 'App\Controllers\NotificationController:setStatus');
+    $this->post('', 'App\Controllers\NotificationController:setStatus');
 });
 
 //    $app->group('/notification', function () {
@@ -70,7 +71,7 @@ $app->group('/notification', function () {
 //
 //});
 
-$app->group('/auth', function () {
+$app->group('/api/auth', function () {
     $this->group('/singup', function () {
         $this->map(['post','options'], '/customer', 'App\Controllers\AuthController:singupCustomer');
         $this->map(['post','options'], '/salon', 'App\Controllers\AuthController:singupSalon');
@@ -93,17 +94,17 @@ $app->group('/auth', function () {
     $this->map(['post','options'], '/newPassword', 'App\Controllers\AuthController:newPassword')->add(new AuthChecker());
 })/*-> add(new \App\Middlewares\routeMiddlewares())*/;
 
-$app->map(['post','options'], '/upload', 'App\Controllers\UploadController:uploadFile');
+$app->map(['post','options'], '/api/upload', 'App\Controllers\UploadController:uploadFile');
 
 
-$app->any('/login', 'App\Controllers\AdminController:login');
+$app->any('/api/login', 'App\Controllers\AdminController:login');
 
-$app->group('/message', function () {
+$app->group('/api/message', function () {
     $this->map(['post', 'options'], '', 'App\Controllers\AdminController:messageToAdmin');
     $this->map(['post', 'options'], '/user', 'App\Controllers\AdminController:messageToUser');
 });
 
-$app->group('/ajax', function () {
+$app->group('/api/ajax', function () {
     $this->group('/worker', function () {
         $this->post('/delete/{worker_id:[0-9]*}', 'App\Controllers\AjaxController:delUserById');
     });
@@ -123,7 +124,7 @@ $app->group('/ajax', function () {
 
 })->add (new AjaxMiddlewares());
 
-$app->group('/admin', function () {
+$app->group('/api/admin', function () {
     $this->get('/empty', 'App\Controllers\AdminController:emptyPage');
     $this->any('', 'App\Controllers\AdminController:salons');
     $this->any('/', 'App\Controllers\AdminController:salons');
@@ -176,7 +177,7 @@ $app->group('/dispatcher', function () {
 
 //$app->get('/public[/css/{[a-z]+}]', '');
 
-$app->group('/worker', function () {
+$app->group('/api/worker', function () {
     $this->group('/schedule/{worker_id:[0-9]*}', function () {
         $this->get('', 'App\Controllers\ScheduleController:getSchedule');
         //$this->options('', 'App\Controllers\ScheduleController:newSchedule');
@@ -193,7 +194,7 @@ $app->group('/worker', function () {
 
 });
 
-$app->group('/service', function () {
+$app->group('/api/service', function () {
     $this->group('/salon', function () {
         $this->group('/{salon_id:[0-9]*}', function () {
             $this->get('', 'App\Controllers\ServiceController:getBySalon');
@@ -220,7 +221,7 @@ $app->group('/service', function () {
     });
 });
 
-$app->group('/salon', function () {
+$app->group('/api/salon', function () {
     /*$this->group('/service', function () {
         $this->group('/{salon_id:[0-9]*}', function () {
             $this->post('', 'App\Controllers\ServiceController:new');

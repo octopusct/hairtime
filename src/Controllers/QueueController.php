@@ -51,7 +51,7 @@ class QueueController
         $workers = ServiceWorker::where('service_worker.service_id', $args['service_id'])
             ->leftJoin('services', 'service_worker.service_id', '=', 'services.service_id')
             ->leftJoin('workers', 'service_worker.worker_id', '=', 'workers.worker_id')
-            ->where('service_worker.deleted_at', null)
+            ->where('workers.deleted_at', null)
             ->get();
         foreach ($workers as $id=>$worker){
             $result[$id]['user'] = $worker;
@@ -67,10 +67,10 @@ class QueueController
     public function salonFreeTime(Request $req, Response $res, $args)
     {
         $salon = Salon::find($args['salon_id']);
-        return $salon;
+//        return $res->withJson($salon, 200);
         $workers = $salon->workers->toArray();
         foreach ($workers as $id=>$worker){
-            $result[$id]['user'] = $worker;
+            $result[$id]['worker'] = $worker;
             $result[$id]['free_time'] = $this->getFreeTime([
                 'worker_id'=>$worker['worker_id'],
                 'date'=>$args['date']
@@ -198,19 +198,23 @@ class QueueController
         } else {
             $to = null;
         }
-        // return $res->withJson(['to'=>$to,'from'=>$from])->withStatus(200);
+//         return $res->withJson(['to'=>$to,'from'=>$from])->withStatus(200);
 
         $customers_id = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
-        where('salon_id', $args['salon_id'])->pluck('customer_id');
-        $customers_id = array_unique($customers_id->toArray());
+        where('salon_id', $args['salon_id'])->pluck('customer_id')->toArray();
+        $customers_id = array_unique($customers_id);
         $i = 0;
-        foreach ($customers_id as $value) {
+        foreach ($customers_id as $key=>$value) {
             $customer = Customer::where('customer_id', $value)->first();
+            if (!isset($customer)) continue;
+//            return $res->withJson(['to'=>$customer])->withStatus(200);
             $result[$i]['customer'] = $customer->toArray();
             if (isset($to)) {
-                $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
-                where('queue.customer_id', $value)->where('time', '>', $from)->
-                where('time', '<', $to)->get();
+                $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')
+                ->where('queue.customer_id', $value)
+                ->where('time', '>', $from)
+                ->where('services.salon_id', $args['salon_id'])
+                ->where('time', '<', $to)->get();
             } else {
                 $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
                 where('queue.customer_id', $value)->where('time', '>', $from)->get();
@@ -265,19 +269,43 @@ class QueueController
         where('customer_id', $args['customer_id'])->pluck('salons.salon_id');
         $salons_id = array_unique($salons_id->toArray());
         $i = 0;
-        foreach ($salons_id as $value) {
+        foreach ($salons_id as $key=>$value) {
             $salon = Salon::where('salon_id', $value)->first();
             $result[$i]['salons'] = $salon->toArray();
             if (isset($to)) {
                 $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
                 join('salons', 'salons.salon_id', '=', 'services.salon_id')->
                 where('salons.salon_id', $value)->where('time', '>', $from)->
-                where('time', '<', $to)->get();
+                where('time', '<', $to)->get([
+                    'queue.queue_id',
+                    'services.service_id',
+                    'services.name',
+                    'services.duration',
+                    'services.price_min',
+                    'services.price_max',
+                    'services.logo',
+                    'queue.worker_id',
+                    'queue.customer_id',
+                    'queue.status',
+                    'queue.time',
+                ]);
             } else {
                 $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
                 join('salons', 'salons.salon_id', '=', 'services.salon_id')->
                 where('salons.salon_id', $value)->where('queue.customer_id', intval($customer))->
-                where('time', '>', $from)->get();
+                where('time', '>', $from)->get([
+                    'queue.queue_id',
+                    'services.service_id',
+                    'services.name',
+                    'services.duration',
+                    'services.price_min',
+                    'services.price_max',
+                    'services.logo',
+                    'queue.worker_id',
+                    'queue.customer_id',
+                    'queue.status',
+                    'queue.time',
+                ]);
             }
             $j = 0;
             foreach ($queue as $value1) {
@@ -298,7 +326,7 @@ class QueueController
                 $result[$i]['salons']['queue'][$j]['logo'] = $value1['logo'];
                 $j++;
             }
-
+            $i++;
         }
         if (sizeof($result) == 0) {
             //$result = Salon::where('salon_id', '')->get;
@@ -425,7 +453,6 @@ class QueueController
         $customer = Customer::where('customer_id', $queue->customer_id)->first();
         $email = User::where('entry_id', $queue->customer_id)->
         where('entry_type', 'App\Models\Customer')->pluck('email')->first();
-        //return $res->withJson($email)->withStatus(200);
         $mail = new EmailController();
         $user_name = $customer->last_name . " " . $customer->first_name;
         $mail->AddAddress($email, $user_name); // Получатель
@@ -453,7 +480,7 @@ The HairTime Team.</p>';
         $mail->MsgHTML($letter_body); // Текст сообщения
         $mail->AltBody = "Dear " . $user_name . ", You have new queue!";
         $result = $mail->Send();
-        return $res->withJson($mail)
+        return $res->withJson(['message'=>'OK', 'success'=>true, 'error'=>''])
 
             ->withStatus(200);
 
@@ -477,7 +504,7 @@ The HairTime Team.</p>';
         $user = User::where('entry_type', 'App\Models\Worker')->where('entry_id', $args['worker_id'])->first();
         $worker = Worker::where('worker_id', $args['worker_id'])->first();
         //$customer = Customer::where('customer_id',$req->getParam('customer_id'))->first();
-        $ntoken = NToken::where('user_id', $user->user_id)->pluck('n_token');
+//        $ntoken = NToken::where('user_id', $user->user_id)->pluck('n_token');
         $notification = Notification::create(
             [
                 'title' =>  'New queue!!!',

@@ -72,6 +72,7 @@ class AjaxController extends BaseController
         if (isset($args['customer_id'])) {
             $entry_id = $args['customer_id'];
             $customer = Customer::where('customer_id', $entry_id)->first();
+            $queue = Queue::where('customer_id', $customer->customer_id)->delete();
             $user = $customer->user();
             $customer->delete();
             $user->delete();
@@ -81,6 +82,17 @@ class AjaxController extends BaseController
             $worker = Worker::where('worker_id', $entry_id)->first();
             $salon = $worker->salon;
             $user = $worker->user();
+            $queue = Queue::where('worker_id', $worker->worker_id)->get();
+            foreach ($queue as $value){
+                Notification::create([
+                    'title' =>  'Your queue is canceled.',
+                    'message' => 'The worker deleted his account from the system.So your queue at'.$value['time'].' is canceled.',
+                    'status' => FALSE,
+                    'queue_id' => $value['queue_id'],
+                    'user_id' => $value['user_id'],
+                ]);
+                $value->delete();
+            }            
             $worker->delete();
             if ($user->delete()) {
                 $salon->staff_number = intval($salon->staff_number) - 1;
@@ -94,6 +106,17 @@ class AjaxController extends BaseController
             $user = $salon->user();
             $workers = $salon->workers();
             foreach ($workers as $worker) {
+                $queue = Queue::where('worker_id', $worker->worker_id)->get();
+                foreach ($queue as $value){
+                    Notification::create([
+                        'title' =>  'Your queue is canceled.',
+                        'message' => 'The employee deleted his account from the system. So your queue at'.$value['time'].' is canceled.',
+                        'status' => FALSE,
+                        'queue_id' => $value['queue_id'],
+                        'user_id' => $value['user_id'],
+                    ]);
+                    $queue->delete();    
+                }
                 $worker->delete();
             }
             $salon->delete();

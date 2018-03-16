@@ -42,7 +42,7 @@ $container['notFoundHandler'] = function ($c) use ($container){
         return ;
     } else {
         return function (\Slim\Http\Request $req, \Slim\Http\Response $res) {
-            return $res->withJson(['message'=>'Not found', 'success'=>false, 'error'=>404])->withStatus(404);
+            return $res->withJson(['message'=>'Page not found', 'success'=>false, 'error'=>404])->withStatus(404);
         };
     }
 };
@@ -83,7 +83,7 @@ $container['phpErrorHandler'] = function ($c) use ($container) {
         return $c['response']
             ->withStatus(500)
             ->withHeader('Content-Type', 'text/html')
-            ->write($e->getMessage());
+            ->write('MESSAGE: '.$e->getMessage().' FILE: '.$e->getFile().' LINE: '.$e->getLine());
     };
 };
 

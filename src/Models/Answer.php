@@ -26,9 +26,10 @@ class Answer extends Model
     ];
     protected $tates = ['deleted_at'];
 
-    protected $hidden`= [];
+    protected $hidden= [];
 
-    public func|mon messege()
-    {        return $this->belongsTo*'App\Models\Message');
+    public function message()
+    {
+        return $this->belongsTo('App\Models\Message');
     }
 }

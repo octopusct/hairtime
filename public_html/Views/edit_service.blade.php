@@ -29,7 +29,7 @@
                                 <div><input type="text" style="margin-top: 5px" hidden name="service_id"
                                             value="{{$service['service_id']}}"></div>
                                 <div><input type="text" style="margin-top: 5px" hidden name="service_id"
-                                            value="{{$salon['salon_id_id']}}"></div>
+                                            value="{{$salon['salon_id']}}"></div>
                                 <div>
                                     <button style="display: none" class="btn btn-primary small" id="uploadnow">Upload
                                         now!
@@ -72,14 +72,14 @@
                                     <label class="control-label" for="price_min">Price Min</label>
                                     <div class="controls">
                                         <input type="text" id="price_min" name="price_min" placeholder="Enter price min here"
-                                               value="{{$customer['price_min']}}">
+                                               value="{{$service['price_min']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="price_max">Price Max</label>
                                     <div class="controls">
                                         <input type="text" id="price_max" name="price_max" placeholder="Enter price max here"
-                                               value="{{$customer['price_max']}}">
+                                               value="{{$service['price_max']}}">
                                     </div>
                                 </div>
                                 <div class="buttons-group">

@@ -7,7 +7,8 @@
     "phpmailer/phpmailer": "~5.2",
     "duncan3dc/blade": "^3.4",
     "monolog/monolog": "^1.23",
-    "projek-xyz/slim-monolog": "^0.1.6"
+    "projek-xyz/slim-monolog": "^0.1.6",
+    "telegram-bot/api": "^2.3"
   },
   "autoload": {
     "psr-4": {

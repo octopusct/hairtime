@@ -13,8 +13,8 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use PHPMailer;
 
-require_once __DIR__ . '/../../vendor/phpmailer/class.phpmailer.php';
-require_once __DIR__ . '/../../vendor/phpmailer/PHPMailerAutoload.php';
+require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/class.phpmailer.php';
+require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 
 class EmailController extends PHPMailer
 {
