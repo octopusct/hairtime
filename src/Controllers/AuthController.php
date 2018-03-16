@@ -23,10 +23,12 @@ use Respect\Validation\Validator as v;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use App\Controllers\EmailController as EmailController;
 
 
 class AuthController extends BaseController
 {
+
     public function confirmEmail(Request $req, Response $res)
     {
         $user_id = $req->getAttribute('user_id');
@@ -61,23 +63,22 @@ class AuthController extends BaseController
                 $result[$i]= $error;
                 $i++;
             }
-            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
-            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
+            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
             return $res->withJson(['message' => 'This e-mail already exist. Try other e-mail', 'error' => '400'])->withStatus(400);
         }
         $token = $this->makeToken();
-
         $customer = Customer::create($req->getParams());
         $user = $customer->user()->create($req->getParams());
         $user->tokens()->create([
             'token' => $token,
-            'expires_at'=> date("Y-m-d H:i:s", time()+(7*24*60*60))
+            'expires_at'=> date("Y-m-d H:i:s", time()+(52*7*24*60*60))
         ]);
         $confirm = $user->user_id;
 
-        $mail = new EmailController();
+        $mail = new EmailController ();
+
         $user_name = $req->getParam('last_name') . " " . $req->getParam('first_name');
         $mail->AddAddress($req->getParam('email'), $user_name); // Получатель
         $mail->Subject = htmlspecialchars(' אימות כתובת המייל שלך ב ' . ' /  Verify e-mail address, please');  // Тема письма
@@ -141,7 +142,7 @@ The HairTime Team.</p></h6>';
                 $result[$i]= $error;
                 $i++;
             }
-            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         $user = User::where('user_id', $req->getParam('user_id'))->first();
@@ -183,7 +184,7 @@ The HairTime Team.</p></h6>';
                 $result[$i]= $error;
                 $i++;
             }
-            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
@@ -199,7 +200,7 @@ The HairTime Team.</p></h6>';
         $user = $salon->user()->create($req->getParams());
         $user->tokens()->create([
             'token' => $token,
-            'expires_at'=> date("Y-m-d H:i:s", time()+(7*24*60*60))
+            'expires_at'=> date("Y-m-d H:i:s", time()+(52*7*24*60*60))
         ]);
 
         $confirm = $user->user_id;
@@ -286,7 +287,7 @@ The HairTime Team.</p></h6>';
                 $result[$i]= $error;
                 $i++;
             }
-            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
 
@@ -390,7 +391,7 @@ The HairTime Team.</p>';
                 $result[$i]= $error;
                 $i++;
             }
-            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
@@ -482,7 +483,7 @@ The HairTime Team.</p>';
                 $result[$i]= $error;
                 $i++;
             }
-            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
 
@@ -499,7 +500,7 @@ The HairTime Team.</p>';
         // $user->save();
         $user->tokens()->create([
             'token' => $token,
-            'expires_at'=> date("Y-m-d H:i:s", time()+(7*24*60*60))
+            'expires_at'=> date("Y-m-d H:i:s", time()+(52*7*24*60*60))
         ]);
         $worker = Worker::where('worker_id', $user->entry_id)->first();
         $salon = $worker->salon;
@@ -539,7 +540,7 @@ The HairTime Team.</p>';
                 $result[$i]= $error;
                 $i++;
             }
-            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         if ($args['worker_id']){
@@ -582,12 +583,12 @@ The HairTime Team.</p>';
 
         $user = User::where('email', $req->getParam('email'))->first();
         if (empty($user)) {
-            $this->logger->info('SingIn', array('MESSAGE'=>'Wrong email', 'REQUEST'=>$req->getParams()));
+             $this->logger->info('SingIn', array('MESSAGE'=>'Wrong email', 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message' => 'Wrong email', 'status' => 'error', 'error' => '403'])
                 ->withStatus(403);
         }
         if ($user->password !== $req->getParam('password')) {
-            $this->logger->info('SingIn', array('MESSAGE'=>'Wrong password', 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('SingIn', array('MESSAGE'=>'Wrong password', 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message' => 'Wrong password', 'status' => 'error', 'error' => '403'])
                 ->withStatus(403);
         } else {
@@ -598,7 +599,7 @@ The HairTime Team.</p>';
             $token = $this->makeToken();
             $user->tokens()->create([
                 'token' => $token,
-                'expires_at'=> date("Y-m-d H:i:s", time()+(7*24*60*60))
+                'expires_at'=> date("Y-m-d H:i:s", time()+(52*7*24*60*60))
             ]);
             $type = mb_strtolower(explode("\\", $user->entry_type)[2]);
 
@@ -663,7 +664,7 @@ The HairTime Team.</p>';
                 $result[$i]= $error;
                 $i++;
             }
-            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
 
         }
@@ -730,7 +731,7 @@ The HairTime Team.</p>';
                 $result[$i]= $error;
                 $i++;
             }
-            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
 
         }

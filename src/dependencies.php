@@ -42,7 +42,7 @@ $container['notFoundHandler'] = function ($c) use ($container){
         return ;
     } else {
         return function (\Slim\Http\Request $req, \Slim\Http\Response $res) {
-            return $res->withJson(['message'=>'Not found', 'success'=>false, 'error'=>404])->withStatus(404);
+            return $res->withJson(['message'=>'Page not found', 'success'=>false, 'error'=>404])->withStatus(404);
         };
     }
 };
@@ -74,27 +74,27 @@ $container['devMode'] = function () use ($container){
 
 $container['phpErrorHandler'] = function ($c) use ($container) {
     return function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res, \Throwable $e) use ($c, $container) {
-        $container['logger']->error('', array(
-            'ERROR_CODE'=>$e->getCode(),
-            'FILE'=>$e->getFile(),
-            'LINE'=>$e->getLine(),
-            'MESSAGE'=>$e->getMessage(),
-            ));
+//        $container['logger']->error('', array(
+//            'ERROR_CODE'=>$e->getCode(),
+//            'FILE'=>$e->getFile(),
+//            'LINE'=>$e->getLine(),
+//            'MESSAGE'=>$e->getMessage(),
+//            ));
         return $c['response']
             ->withStatus(500)
             ->withHeader('Content-Type', 'text/html')
-            ->write($e->getMessage());
+            ->write('MESSAGE: '.$e->getMessage().' FILE: '.$e->getFile().' LINE: '.$e->getLine().' TRACE'.$e->getTraceAsString());
     };
 };
 
 $container['errorHandler'] = function ($c) use ($container){
     return function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res, \Throwable $e) use ($c, $container) {
-        $container['logger']->error('', array(
-            'ERROR_CODE'=>$e->getCode(),
-            'FILE'=>$e->getFile(),
-            'LINE'=>$e->getLine(),
-            'MESSAGE'=>$e->getMessage(),
-        ));
+//        $container['logger']->error('', array(
+//            'ERROR_CODE'=>$e->getCode(),
+//            'FILE'=>$e->getFile(),
+//            'LINE'=>$e->getLine(),
+//            'MESSAGE'=>$e->getMessage(),
+//        ));
         return $c['response']
             ->withStatus(500)
             ->withHeader('Content-Type', 'text/html')
