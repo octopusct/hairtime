@@ -24,10 +24,12 @@ use Respect\Validation\Validator as v;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use App\Controllers\EmailController as EmailController;
 
 
 class AuthController extends BaseController
 {
+
     public function confirmEmail(Request $req, Response $res)
     {
         $user_id = $req->getAttribute('user_id');
@@ -62,7 +64,7 @@ class AuthController extends BaseController
                 $result[$i]= $error;
                 $i++;
             }
-            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
@@ -77,7 +79,8 @@ class AuthController extends BaseController
         ]);
         $confirm = $user->user_id;
 
-        $mail = new EmailController();
+        $mail = new EmailController ();
+
         $user_name = $req->getParam('last_name') . " " . $req->getParam('first_name');
         $mail->AddAddress($req->getParam('email'), $user_name); // Получатель
         $mail->Subject = htmlspecialchars(' אימות כתובת המייל שלך ב ' . ' /  Verify e-mail address, please');  // Тема письма
@@ -582,13 +585,13 @@ The HairTime Team.</p>';
 
         $user = User::where('email', $req->getParam('email'))->first();
         if (empty($user)) {
-            $this->logger->info('SingIn', array('MESSAGE'=>'Wrong email', 'REQUEST'=>$req->getParams()));
+             $this->logger->info('SingIn', array('MESSAGE'=>'Wrong email', 'REQUEST'=>$req->getParams()));
 //            $this->logger->info('SingIn', array('MESSAGE'=>'Wrong email', 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message' => 'Wrong email', 'status' => 'error', 'error' => '403'])
                 ->withStatus(403);
         }
         if ($user->password !== $req->getParam('password')) {
-            $this->logger->info('SingIn', array('MESSAGE'=>'Wrong password', 'REQUEST'=>$req->getParams()));
+            // $this->logger->info('SingIn', array('MESSAGE'=>'Wrong password', 'REQUEST'=>$req->getParams()));
             // $this->logger->info('SingIn', array('MESSAGE'=>'Wrong password', 'REQUEST'=>$req->getParams()));
             return $res->withJson(['message' => 'Wrong password', 'status' => 'error', 'error' => '403'])
                 ->withStatus(403);
@@ -728,7 +731,7 @@ The HairTime Team.</p>';
                         'queue_id' => $value['queue_id'],
                         'user_id' => $value['user_id'],
                     ]);
-                    $queue->delete();    
+                    $queue->delete();
                 }
                 $worker->delete();
             }

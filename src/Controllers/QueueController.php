@@ -166,9 +166,9 @@ class QueueController
     {
         $user = User::where('user_id', $req->getParam('user_id'))->first();
         $queue = Queue::where('queue_id', $args['queue_id'])->first();
+        $worker = Worker::find($queue->worker_id);
 
-
-        if ($user->entry_id == $queue->customer_id) {
+//        if ($user->entry_id == $queue->customer_id OR $user->entry_id == $queue->worker_id OR $user->entry_id == $worker->salon_id) {
             $id = $queue->queue_id;
             $result = $queue->delete();
             if ($result) {
@@ -176,10 +176,10 @@ class QueueController
             } else {
                 return $res->withJson(['message' => 'Queue id No ' . $id . ' not deleted.', 'error' => 'Something wrong'])->withStatus(200);
             }
-        }
-        return $res->withJson(['message' => 'This Queue make other Customer. Check you User ID ', 'error' => '403'])
-
-            ->withStatus(403);
+//        }
+//        return $res->withJson(['message' => 'This Queue make other Customer. Check you User ID ', 'error' => '403'])
+//
+//            ->withStatus(403);
 
     }
 

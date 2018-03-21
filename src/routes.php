@@ -203,12 +203,12 @@ $app->group('/api/service', function () {
             $this->put('/{service_id:[0-9]*}', 'App\Controllers\ServiceController:edit')
                 ->add(new PermissionChecker(['salon', 'admin']));
             $this->delete('/{service_id:[0-9]*}', 'App\Controllers\ServiceController:delete')
-                ->add(new PermissionChecker(['salon', 'admin']));
+                ->add(new PermissionChecker(['salon', 'wokrer', 'admin']));
             $this->post('/upload/{service_id:[0-9]*}', 'App\Controllers\UploadController:uploadService')
                 ->add(new PermissionChecker(['salon', 'worker', 'admin']));
         });
     });
-    $this->group('/worker', function () {
+    $this->group('/api/worker', function () {
         $this->group('/{worker_id:[0-9]*}', function () {
             $this->get('', 'App\Controllers\ServiceController:getByWorker');
             $this->post('/{service_id:[0-9]*}', 'App\Controllers\ServiceController:newByWorker')

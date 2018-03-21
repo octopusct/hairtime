@@ -74,12 +74,12 @@ $container['devMode'] = function () use ($container){
 
 $container['phpErrorHandler'] = function ($c) use ($container) {
     return function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res, \Throwable $e) use ($c, $container) {
-        $container['logger']->error('', array(
-            'ERROR_CODE'=>$e->getCode(),
-            'FILE'=>$e->getFile(),
-            'LINE'=>$e->getLine(),
-            'MESSAGE'=>$e->getMessage(),
-            ));
+//        $container['logger']->error('', array(
+//            'ERROR_CODE'=>$e->getCode(),
+//            'FILE'=>$e->getFile(),
+//            'LINE'=>$e->getLine(),
+//            'MESSAGE'=>$e->getMessage(),
+//            ));
         return $c['response']
             ->withStatus(500)
             ->withHeader('Content-Type', 'text/html')
@@ -89,12 +89,12 @@ $container['phpErrorHandler'] = function ($c) use ($container) {
 
 $container['errorHandler'] = function ($c) use ($container){
     return function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res, \Throwable $e) use ($c, $container) {
-        $container['logger']->error('', array(
-            'ERROR_CODE'=>$e->getCode(),
-            'FILE'=>$e->getFile(),
-            'LINE'=>$e->getLine(),
-            'MESSAGE'=>$e->getMessage(),
-        ));
+//        $container['logger']->error('', array(
+//            'ERROR_CODE'=>$e->getCode(),
+//            'FILE'=>$e->getFile(),
+//            'LINE'=>$e->getLine(),
+//            'MESSAGE'=>$e->getMessage(),
+//        ));
         return $c['response']
             ->withStatus(500)
             ->withHeader('Content-Type', 'text/html')
