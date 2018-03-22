@@ -28,6 +28,7 @@ $container['logger'] = function($c) {
 };
 
 $container['locale'] = function($c)use($container){
+    $_COOKIE['lang'] ? $file_name = $_COOKIE['lang']  :
     $file_name = $container['settings']['lang'];
     return json_decode(file_get_contents(__DIR__.'/lang/'.$file_name.'.json'), true);
 };
