@@ -26,7 +26,7 @@ use Slim\Http\Response;
 use Respect\Validation\Validator as v;
 
 
-class QueueController
+class QueueController extends BaseController
 {
     public function readTime($tt)
     {
@@ -80,11 +80,11 @@ class QueueController
 
 //        return $res->withJson($workers, 200);
 
-        $result[0]['user_id'] = '50';
-        $result[0]['free_time'] = $this->getFreeTime(['worker_id'=>'50', 'date'=>'28-02-2018']);
-        $result[1]['user_id'] = '51';
-        $result[1]['free_time'] = $this->getFreeTime(['worker_id'=>'51', 'date'=>'28-02-2018']);
-        return $res->withJson($result, 200);
+//        $result[0]['user_id'] = '50';
+//        $result[0]['free_time'] = $this->getFreeTime(['worker_id'=>'50', 'date'=>'28-02-2018']);
+//        $result[1]['user_id'] = '51';
+//        $result[1]['free_time'] = $this->getFreeTime(['worker_id'=>'51', 'date'=>'28-02-2018']);
+//        return $res->withJson($result, 200);
     }
 
 
@@ -172,9 +172,17 @@ class QueueController
             $id = $queue->queue_id;
             $result = $queue->delete();
             if ($result) {
-                return $res->withJson(['message' => 'Queue id No ' . $id . ' deleted successful.', 'error' => ''])->withStatus(200);
+                return $res->withJson([
+                    'message' => $this->messages['2013'],
+                    'status' => $this->messages['2011'],
+                    'error' => '',
+                ])->withStatus(200);
             } else {
-                return $res->withJson(['message' => 'Queue id No ' . $id . ' not deleted.', 'error' => 'Something wrong'])->withStatus(200);
+                return $res->withJson([
+                    'message' => $this->errors['1015'],
+                    'status' => 'error ',
+                    'error' => '',
+                ])->withStatus(200);
             }
 //        }
 //        return $res->withJson(['message' => 'This Queue make other Customer. Check you User ID ', 'error' => '403'])
@@ -507,7 +515,7 @@ The HairTime Team.</p>';
 //        $ntoken = NToken::where('user_id', $user->user_id)->pluck('n_token');
         $notification = Notification::create(
             [
-                'title' =>  'New queue!!!',
+                'title' =>  $this->messages['2014'],
                 'message' => $message,
                 'status' => FALSE,
                 'queue_id' => $queue->queue_id,

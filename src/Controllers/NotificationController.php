@@ -14,7 +14,7 @@ use App\Models\NToken;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class NotificationController
+class NotificationController extends BaseController
 {
     public function setToken(Request $req, Response $res)
     {
@@ -33,7 +33,7 @@ class NotificationController
             ->get()
             ->toArray();
         return $res->withJson($notification+[
-                'message'=> count($notification)>0 ? 'OK' : 'User has\'t any notifications',
+                'message'=> count($notification)>0 ? 'OK' : $this->messages['2010'],
                 'status'=>'success',
                 'error'=>''
             ], 200);
@@ -43,9 +43,13 @@ class NotificationController
     {
         $result = Notification::find($req->getParam('notification_id'))->update(['status'=>true]);
         if ($result) {
-            $answer = ['message'=>'OK', 'status'=>'success', 'error'=>''];
+            $answer = ['message'=>'OK', 'status'=>$this->messages['2011'], 'error'=>''];
         }else{
-            $answer = ['message'=>'Status not changed!', 'status'=>'error', 'error'=>''];
+            $answer = [
+                'message'=> $this->errors['1014'],
+                'status'=>'error',
+                'error'=>''
+            ];
         }
         return $res->withJson($answer, 200);
     }
@@ -55,7 +59,7 @@ class NotificationController
         $ntoken = NToken::where('user_id', $req->getParam('user_id'))->pluck('n_token');
 
         //return $res->withJson($ntoken)->withStatus(200);
-        $message = array('message' => 'Dear worker you are have new queue at: ');
+        $message = array('message' => $this->messages['2012']);
 
         $notification = new Notification();
         $result = $notification->send_notifications($ntoken, $message);

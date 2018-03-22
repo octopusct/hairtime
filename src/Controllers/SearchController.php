@@ -39,6 +39,10 @@ class SearchController extends BaseController
         $radius = $req->getAttribute('radius');
         $list = Salon::near($lat, $lng, $radius, $this->devMode)
             ->toArray();
-        return $res->withJson($list + ['message' => 'OK', 'status' => 'success', 'error' => ''], 200);
+        return $res->withJson($list + [
+            'message' => 'OK',
+            'status' => $this->messages['2011'],
+            'error' => ''
+            ], 200);
     }
 }

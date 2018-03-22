@@ -43,7 +43,6 @@ class ServiceController extends BaseController
         $id = Service::create($service);
 
         return $res->withJson($id->toArray())
-
             ->withStatus(201);
     }
 
@@ -89,7 +88,11 @@ class ServiceController extends BaseController
                 }
 
             } else {
-                return $res->withJson(['message' => "Salon with such salon_id is not found. Check salon_id.", 'status' => 'error', 'error' => "404"])->withStatus(404);
+                return $res->withJson([
+                    'message' => $this->errors['1018'],
+                    'status' => 'error 1018',
+                    'error' => "404"
+                ])->withStatus(404);
             }
 //            return $res->withJson(['res'=>$result])->withStatus(200);
 
@@ -175,10 +178,11 @@ class ServiceController extends BaseController
 
                 ->withStatus(200);
         } else {
-            return $res
-                ->withJson(['message' => "This service created by other Salon. Check service_id.", 'status' => 'error', 'error' => "403"])
-
-                ->withStatus(403);
+            return $res->withJson([
+                'message'   => $this->errors['1019'],
+                'status'    => 'error',
+                'error'     => "403"
+            ])->withStatus(403);
         }
     }
 
@@ -232,10 +236,11 @@ class ServiceController extends BaseController
 
                 ->withStatus(201);
         } else {
-            return $res
-
-                ->withJson(['message' => "Something wrong. Check worker_id or service_id.", 'status' => 'error', 'error' => "404"])
-                ->withStatus(404);
+            return $res->withJson([
+                'message' => $this->errors['1020'],
+                'status' => 'error',
+                'error' => "404"
+            ])->withStatus(404);
         }
     }
 
@@ -276,22 +281,29 @@ class ServiceController extends BaseController
         $worker = Worker::where('worker_id', $worker_id)->first();
         $service = Service::where('service_id', $args['service_id'])->first();
         if ($worker->salon_id != $service->salon_id) {
-            return $res->withJson(['message' => "This Worker does not work in this Salon. Check worker_id or salon_id.", 'status' => 'error', 'error' => "404"])->withStatus(404);
+            return $res->withJson([
+                'message' => $this->errors['1021'],
+                'status' => 'error 1021',
+                'error' => "404"
+            ])->withStatus(404);
         }
         $sw = ServiceWorker::where('service_id', $args['service_id'])->where('worker_id', $args['worker_id'])->first();
         if (isset($sw)) {
             $status = $sw->delete();
         } else {
             return $res
-                ->withJson(['message' => "This Service for this Worker does not found. Check worker_id or service_id.", 'status' => 'error', 'error' => "404"])
-
-                ->withStatus(404);
+                ->withJson([
+                    'message'   => $this->errors['1022'],
+                    'status'    => 'error',
+                    'error'     => "404"
+                ])->withStatus(404);
         }
         if ($status) {
-            return $res
-                ->withJson(['service_id' => $args['service_id'], 'worker_id' => $args['worker_id'], 'status' => 'deleted'])
-
-                ->withStatus(200);
+            return $res->withJson([
+                'service_id'    => $args['service_id'],
+                'worker_id'     => $args['worker_id'],
+                'status'        => $this->messages['2016']
+            ])->withStatus(200);
         }
 
     }

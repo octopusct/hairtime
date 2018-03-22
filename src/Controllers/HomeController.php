@@ -18,8 +18,10 @@ class HomeController extends BaseController
 {
     function __invoke(Request $req, Response $res, $args)
     {
-        $salon = Salon::find(84);
-        return $res->withJson(['message' => "Connection success", 'salon'=>$salon, 'error' => '', 'success' => true])
+        return $res->withJson([
+            'message' => $this->messages['2009'],
+            'error' => '',
+            'success' => true])
             ->withStatus(200);
     }
 }

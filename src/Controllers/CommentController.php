@@ -105,7 +105,11 @@ class CommentController extends BaseController
 
         //$comment = Comment::getUserComment($args['comment_id'], $user_id); // Both args has string type, but must be int
         if (!$comment)
-            return $res->withJson(['error' => "comment not found", 'user_id' => $user_id, 'comment_id' => intval($args['comment_id'])])->withStatus(404);
+            return $res->withJson([
+                'error' => $this->errors['1013'],
+                'user_id' => $user_id,
+                'comment_id' => intval($args['comment_id'])
+            ])->withStatus(404);
         $comment->body = $req->getParam('body');
         $comment->save();
         return $res->withStatus(200);

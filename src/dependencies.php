@@ -25,9 +25,12 @@ $container['logger'] = function($c) {
     $file_handler = new \Monolog\Handler\StreamHandler(__DIR__."/logs/hairtime.log");
     $logger->pushHandler($file_handler);
     return $logger;
-} ;
+};
 
-
+$container['locale'] = function($c)use($container){
+    $file_name = $container['settings']['lang'];
+    return json_decode(file_get_contents(__DIR__.'/lang/'.$file_name.'.json'), true);
+};
 
 $container['notFoundHandler'] = function ($c) use ($container){
     $req_uri = explode('admin', $_SERVER['REQUEST_URI']);

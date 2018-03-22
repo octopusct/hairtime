@@ -35,8 +35,11 @@ class UploadController extends BaseController
         //return $res->withJson(['message' =>  $user_id, 'error' =>"400", 'success' => 'false'])->withStatus(400);
 
         if (!isset($_FILES['uploads'])) {
-            return $res->withJson(['message' => "No files uploaded!!", 'error' => "400", 'status' => 'error'])
-                ->withStatus(400);
+            return $res->withJson([
+                'message' => $this->errors['1023'],
+                'error' => "400",
+                'status' => 'error 1023'
+            ])->withStatus(400);
         }
         $files = $_FILES['uploads'];
         //return $res->withJson(['message' => $files, 'error' =>"400", 'success' => $user_id])->withStatus(200);
@@ -55,31 +58,42 @@ class UploadController extends BaseController
                     $customer = Customer::where('customer_id', $user->entry_id)->first();
                     $customer->logo = 'https://hairtime.co.il/uploads/' . $name;
                     $customer->save();
-                    return $res->withJson(['url' => $customer->logo, 'message' => 'file uploaded', 'status' => 'success', 'error' => ''])
-
-                        ->withStatus(200);
+                    return $res->withJson([
+                        'url'     => $customer->logo,
+                        'message' => $this->errors['2017'],
+                        'status'  => $this->errors['2011'],
+                        'error'   => ''])->withStatus(200);
                 } elseif ($user->entry_type == 'App\Models\Salon') {
                     $salon = Salon::where('salon_id', $user->entry_id)->first();
                     $salon->logo = 'https://hairtime.co.il/uploads/' . $name;
                     $salon->save();
-                    return $res->withJson(['url' => $salon->logo, 'message' => '', 'status' => 'success', 'error' => ''])
-
-                        ->withStatus(200);
+                    return $res->withJson([
+                        'url' => $salon->logo,
+                        'message' => $this->errors['2017'],
+                        'status'  => $this->errors['2011'],
+                        'error' => ''])->withStatus(200);
                 } elseif ($user->entry_type == 'App\Models\Worker') {
                     $worker = Worker::where('worker_id', $user->entry_id)->first();
                     $worker->logo = 'https://hairtime.co.il/uploads/' . $name;
                     $worker->save();
-                    return $res->withJson(['url' => $worker->logo, 'message' => '', 'status' => 'success', 'error' => ''])
-
-                        ->withStatus(200);
+                    return $res->withJson([
+                        'url' => $worker->logo,
+                        'message' => $this->errors['2017'],
+                        'status'  => $this->errors['2011'],
+                        'error' => ''
+                    ])->withStatus(200);
                 }
-                return $res->withJson(['url' => 'https://hairtime.co.il/uploads/' . $name, 'message' => 'ok', 'status' => 'success', 'error' => ''])
-
-                    ->withStatus(200);
+                return $res->withJson([
+                    'url' => 'https://hairtime.co.il/uploads/' . $name,
+                    'message' => $this->errors['2017'],
+                    'status'  => $this->errors['2011'],
+                    'error' => ''
+                ])->withStatus(200);
             } else {
-                return $res->withJson(['message' => "No files uploaded!!", 'error' => move_uploaded_file($files['tmp_name'][0], 'uploads/' . $name)])
-
-                    ->withStatus(400);
+                return $res->withJson([
+                    'message' => $this->errors['1023'],
+                    'error' => move_uploaded_file($files['tmp_name'][0], 'uploads/' . $name)
+                ])->withStatus(400);
             }
         } else {
             return $res->withJson(['message' => 'success', 'error' => $files['error'][0], 'success' => $user_id])
@@ -109,9 +123,11 @@ class UploadController extends BaseController
             } elseif ($user->entry_type == 'App\Models\Worker') {
                 $name = uniqid('worker-service-' . date('Ymd') . '-');
             } elseif ($user->entry_type == 'App\Models\Customer') {
-                return $res->withJson(['message' => 'User can\'t load Service logo.', 'status' => 'error', 'error' => '403'])
-
-                    ->withStatus(403);
+                return $res->withJson([
+                    'message' => $this->errors['1024'],
+                    'status' => 'error',
+                    'error' => '403'
+                ])->withStatus(403);
             }
             if (move_uploaded_file($files['tmp_name'], 'uploads/' . $name) == true) {
                 //return $res->withJson(['message' => 'loaded!', 'error' =>'uploads/' . $name, 'success' => $user_id])->withStatus(200);
@@ -123,30 +139,42 @@ class UploadController extends BaseController
                     $service = Service::where('salon_id', $user->entry_id)->where('service_id', $service_id)->first();
                     $service->logo = 'https://hairtime.co.il/uploads/' . $name;
                     $service->save();
-                    return $res->withJson(['url' => $service->logo, 'message' => 'file ' . $name . ' uploaded and saved', 'status' => 'success'])
-
-                        ->withStatus(200);
+                    return $res->withJson([
+                        'url' => $service->logo,
+                        'message' => $this->errors['2017'],
+                        'status'  => $this->errors['2011'],
+                        'error' => '',
+                    ])->withStatus(200);
                 } elseif ($user->entry_type == 'App\Models\Worker') {
                     $service = ServiceWorker::where('worker_id', $user->entry_id)->where('service_id', $service_id)->first();
                     $service->logo = 'https://hairtime.co.il/uploads/' . $name;
                     $service->save();
-                    return $res->withJson(['url' => $service->logo, 'message' => 'file ' . $name . ' uploaded and saved', 'status' => 'success'])
-
-                        ->withStatus(200);
+                    return $res->withJson([
+                        'url' => $service->logo,
+                        'message' => $this->errors['2017'],
+                        'status'  => $this->errors['2011'],
+                        'error' => '',
+                    ])->withStatus(200);
 
                 }
-                return $res->withJson(['url' => 'https://hairtime.co.il/uploads/' . $name, 'message' => 'file ' . $files['name'][0] . ' uploaded'])
-
-                    ->withStatus(200);
+                return $res->withJson([
+                    'url' => 'https://hairtime.co.il/uploads/' . $name,
+                    'message' => $this->errors['2017'],
+                    'status'  => $this->errors['2011'],
+                    'error' => '',
+                ])->withStatus(200);
             } else {
-                return $res->withJson(['message' => "No files uploaded!!", 'error' => move_uploaded_file($files['tmp_name'][0], 'uploads/' . $name)])
-
-                    ->withStatus(400);
+                return $res->withJson([
+                    'message' => $this->errors['1023'],
+                    'error' => move_uploaded_file($files['tmp_name'][0], 'uploads/' . $name),
+                    'success' => 'error 1023'
+                ])->withStatus(400);
             }
         } else {
-            return $res->withJson(['message' => $files, 'error' => $files['error'][0]])
-
-                ->withStatus(200);
+            return $res->withJson([
+                'message' => $files,
+                'error' => $files['error'][0]
+            ])->withStatus(200);
         }
     }
 }

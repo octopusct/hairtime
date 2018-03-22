@@ -97,13 +97,18 @@ class ScheduleController extends BaseController
         //return $res->withJson($schedule)->withStatus(201);
         $result = $schedule->delete();
         if ($result) {
-            return $res->withJson(['message' => "Successfully deleted", 'error' => "", 'status' => 'success'])
+            return $res->withJson([
+                'message' => $this->messages['2016'],
+                'error' => "",
+                'status' => 'success'])
 
                 ->withStatus(201);
         } else {
-            return $res->withJson(['message' => "Something wrong, NOT deleted", 'error' => "", 'status' => 'error'])
-
-                ->withStatus(400);
+            return $res->withJson([
+                'message' => $this->errors['1017'],
+                'error' => "",
+                'status' => 'error 1017'
+            ])->withStatus(400);
         }
     }
 }

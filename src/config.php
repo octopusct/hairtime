@@ -11,6 +11,7 @@ return [
         'devMode' => true,
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,
+        'lang' => 'en',
         'db' => [
             'driver' => 'mysql',
             'host' => 'localhost',

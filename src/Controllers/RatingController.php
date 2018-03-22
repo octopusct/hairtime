@@ -26,7 +26,9 @@ class RatingController extends BaseController
             $new_rating = $req->getParam('rating');
         }
         if ($new_rating < 1 AND $new_rating > 5) {
-            return $res->withJson(["error" => 'rating must be more than 1 and less than 5'])->withStatus(400);
+            return $res->withJson([
+                "error" => $this->errors['1016']
+            ])->withStatus(400);
         }
 
         $user= User::find($req->getParam('user_id'));
@@ -41,7 +43,11 @@ class RatingController extends BaseController
         $rating->rating = $req->getParam('rating');
         $rating->save();
 
-        return $res->withJson(['message' => "Successfully created", 'error' => '', 'success' => true],201);
+        return $res->withJson([
+            'message' => $this->messages['2015'],
+            'error' => '',
+            'success' => true
+        ],201);
     }
 
     function get(Request $req, Response $res, array $args)
