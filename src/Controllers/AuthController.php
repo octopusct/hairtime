@@ -74,7 +74,8 @@ class AuthController extends BaseController
         if (User::where('email', $req->getParam('email'))->count() > 0) {
             return $res->withJson([
                 'message' => $this->errors['1001'],
-                'error' => '1001'
+                'status' => 'error 1001',
+                'error' => true
             ])->withStatus(400);
         }
         $token = $this->makeToken();
@@ -703,8 +704,12 @@ The HairTime Team.</p>';
             $customer->delete();
             $user->entry_type = 'App\Models\Admin';
             $user->save();
+            $this->logger->warning('New admin', array('REQUEST'=>$req->getParams()));
+
             return $res->withJson(['message' => 'New admin added', 'status' => 'success', 'error' => ''], 200);
         }
+        $this->logger->error('New admin error', array('message' => $this->errors['1007'], 'REQUEST'=>$req->getParams()));
+
         return $res->withJson([
             'message' => $this->errors['1007'],
             'status' => 'error',
@@ -724,7 +729,7 @@ The HairTime Team.</p>';
                 $result[$i]= $error;
                 $i++;
             }
-            // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson([
                 'message'=>$this->errors['1002'],
                 'status'=>'error 1002',

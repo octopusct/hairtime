@@ -7,8 +7,12 @@
  */
 
 use duncan3dc\Laravel\BladeInstance;
+use Slim\Http\Request as Request;
 
 $container = $app->getContainer();
+
+$res = new \Slim\Http\Response();
+
 
 $capsule = new \Illuminate\Database\Capsule\Manager();
 $capsule->addConnection($container['settings']['db']);
@@ -22,15 +26,32 @@ $container['db'] = function ($c) use ($capsule) {
 /** monolog */
 $container['logger'] = function($c) {
     $logger = new \Monolog\Logger('hairtime_logger');
-    $file_handler = new \Monolog\Handler\StreamHandler(__DIR__."/logs/hairtime.log");
+    $file_handler = new \Monolog\Handler\StreamHandler(__DIR__."/logs/hairtime".date('d-m-Y').".log");
     $logger->pushHandler($file_handler);
     return $logger;
 };
 
-$container['locale'] = function($c)use($container){
-    $_COOKIE['lang'] ? $file_name = $_COOKIE['lang']  :
-    $file_name = $container['settings']['lang'];
-    return json_decode(file_get_contents(__DIR__.'/lang/'.$file_name.'.json'), true);
+/**
+ * @param Request $req
+ * @return array
+ */
+$container['locale'] = function()use($container){
+    if (isset($_REQUEST['lang'])){
+        $file_name =$_REQUEST['lang'];
+        $main_lang =  json_decode(file_get_contents(__DIR__.'/lang/'.$container['settings']['lang'].'.json'), true);
+        $load_lang =  json_decode(file_get_contents(__DIR__.'/lang/'.$file_name.'.json'), true);
+        $result_lang = array_replace_recursive($main_lang, $load_lang);
+    } elseif (isset($_COOKIE['lang'])){
+        $file_name = $_COOKIE['lang'];
+        $main_lang =  json_decode(file_get_contents(__DIR__.'/lang/'.$container['settings']['lang'].'.json'), true);
+        $load_lang =  json_decode(file_get_contents(__DIR__.'/lang/'.$file_name.'.json'), true);
+        $result_lang = array_replace_recursive($main_lang, $load_lang);
+
+    }else{
+        $result_lang = $container['settings']['lang'];
+    }
+    return $result_lang;
+
 };
 
 $container['notFoundHandler'] = function ($c) use ($container){
