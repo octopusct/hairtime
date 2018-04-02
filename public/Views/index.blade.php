@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
 @section('content')
-    <h3 style="margin-top: 45px">Salon's list</h3><br>
+    <h3 style="margin-top: 45px">{{$lang['salon_list']}}</h3><br>
     <div class="container-fluid">
         <!-- Advanced Tables -->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <button style="margin: 10px" id='addNewSalonBtn' class="btn btn-primary" name="new_salon">Add new Salon
+                <button style="margin: 10px" id='addNewSalonBtn' class="btn btn-primary" name="new_salon">{{$lang['add_salon']}}
                 </button>
             </div>
             <div class="panel-body">
@@ -14,12 +14,12 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                         <tr>
-                            <th style="text-align: center">Salon ID</th>
-                            <th style="text-align: center">First Name</th>
-                            <th style="text-align: center">Last Name</th>
-                            <th style="text-align: center">Business Name</th>
-                            <th style="text-align: center">Phone</th>
-                            <th style="text-align: center;">Action</th>
+                            <th style="text-align: center">{{$lang['salon_id']}}</th>
+                            <th style="text-align: center">{{$lang['first_name']}}</th>
+                            <th style="text-align: center">{{$lang['last_name']}}</th>
+                            <th style="text-align: center">{{$lang['business_name']}}</th>
+                            <th style="text-align: center">{{$lang['phone']}}</th>
+                            <th style="text-align: center;">{{$lang['action']}}</th>
                         </tr>
                         </thead>
 
@@ -61,6 +61,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                {{--<pre style="border: #0d70b7 1px solid;">{{var_dump($lang)}}</pre>--}}
                 </div>
 
             </div>
@@ -147,7 +148,7 @@
                 $.ajax({
                     method: 'POST',
                     type: 'POST',
-                    url: "/auth/singup/salon",
+                    url: "/api/auth/singup/salon",
                     data: $('form#newSalonForm').serialize(),
                     headers: {
                         'User-ID': '{{$user['user_id']}}',
@@ -155,7 +156,7 @@
                     },
                     success: function (result) {
                         alert('Salon successfully created');
-                        document.location.href = '/admin/salon/' + result.salon_id;
+                        document.location.href = '/api/admin/salon/' + result.salon_id;
                     },
                     error: function (jqXHR, exception) {
                         if (jqXHR.status === 0) {
@@ -187,7 +188,7 @@
         $(document).ready(function () {
             $(".icon-btn").click(function (e) {
                 e.preventDefault();
-                let id = $(this).attr("id").split('_'),
+                var id = $(this).attr("id").split('_'),
                     icon_lock = $(this).find('i'),
                     salon_id = id[1],
                     admin_id = '{{$admin['entry_id']}}',
@@ -199,7 +200,7 @@
                     $.ajax({
                         method: 'POST',
                         type: 'POST',
-                        url: "/ajax/salon/status/" + salon_id,
+                        url: "/api/ajax/salon/status/" + salon_id,
                         data: {'status': 'Inactive'},
                         headers: {
                             'User-ID': admin_id,
@@ -223,7 +224,7 @@
                     $.ajax({
                         method: 'POST',
                         type: 'POST',
-                        url: "/ajax/salon/status/" + salon_id,
+                        url: "/api/ajax/salon/status/" + salon_id,
                         data: {'status': 'Active'},
                         headers: {
                             'User-ID': admin_id,
@@ -239,7 +240,7 @@
                 } else if (id[0] == "edit") {
                     icon_lock.removeClass('fa-info-circle fa-2x');
                     icon_lock.addClass('fa-refresh fa-spin fa-lg');
-                    document.location.href = '/admin/salon/' + salon_id;
+                    document.location.href = '/api/admin/salon/' + salon_id;
                 } else if (id[0] == 'delete') {
                     $('.popup').html($('.popup-delete-dialog').html());
                     $('.popup-dialog').fadeIn(500);
@@ -250,7 +251,7 @@
                         $.ajax({
                             method: 'POST',
                             type: 'POST',
-                            url: "/ajax/salon/delete/" + salon_id,
+                            url: "/api/ajax/salon/delete/" + salon_id,
                             headers: {
                                 'User-ID': admin_id,
                                 'Token': token,

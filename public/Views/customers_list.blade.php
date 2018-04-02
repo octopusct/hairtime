@@ -107,7 +107,7 @@
             $(document).ready(function () {
                 $(".icon-btn").click(function (e) {
                     e.preventDefault();
-                    let id = $(this).attr("id").split('_'),
+                    var id = $(this).attr("id").split('_'),
                         customer_id = id[1],
                         admin_id = '{{$admin['entry_id']}}',
                         token = '{{$admin['token']}}',
@@ -115,7 +115,7 @@
                     if (id[0] == "edit") {
                         icon_lock.removeClass('fa-info-circle fa-2x');
                         icon_lock.addClass('fa-refresh fa-spin fa-lg');
-                        document.location.href = 'https://hairtime.co.il/admin/customer/' + customer_id;
+                        document.location.href = 'https://hairtime.co.il/api/admin/customer/' + customer_id;
                     } else if (id[0] == 'delete') {
                         $('.popup').html($('.popup-delete-dialog').html());
                         $('.popup-dialog').fadeIn(500);
@@ -126,7 +126,7 @@
                             $.ajax({
                                 method: 'POST',
                                 type: 'POST',
-                                url: "/ajax/customer/delete/" + customer_id,
+                                url: "/api/ajax/customer/delete/" + customer_id,
                                 headers: {
                                   'User-ID': admin_id,
                                   'Token': token,
@@ -174,11 +174,11 @@
                 $.ajax({
                   method: 'POST',
                   type: 'POST',
-                  url: "/auth/singup/customer",
+                  url: "/api/auth/singup/customer",
                   data: $('form#newCustomerForm').serialize(),
                   success: function (result) {
                     alert('Customer successfully created');
-                    document.location.href = '/admin/customer/' + result.customer_id;
+                    document.location.href = '/api/admin/customer/' + result.customer_id;
                   },
                   error: function (jqXHR, exception) {
                     if (jqXHR.status === 0) {

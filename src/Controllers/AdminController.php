@@ -22,6 +22,7 @@ use App\Models\ServiceWorker;
 use App\Models\User;
 use App\Models\Worker;
 use mysqli_sql_exception;
+use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use duncan3dc\Laravel\BladeInstance;
@@ -31,11 +32,11 @@ class AdminController extends BaseController
 {
     protected $blade;
 
-    public function __construct()
+    public function __construct(Container $ci)
     {
+        parent::__construct($ci);
         session_start();
-      $this->blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
-
+        $this->blade = new BladeInstance(__DIR__.'/../../public/Views', __DIR__.'/../../public/Views/cache');
     }
 
   public function check(Request $req, Response $res)
@@ -49,11 +50,13 @@ class AdminController extends BaseController
 
     public function emptyPage()
     {
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('admin_id', $_SESSION['user_id'])->first();
-            echo $blade->render("empty", [
+            echo $this->blade->render("empty", [
                 'admin' => $admin,
+                'lang'      => $this->admin,
+
             ]);
 
         }
@@ -63,19 +66,20 @@ class AdminController extends BaseController
     public function newSalon(Request $req, Response $res)
     {
         session_start();
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('admin_id', $_SESSION['user_id'])->first();
 
             if (isset($admin)) {
-                echo $blade->render("new_salon", [
+                echo $this->blade->render("new_salon", [
                     'admin' => $admin,
                     'menu' => 'salons',
+                    'lang'      => $this->admin,
                 ]);
                 return;
             }
         }
-        echo $blade->render("login");
+        echo $this->blade->render("login");
         return;
     }
 
@@ -93,15 +97,15 @@ class AdminController extends BaseController
 
     public function singin(Request $req, Response $res)
     {
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
-        echo $blade->render("singin");
+
+        echo $this->blade->render("singin");
         return;
     }
 
     public function workWithMessage(Request $req, Response $res, $args)
     {
         session_start();
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('admin_id', $_SESSION['user_id'])->first();
             if (isset($admin)) {
@@ -110,19 +114,21 @@ class AdminController extends BaseController
                     $message->deleted_at = date('Y-m-d H:i:s');
                     $message->save();
                     $allmessages = Message::where('deleted_at', null)->orderBy('created_at', 'desc')->get();
-                    echo $blade->render("messages", [
+                    echo $this->blade->render("messages", [
                         'admin' => $admin,
                         'allmessages' => $allmessages,
+                        'lang'      => $this->admin,
                     ]);
                 } elseif ($req->getParam('operator') == 'Answer') {
                     $message = Message::where('message_id', $args['message_id'])->first();
                     // $messages = Message::where('answer_at', '=', null)->get();
                     $answers = $message->answers;
-                    echo $blade->render("answer", [
+                    echo $this->blade->render("answer", [
                         'admin' => $admin,
                         'message' => $message,
                         'answers' => $answers,
-                        'menu' => 'messages'
+                        'lang'      => $this->admin,
+                        'menu' => 'messages',
                     ]);
                 } elseif ($req->getParam('operator') == 'Send') {
 
@@ -156,23 +162,23 @@ The HairTime Team.</p>',
 
                     //return $res->withStatus(200)->withJson($result);
 
-                    header('Location: ' . 'https://hairtime.co.il/admin/message/' . $message->message_id . '?operator=Answer');
+                    header('Location: ' . 'https://hairtime.co.il/api/admin/message/' . $message->message_id . '?operator=Answer');
 
                 } elseif ($req->getParam('operator') == 'Cancel') {
-                    header('Location: ' . 'https://hairtime.co.il/admin/message');
+                    header('Location: ' . 'https://hairtime.co.il/api/admin/message');
                 }
 
                 return;
             }
         }
-        echo $blade->render("login");
+        echo $this->blade->render("login");
         return;
 
     }
 
     public function getAllMessage(Request $req, Response $res)
     {
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
 
         if (isset($_SESSION['user_id'])) {
             if ($admin = Admin::where('entry_id', $_SESSION['user_id'])->count() > 0) {
@@ -183,15 +189,16 @@ The HairTime Team.</p>',
                     $allmessages = Message::where('deleted_at', null)->orderBy('created_at', 'desc')->get();
                 }
                 $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
-                echo $blade->render("messages", [
+                echo $this->blade->render("messages", [
                     'admin' => $admin,
                     'allmessages' => $allmessages,
-                    'menu' => 'messages'
+                    'lang'      => $this->admin,
+                    'menu' => 'messages',
                 ]);
                 return;
             }
         }
-        echo $blade->render("login");
+        echo $this->blade->render("login");
         return;
     }
 
@@ -205,7 +212,7 @@ The HairTime Team.</p>',
 
     public function newPaddssword(Request $req, Response $res, $args)
     {
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
 
         if (isset($_SESSION['user_id'])) {
             if ($admin = Admin::where('entry_id', $_SESSION['user_id'])->count() > 0) {
@@ -276,11 +283,11 @@ The HairTime Team.</p>';
                 }
             }
         } else {
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
         }
 
-        echo $blade->render("login");
+        echo $this->blade->render("login");
         return;
     }
 
@@ -439,7 +446,7 @@ The HairTime Team.</p>';
     public function comments(Request $req, Response $res, $args)
     {
         session_start();
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             if ($admin = Admin::where('entry_id', $_SESSION['user_id'])->count() > 0) {
                 $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
@@ -455,7 +462,13 @@ The HairTime Team.</p>';
                         } else {
                             $result = Comment::where('comment_id', $req->getParam('search'))->first();
                         }
-                        echo $blade->render("comments", ['comments' => $result, 'menu' => 'comments', 'admin' => $admin, 'vis' => 'visible']);
+                        echo $this->blade->render("comments", [
+                            'comments' => $result,
+                            'menu' => 'comments',
+                            'admin' => $admin,
+                            'lang'      => $this->admin,
+                            'vis' => 'visible'
+                        ]);
                     }
                     if ($req->getParam('operator') == 'Delete') {
                         //return $res->withJson($req->getParams())->withStatus(200);
@@ -473,17 +486,18 @@ The HairTime Team.</p>';
                     //return $res->withJson($req->getParams())->withStatus(200);
                 }
                 $comments = Comment::orderBy('created_at', 'desc')->where('del', false)->take(10)->get();
-                echo $blade->render("comments", [
+                echo $this->blade->render("comments", [
                     'comments' => $comments,
                     'menu' => 'comments',
                     'admin' => $admin,
+                    'lang'      => $this->admin,
                     'vis' => 'visible',
                 ]);
                 return;
             }
 
         } else {
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
         }
     }
@@ -491,15 +505,16 @@ The HairTime Team.</p>';
     public function profile(Request $req, Response $res, $args)
     {
         session_start();
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             if (isset($args['admin_id'])) {
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     $admin = Admin::where('admin_id', $args['admin_id'])->first();
                     $user = $admin->user;
-                    echo $blade->render("profile", [
+                    echo $this->blade->render("profile", [
                         'edit' => true,
                         'admin' => $admin,
+                        'lang'      => $this->admin,
                         'user' => $user,
                         'menu' => 'profile',
                     ]);
@@ -510,7 +525,8 @@ The HairTime Team.</p>';
                     $admin->first_name = $req->getParam('first_name');
                     $admin->last_name = $req->getParam('last_name');
                     $admin->save();
-                    echo $blade->render("profile", [
+                    echo $this->blade->render("profile", [
+                        'lang'      => $this->admin,
                         'edit' => true,
                         'admin' => $admin,
                         'user' => $user,
@@ -525,7 +541,8 @@ The HairTime Team.</p>';
                 $user = User::where('user_id', $_SESSION['user_id'])->first();
                 if ($admin->status == 1) {
                     $admins = Admin::get();
-                    echo $blade->render("profile", [
+                    echo $this->blade->render("profile", [
+                        'lang'      => $this->admin,
                         'edit' => true,
                         'admin' => $admin,
                         'user' => $user,
@@ -533,7 +550,8 @@ The HairTime Team.</p>';
                         'menu' => 'profile',
                     ]);
                 } else {
-                    echo $blade->render("profile", [
+                    echo $this->blade->render("profile", [
+                        'lang'      => $this->admin,
                         'edit' => true,
                         'admin' => $admin,
                         'user' => $user,
@@ -544,7 +562,7 @@ The HairTime Team.</p>';
                 return;
             }
         }
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
     }
 
@@ -555,21 +573,22 @@ The HairTime Team.</p>';
      */
     public function customerList(Request $req, Response $res)
     {
-        session_start();
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+//        session_start();
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first()->toArray();
             if (isset($admin)) {
                 $admin['token'] = $_SESSION['token'];
                 $customers = Customer::orderBy('customer_id')->get();
-                echo $blade->render('customers_list', [
+                echo $this->blade->render('customers_list', [
+                    'lang'      => $this->admin,
                     'admin' => $admin,
                     'menu' => 'customers',
                     'customers' => $customers,
                 ]);
             }
         } else {
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
         }
 
@@ -577,7 +596,7 @@ The HairTime Team.</p>';
 
     public function setCustomer(Request $req, Response $res, $args)
     {
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
             if (isset($admin)) {
@@ -593,7 +612,8 @@ The HairTime Team.</p>';
                 $customer->save();
 
 
-                echo $blade->render("edit_customer", [
+                echo $this->blade->render("edit_customer", [
+                    'lang'      => $this->admin,
                     'admin' => $admin,
                     'customer' => $customer,
                     'user' => $user,
@@ -602,14 +622,14 @@ The HairTime Team.</p>';
                 return;
             }
         }
-        echo $blade->render("login");
+        echo $this->blade->render("login");
         return;
 
     }
 
     public function getCustomer(Request $req, Response $res, $args)
     {
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
 //            return $res->withStatus(200)->withJson($admin);
@@ -617,7 +637,8 @@ The HairTime Team.</p>';
                 $admin['token'] = $_SESSION['token'];
                 $customer = Customer::where('customer_id', $args['customer_id'])->first();
                 $user = $customer->user;
-                echo $blade->render("edit_customer", [
+                echo $this->blade->render("edit_customer", [
+                    'lang'      => $this->admin,
                     'admin' => $admin,
                     'customer' => $customer,
                     'user' => $user,
@@ -626,7 +647,7 @@ The HairTime Team.</p>';
                 return;
             }
         }
-        echo $blade->render("login");
+        echo $this->blade->render("login");
         return;
     }
 
@@ -641,8 +662,8 @@ The HairTime Team.</p>';
         $_SESSION['user_id'] = null;
         $_SESSION['token'] = null;
 
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
-        echo $blade->render("login");
+        
+        echo $this->blade->render("login");
         return;
 
     }
@@ -654,9 +675,8 @@ The HairTime Team.</p>';
 
     public function login(Request $req, Response $res)
     {
-//        return $res->withJson(['error'=>'we are here'], 200);
 
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try { 
                 $admin = User::where('email', $req->getParam('email'))->first();
@@ -664,14 +684,17 @@ The HairTime Team.</p>';
                     $token = $this->makeToken();
                     $admin->tokens()->create([
                         'token' => $token,
-                        'expires_at'=> date("Y-m-d H:i:s", time()+(7*24*60*60))
+                        'expires_at'=> date("Y-m-d H:i:s", time()+(52*7*24*60*60))
                     ]);
-                    session_start();
+//                    session_start();
                     $_SESSION['user_id'] = $admin->user_id;
                     $_SESSION['token'] = $token;
                     header('Location:' . $_SERVER['HTTP_REFERER']);
                 } else {
-                    echo $blade->render("login", ['error' => 'User name or login incorrect!']);
+                    echo $this->blade->render("login", [
+                        'lang'      => $this->admin,
+                        'error' => $this->admin['user_incorrect']
+                    ]);
                     return;
                 }     
             } catch (mysqli_sql_exception $e) {
@@ -679,9 +702,9 @@ The HairTime Team.</p>';
             }
         }
         if (isset($_SESSION['user_id']) && isset($_SESSION['token'])) {
-            header('Location: https://hairtime.co.il/admin');
+            header('Location: https://hairtime.co.il/api/admin');
         } else {
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
         }
     }
@@ -694,7 +717,7 @@ The HairTime Team.</p>';
     public function workerList(Request $req, Response $res)
     {
         session_start();
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
 
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
@@ -702,14 +725,15 @@ The HairTime Team.</p>';
             }
             $admin['token'] = $_SESSION['token'];
             $workers = Worker::get()->toArray();
-            echo $blade->render("workers_list", [
+            echo $this->blade->render("workers_list", [
+                'lang'      => $this->admin,
                 'admin' => $admin,
                 'workers' => $workers,
                 'menu' => 'workers',
             ]);
             return;
         } else {
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
         }
     }
@@ -722,7 +746,7 @@ The HairTime Team.</p>';
      */
     public function saveWorker(Request $req, Response $res, $args)
     {
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
 
         if (isset($_SESSION['user_id'])) {
 
@@ -742,7 +766,7 @@ The HairTime Team.</p>';
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
 
             if ($worker->save()) {
-                header('Location: https://hairtime.co.il/admin/worker/' . $worker->worker_id);
+                header('Location: https://hairtime.co.il/api/admin/worker/' . $worker->worker_id);
             } else {
                 return $res->withJson(["message'=>'Worker doesn\'t created", 'status' => 'error', 'error' => 'Not created something wrong'], 400);
             }
@@ -750,7 +774,7 @@ The HairTime Team.</p>';
         } else {
             return $res->withJson(['message' => 'Please use your email and pass for login.', 'status' => 'error', 'error' => '401 Unauthorized '], 401);
         }
-        echo $blade->render("login");
+        echo $this->blade->render("login");
         return;
     }
 
@@ -762,7 +786,7 @@ The HairTime Team.</p>';
      */
     public function getWorker(Request $req, Response $res, $args)
     {
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
 //            return $res->withStatus(200)->withJson($admin);
@@ -787,7 +811,8 @@ The HairTime Team.</p>';
                     ->toArray();
 
                 $user = $worker->user;
-                echo $blade->render("edit_worker", [
+                echo $this->blade->render("edit_worker", [
+                    'lang'      => $this->admin,
                     'admin' => $admin,
                     'worker' => $worker,
                     'user' => $user,
@@ -800,7 +825,7 @@ The HairTime Team.</p>';
                 return;
             }
         }
-        echo $blade->render("login");
+        echo $this->blade->render("login");
         return;
     }
 
@@ -811,8 +836,8 @@ The HairTime Team.</p>';
     public function salons(Request $req, Response $res)
     {
 
-        session_start();
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+//        session_start();
+//        return $res->withJson(['fdf'=>var_dump($this->admin)], 200);
 
         if (isset($_SESSION['user_id'])) {
 
@@ -834,17 +859,19 @@ The HairTime Team.</p>';
             $method = $req->getMethod();
             $admin = $admin->toArray();
             $admin['token'] = $_SESSION['token'];
-            echo $blade->render("index", [
-                'admin' => $admin,
-                'method' => $method,
-                'salons' => $salons->toArray(),
-                'req' => $req->getParams(),
-                'menu' => 'salons',
+            echo $this->blade->render("index", [
+                'lang'      => $this->admin,
+                'admin'     => $admin,
+                'method'    => $method,
+                'salons'    => $salons->toArray(),
+                'req'       => $req->getParams(),
+                'menu'      => 'salons',
+                'lang'      => $this->admin,
             ]);
             return;
         } else {
 
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
         }
     }
@@ -858,7 +885,7 @@ The HairTime Team.</p>';
     {
         //session_start();
         //return $res->withJson(['rty'=>'fff'],201);
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first()->toArray();
             //unset($admin['entry_id']);
@@ -875,7 +902,8 @@ The HairTime Team.</p>';
                 $result[] = $comment;
             }
 
-            echo $blade->render("edit_salon", [
+            echo $this->blade->render("edit_salon", [
+                'lang'      => $this->admin,
                 'admin' => $admin,
                 'salon' => $salon,
                 'req' => $req->getParams(),
@@ -887,7 +915,7 @@ The HairTime Team.</p>';
             ]);
             return;
         } else {
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
         }
 
@@ -903,7 +931,7 @@ The HairTime Team.</p>';
     {
 
         //return $res->withJson(['rr'=>'tt'])->withStatus(403);
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first()->toArray();
             if (isset($admin)) {
@@ -947,7 +975,8 @@ The HairTime Team.</p>';
                     }
                 }
                 $salons = Salon::all();
-                echo $blade->render("index", [
+                echo $this->blade->render("index", [
+                    'lang'      => $this->admin,
                     'admin' => $admin,
                     'method' => $method,
                     'salons' => $salons,
@@ -957,7 +986,7 @@ The HairTime Team.</p>';
                 return;
             }
         } else {
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
         }
     }
@@ -970,13 +999,14 @@ The HairTime Team.</p>';
      */
     public function servicesList(Request $req, Response $res)
     {
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
+        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
             $services = Service::all();
             $admin = $admin->toArray();
             $admin['token'] = $_SESSION['token'];
-            echo $blade->render("services_list", [
+            echo $this->blade->render("services_list", [
+                'lang'      => $this->admin,
                 'admin' => $admin,
                 'services' => $services->toArray(),
                 'req' => $req->getParams(),
@@ -984,7 +1014,7 @@ The HairTime Team.</p>';
             ]);
             return;
         } else {
-            echo $blade->render("login");
+            echo $this->blade->render("login");
             return;
         }
     }
@@ -998,7 +1028,8 @@ The HairTime Team.</p>';
               $admin = $admin->toArray();
               $admin['token'] = $_SESSION['token'];
               echo $this->blade->render("edit_service", [
-                'admin' => $admin,
+                  'lang'      => $this->admin,
+                  'admin' => $admin,
                 'service' => $service->toArray(),
                 'salon' => $salon->toArray(),
                 'menu' => 'services',
@@ -1015,15 +1046,16 @@ The HairTime Team.</p>';
 
     }
 
-    public function index($user)
+    public function index($user, Response $res)
     {
 
-        $blade = new BladeInstance(__DIR__ . "/../../public/Views", __DIR__ . "/../../public/Views/cache");
-        $result = $blade->exists('index');
-        echo $blade->render("index", $user);
 
-        echo $blade->render("index", ['url' => 'http://hairtime.co.il/uploads/img-20170325-58d66c0f72c26', 'name' => 'Vitaliy ZALYOTIN']);
-        //return $res->withBody($blade->render("index"))->withStatus(200);
+        $result = $this->blade->exists('index');
+        return $res->withJson(['index'=>$result], 200);
+        echo $this->blade->render("index", $user);
+        return;
+//        echo $this->blade->render("index", ['url' => 'http://hairtime.co.il/uploads/img-20170325-58d66c0f72c26', 'name' => 'Vitaliy ZALYOTIN']);
+        //return $res->withBody($this->blade->render("index"))->withStatus(200);
 
 
     }

@@ -739,6 +739,6 @@
             })
         </script>
         <!--End Basic Tabs   -->
-        <script type="text/javascript" src="/public_html/js/api.js"></script>
+        <script type="text/javascript" src="/public/js/api.js"></script>
 
 @stop

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h3 class="page-header">Worker's list</h3>
+    <h3 class="page-header">{{$lang['worker_list']}}</h3>
     <div class="container-fluid">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -88,7 +88,7 @@
     <script type="text/javascript">
         $(".icon-btn").click(function (e) {
             e.preventDefault();
-            let id = $(this).attr("id").split('_'),
+            var id = $(this).attr("id").split('_'),
                 worker_id = id[1],
                 icon_lock = $(this).find('i'),
                 admin_id = '{{$admin['entry_id']}}',
@@ -96,7 +96,7 @@
             if (id[0] == "edit") {
                 icon_lock.removeClass('fa-info-circle fa-2x');
                 icon_lock.addClass('fa-refresh fa-spin fa-lg');
-                document.location.href = 'https://hairtime.co.il/admin/worker/' + worker_id;
+                document.location.href = 'https://hairtime.co.il/api/admin/worker/' + worker_id;
 
             } else if (id[0] == 'delete') {
                 $('.popup').html($('.popup-delete-dialog').html());
@@ -107,7 +107,7 @@
                     $.ajax({
                         method: 'POST',
                         type: 'POST',
-                        url: "/ajax/worker/delete/" + worker_id,
+                        url: "/api/ajax/worker/delete/" + worker_id,
                         headers: {
                             'User-ID': admin_id,
                             'Token': token,
@@ -157,7 +157,7 @@
                 $.ajax({
                     method: 'POST',
                     type: 'POST',
-                    url: "/auth/singup/worker/start",
+                    url: "/api/auth/singup/worker/start",
                     data: $('form#newWorkerForm').serialize(),
                     headers: {
                         'User-ID': admin_id,
@@ -165,7 +165,7 @@
                     },
                     success: function (result, textStatus) {
                         alert('OK. Worker created.');
-                        document.location.href = '/admin/worker/' + result.worker_id;
+                        document.location.href = '/api/admin/worker/' + result.worker_id;
                     },
                     error: function (jqXHR, exception) {
                         if (jqXHR.status === 0) {

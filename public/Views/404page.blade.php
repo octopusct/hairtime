@@ -1,7 +1,7 @@
 @extends('layouts.error')
 
 @section('content')
-    <div class="wrapper row" style="background-color: white;margin: 83px 0 0 0px;padding: 15% 30px;"">
+    <div class="wrapper row" style="background-color: white;margin: 83px 0 0 0px;padding: 15% 30px;">
     <div id="container" class="clear">
         <div class="fl_left col-lg-6 col-md-6 col-sm-12">
             <img src="/img/404.png" alt="">

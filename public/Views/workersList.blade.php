@@ -64,29 +64,30 @@
         <!--delete confirm popup end-->
         <!-- add new worker form -->
     <div class="new-worker-form-wrapper" >
-            <!-- register new worker -->
+        <!-- register new worker -->
 
-            <div class="new-worker-form">
-                <div class="form">
-                <form method="post" action="/auth/singup/worker/complete" class="n-form">
-                    <div class="title">Make new Worker</div>
-                    <div class="wrapper-field">
-                        <label><p>e-mail use as username to login. String[250]</p><input type="text" required placeholder="email - e-mail use as username to login. String[250]" name="email"></label>
-                        <label><p>Worker’s password. String[250]</p><input type="text" required placeholder="password - Worker's password. String[250]" name="password"></label>
-                        <label><p>Worker’s first name. String[100]</p><input type="text" required placeholder="first_name - Worker's first name. String[100]" name="first_name"></label>
-                        <label><p>Worket’s last name. String[100]</p><input type="text" required placeholder="last_name - Worket's last name. String[100]" name="last_name"></label>
-                        <label><p>Worker’s spicialization. String[20]</p><input type="text" required placeholder="specialization - Worker's spicialization. String[20]" name="specialization"></label>
-                        <label><p>Worker’s start working year in format YYYY String[4]</p><input type="text" required placeholder="start_year - Worker's start working year in format YYYY String[4]" name="start_year"></label>
-                        <label><p>Salon’s phone. Format (555)555-5555 / +33(1)22 22 22 22 / +33(020)7777 7777 String[20]</p><input type="text" required placeholder="phone - Salon's phone. Format (555)555-5555 / +33(1)22 22 22 22 / +33(020)7777 7777 String[20]" name="phone"></label>
-                        <label><p>Worker’s avatar URL. String [250]</p><input type="text" placeholder="logo - Worker's avatar URL. String [250]" name="logo"></label>
-                        <div class="btn-wrapper clearfix">
-                            <button type="sumbit" id="submit_btn" class="btn-primary">Save</button>
-                            <button type="reset" id="cancel_btn" class="btn-cancel">Cancel</button>
-                        </div>
+        <div class="new-worker-form">
+            <div class="form">
+            <form method="post" action="/auth/singup/worker/complete" class="n-form">
+                <div class="title">Make new Worker</div>
+                <div class="wrapper-field">
+                    <label><p>e-mail use as username to login. String[250]</p><input type="text" required placeholder="email - e-mail use as username to login. String[250]" name="email"></label>
+                    <label><p>Worker’s password. String[250]</p><input type="text" required placeholder="password - Worker's password. String[250]" name="password"></label>
+                    <label><p>Worker’s first name. String[100]</p><input type="text" required placeholder="first_name - Worker's first name. String[100]" name="first_name"></label>
+                    <label><p>Worket’s last name. String[100]</p><input type="text" required placeholder="last_name - Worket's last name. String[100]" name="last_name"></label>
+                    <label><p>Worker’s spicialization. String[20]</p><input type="text" required placeholder="specialization - Worker's spicialization. String[20]" name="specialization"></label>
+                    <label><p>Worker’s start working year in format YYYY String[4]</p><input type="text" required placeholder="start_year - Worker's start working year in format YYYY String[4]" name="start_year"></label>
+                    <label><p>Salon’s phone. Format (555)555-5555 / +33(1)22 22 22 22 / +33(020)7777 7777 String[20]</p><input type="text" required placeholder="phone - Salon's phone. Format (555)555-5555 / +33(1)22 22 22 22 / +33(020)7777 7777 String[20]" name="phone"></label>
+                    <label><p>Worker’s avatar URL. String [250]</p><input type="text" placeholder="logo - Worker's avatar URL. String [250]" name="logo"></label>
+                    <div class="btn-wrapper clearfix">
+                        <button type="sumbit" id="submit_btn" class="btn-primary">Save</button>
+                        <button type="reset" id="cancel_btn" class="btn-cancel">Cancel</button>
                     </div>
-                </form>
                 </div>
+            </form>
             </div>
+        </div>
+    </div>
     </div>
         <!-- add new worker form -->
 

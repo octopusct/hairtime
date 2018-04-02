@@ -31,11 +31,14 @@ $container['logger'] = function($c) {
     return $logger;
 };
 
+$container['VIEW_PATH']= function ($c){
+    return __DIR__."/../public/Views";
+};
 /**
  * @param Request $req
  * @return array
  */
-$container['locale'] = function()use($container){
+$container['locale'] = function()use($container,$res){
     if (isset($_REQUEST['lang'])){
         $file_name =$_REQUEST['lang'];
         $main_lang =  json_decode(file_get_contents(__DIR__.'/lang/'.$container['settings']['lang'].'.json'), true);
@@ -48,7 +51,7 @@ $container['locale'] = function()use($container){
         $result_lang = array_replace_recursive($main_lang, $load_lang);
 
     }else{
-        $result_lang = $container['settings']['lang'];
+        $result_lang =  json_decode(file_get_contents(__DIR__.'/lang/'.$container['settings']['lang'].'.json'), true);
     }
     return $result_lang;
 

@@ -128,7 +128,7 @@
             @endforeach
             <div>
                 <br><br>
-                <form name="form" method="POST" action={{"/admin/message/".$message['message_id']}}>
+                <form name="form" method="POST" action={{"/api/admin/message/".$message['message_id']}}>
                     <textarea name="textanswer" maxlength="500" autofocus></textarea>
                     <p>
                         <button class="btn btn-primary" id="btn" type="submit" name="operator" value="Send">

@@ -86,7 +86,7 @@
                 if (id[0] == "edit") {
                     icon_lock.removeClass('fa-info-circle fa-2x');
                     icon_lock.addClass('fa-refresh fa-spin fa-lg');
-                    document.location.href = 'https://hairtime.co.il/admin/customer/'+ customer_id;
+                    document.location.href = 'https://hairtime.co.il/api/admin/customer/'+ customer_id;
 
                 } else if (id[0] == 'delete') {
                     admin_id = '<?=$admin['user_id']?>';
@@ -104,7 +104,7 @@
                         $.ajax({
                             method: 'POST',
                             type: 'POST',
-                            url: "/del/customer/" + customer_id,
+                            url: "/api/del/customer/" + customer_id,
                             headers: {
                                 'admin_id': admin_id,
                                 'Token': token,

@@ -7,6 +7,7 @@
  */
 namespace App\Controllers;
 
+use duncan3dc\Laravel\BladeInstance;
 use Slim\Container;
 
 class BaseController
@@ -14,12 +15,16 @@ class BaseController
     protected $ci;
     protected $errors;
     protected $messages;
+    protected $admin;
+
 
     public function __construct(Container $ci)
     {
-        $this->ci = $ci;
-        $this->errors = $this->locale['errors'];
+        $this->ci       = $ci;
+        $this->errors   = $this->locale['errors'];
         $this->messages = $this->locale['messages'];
+        $this->admin    = $this->locale['admin'];
+
     }
 
     public function __get($method)

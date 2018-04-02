@@ -96,7 +96,7 @@
         if (id[0] == "edit") {
             icon_lock.removeClass('fa-info-circle fa-2x');
             icon_lock.addClass('fa-refresh fa-spin fa-lg');
-            document.location.href = 'https://hairtime.co.il/admin/service/' + service_id;
+            document.location.href = 'https://hairtime.co.il/api/admin/service/' + service_id;
         } else if (id[0] == 'delete') {
             $('.popup').html($('.popup-delete-dialog').html());
             $('.popup-dialog').fadeIn(500);
@@ -107,7 +107,7 @@
             $.ajax({
                 method: 'POST',
                 type: 'POST',
-                url: "/ajax/service/delete/" + service_id,
+                url: "/api/ajax/service/delete/" + service_id,
                 headers: {
                     'User-ID': admin_id,
                     'Token': token,
@@ -170,7 +170,7 @@
         $.ajax({
           method: 'POST',
           type: 'POST',
-          url: "/service/salon/"+salon_id,
+          url: "/api/service/salon/"+salon_id,
           data: $('form#newServiceForm').serialize(),
           headers: {
             'User-ID': '{{$admin['entry_id']}}',

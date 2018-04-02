@@ -187,7 +187,7 @@
         var formData = new FormData(this);
         console.log('form#data', formData);
         $.ajax({
-            url: 'https://hairtime.co.il/upload',
+            url: 'https://hairtime.co.il/api/upload',
             type: 'POST',
             data: formData,
             async: false,
@@ -237,14 +237,14 @@
         $.ajax({
           method: 'POST',
           type: 'POST',
-          url: "/ajax/user/delete/{{$user['user_id']}}",
+          url: "/api/ajax/user/delete/{{$user['user_id']}}",
           headers: {
             'User-ID': '{{$admin['entry_id']}}',
             'Token': '{{$admin['token']}}',
           },
           success: function (ajax_result, textStatus) {
             alert('User successfully deleted !');
-            document.location.href = '/admin/customer';
+            document.location.href = '/aapi/admin/customer';
 
           },
           error: function (jqXHR, exception) {
@@ -281,7 +281,7 @@
         $.ajax({
             method: 'POST',
             type: 'POST',
-            url: '/admin/message/newpass/' + '{{$user['user_id']}}',
+            url: '/api/admin/message/newpass/' + '{{$user['user_id']}}',
             data: {
                 'email': '{{$user['email']}}',
             },
@@ -290,7 +290,7 @@
                 'Token': '{{$admin['token']}}',
             },
             success: function (ajax_result, textStatus) {
-                let popup = $('.result-message-popup');
+                var popup = $('.result-message-popup');
                 popup.find('#messageDiv').append('New password successfully sent to user!');
                 popup.fadeIn(400);
                 popup.find("#close").click(function () {
@@ -349,7 +349,7 @@
             $.ajax({
                 method: 'POST',
                 type: 'POST',
-                url: '/message/user',
+                url: '/api/message/user',
                 data: {
                     'email': '<?= $user['email']?>',
                     'text': textMsg,
@@ -408,7 +408,7 @@
             admin_id = '<?=$admin['entry_id']?>',
             token = '<?=$admin['token']?>';
         $.ajax({
-            url: "/admin/message/new",
+            url: "/api/admin/message/new",
             method: 'GET',
             dataType: 'json',
             headers: {
@@ -419,7 +419,7 @@
                 $("#mesCount").html("<b>" + results.length + "</b>");
                 $.each(results, function (index, results) {
                     $("#messagesList").append(" <li>\n" +
-                        "                        <a href=\"/admin/message/" + results.message_id + "?operator=Answer\">\n" +
+                        "                        <a href=\"/api/admin/message/" + results.message_id + "?operator=Answer\">\n" +
                         "                            <div>\n" +
                         "                                <strong><span class=\" label label-danger\">" + results.name + "</span></strong>\n" +
                         "                                <span class=\"pull-right text-muted\">\n" +
@@ -432,7 +432,7 @@
                         "                    <li class=\"divider\"></li>");
                 });
                 $("#messagesList").append(" <li>\n" +
-                    "                    <a class=\"text-center\" href=\"/admin/message\">\n" +
+                    "                    <a class=\"text-center\" href=\"/api/admin/message\">\n" +
                     "                        <strong>Read All Messages</strong>\n" +
                     "                        <i class=\"fa fa-angle-right\"></i>\n" +
                     "                    </a>\n" +

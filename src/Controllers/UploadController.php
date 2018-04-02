@@ -15,14 +15,65 @@ use App\Models\ServiceWorker;
 use App\Models\User;
 use App\Models\Worker;
 use Respect\Validation\Validator as v;
+use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class UploadController extends BaseController
 {
+    private $tmp_path;
+    private $file;
+    private $ext;
+    private $origWidth;
+    private $origHeight;
+
+    public function __construct(Container $ci)
+    {
+        parent::__construct($ci);
+        $this->tmp_path = ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir();
+        if(file_exists($_FILES['uploads'])){
+            $this->file     = $_FILES['uploads'];
+        }else{
+            throw new \Exception('Can\'t upload file'.$_FILES['uploads']['name']);
+        }
+        $size = getimagesize($this->file);
+        $this->ext = $size['mime'];
+        switch($this->ext)
+        {
+            // Image is a JPG
+            case 'image/jpg':
+            case 'image/jpeg':
+                // create a jpeg extension
+                $this->image = imagecreatefromjpeg($this->file);
+                break;
+
+            // Image is a GIF
+            case 'image/gif':
+                $this->image = @imagecreatefromgif($this->file);
+                break;
+
+            // Image is a PNG
+            case 'image/png':
+                $this->image = @imagecreatefrompng($this->file);
+                break;
+
+            // Mime type not found
+            default:
+                throw new \Exception("File is not an image, please use another file type.", 1);
+        }
+
+        $this->origWidth = imagesx($this->image);
+        $this->origHeight = imagesy($this->image);
+    }
+
     function uploadFile(Request $req, Response $res)
     {
 
+//        return $res->withJson([
+//            'ini'=>ini_get('upload_tmp_dir'),
+//            'sys'=>sys_get_temp_dir(),
+//            'file' => $this->tmp_path,
+//        ], 200);
         $validation = $this->validator;
         $validation->validate($req, array(
             'user_id' => v::notEmpty()
@@ -45,8 +96,12 @@ class UploadController extends BaseController
         //return $res->withJson(['message' => $files, 'error' =>"400", 'success' => $user_id])->withStatus(200);
 
         if ($files['error'] == 0) {
+
+            $files = $this->_resize($files);
+//            return $res->withJson(['fff'=>$files], 200);
+
             $name = uniqid('img-' . date('Ymd') . '-');
-            //return $res->withJson(['message' => $files, 'error' =>'uploads/' . $name, 'success' => $user_id])->withStatus(200);
+            return $res->withJson(['message' => $files, 'error' =>'uploads/' . $name, 'success' => $user_id])->withStatus(200);
 
             if (move_uploaded_file($files['tmp_name'], 'uploads/' . $name) == true) {
                 //return $res->withJson(['message' => 'loaded!', 'error' =>'uploads/' . $name, 'success' => $user_id])->withStatus(200);
@@ -92,7 +147,8 @@ class UploadController extends BaseController
             } else {
                 return $res->withJson([
                     'message' => $this->errors['1023'],
-                    'error' => move_uploaded_file($files['tmp_name'][0], 'uploads/' . $name)
+                    'error' => true,
+                    'status' =>    move_uploaded_file($files['tmp_name'][0], 'uploads/' . $name)
                 ])->withStatus(400);
             }
         } else {
@@ -176,6 +232,44 @@ class UploadController extends BaseController
                 'error' => $files['error'][0]
             ])->withStatus(200);
         }
+    }
+
+    private function _resize($file, $quality = 75)
+    {
+        $max_size = 200;
+        // Cоздаём исходное изображение на основе исходного файла
+        if ($file['type'] == 'image/jpeg'){
+            $source = imagecreatefromjpeg($file['tmp_name']);
+        }
+        elseif ($file['type'] == 'image/png')
+            $source = imagecreatefrompng($file['tmp_name']);
+        elseif ($file['type'] == 'image/gif')
+            $source = imagecreatefromgif($file['tmp_name']);
+        else
+            return false;
+
+        // Определяем ширину и высоту изображения
+        $w_src = imagesx($source);
+        $h_src = imagesy($source);
+        if ($w_src >= $h_src){
+            // Вычисление пропорций
+            $ratio = $w_src/$max_size;
+            $w_dest = round($w_src/$ratio);
+            $h_dest = round($h_src/$ratio);
+        }else{
+            $ratio = $h_src/$max_size;
+            $w_dest = round($w_src/$ratio);
+            $h_dest = round($h_src/$ratio);
+
+        }
+        // Создаём пустую картинку
+        $dest = imagecreatetruecolor($w_dest, $h_dest);
+        // Копируем старое изображение в новое с изменением параметров
+        $result = imagecopyresampled($dest, $source, 0, 0, 0, 0, $w_dest, $h_dest, $w_src, $h_src);
+        imagedestroy($source);
+
+        imagejpeg($dest, $this->tmp_path . $file['name'], $quality);
+        return $this->tmp_path;
     }
 }
 

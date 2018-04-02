@@ -11,7 +11,7 @@
         "min-height: 267px"
         }
     </style>
-    <h3 class="page-head">Edit Salon</h3><br>
+    <h3 class="page-head">{{$lang['edit_salon']}}</h3><br>
     <div class="container-fluid">
         <div class="panel panel-primary">
             <div class="panel-heading"><b>{{$salon['business_name']}} # {{$salon['salon_id']}}</b></div>
@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sl-4">
                         <div class="main-info">
-                            <div class="info-head">Avatar</div>
+                            <div class="info-head">{{$lang['avatar']}}</div>
                             <div class="main-avatar-div">
                                 <img class="img-main-avatar" id="img-main-avatar" alt="Click to load new avatar"
                                      style="cursor: pointer;"
@@ -32,18 +32,17 @@
                                 <div><input type="text" style="margin-top: 5px" hidden name="user_id"
                                             value="{{$user['user_id']}}"></div>
                                 <div>
-                                    <button style="display: none" class="btn btn-primary small" id="uploadnow">Upload
-                                        now!
+                                    <button style="display: none" class="btn btn-primary small" id="uploadnow">{{$lang['upload']}}
                                     </button>
                                 </div>
                                 <div class="ajax-respond"></div>
                             </form>
                         </div>
                         <div class="main-info" style="margin-top: 25px">
-                            <div class="info-head">Statistic</div>
+                            <div class="info-head">{{$lang['statistic']}}</div>
                             <div style="padding-top:10px">
                                 <div>
-                                    Rate:
+                                    {{$lang['rate'] . ':'}}
                                     @for  ($i = 1; $i < 6; $i++)
                                         @if ($i<= $salon['rating'])
                                             <i class="fa fa-star fa-lg" style="margin-right:2px;"
@@ -56,11 +55,11 @@
                                 </div>
                                 <div>
                                     <i class="fa fa-scissors fa-lg " style="margin:7px 0"></i>
-                                    Staff:<b> {{$salon['staff_number']}}</b>
+                                    {{$lang['staff'].':'}}<b> {{$salon['staff_number']}}</b>
                                 </div>
                                 <div>
                                     <i class="fa fa-comments" aria-hidden="true"></i>
-                                    Comments: <b>{{$salon['comments_number']}}</b>
+                                    {{$lang['comments'].':'}} <b>{{$salon['comments_number']}}</b>
                                 </div>
                             </div>
                         </div>
@@ -70,9 +69,9 @@
                           action={{"/admin/salon/".$salon['salon_id']}}>
                         <div class="col-lg-4 col-md-4 col-sl-4" style="margin-bottom: 15px">
                             <div class="main-info">
-                                <div class="info-head">Main info</div>
+                                <div class="info-head">{{$lang['main_info']}}</div>
                                 <div class="control-group">
-                                    <label class="control-label" for="business_name">User email</label>
+                                    <label class="control-label" for="business_name">{{$lang['user_email']}}</label>
                                     <div class="controls">
                                         <input type="text" id="email" name="email"
                                                placeholder="Enter business name here"
@@ -80,7 +79,7 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="business_name">Business name</label>
+                                    <label class="control-label" for="business_name">{{$lang['business_name']}}</label>
                                     <div class="controls">
                                         <input type="text" id="business_name" name="business_name"
                                                placeholder="Enter business name here"
@@ -88,7 +87,7 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="first_name">First name</label>
+                                    <label class="control-label" for="first_name">{{$lang['first_name']}}</label>
                                     <div class="controls">
                                         <input type="text" id="first_name" name="first_name"
                                                placeholder="Enter first name here"
@@ -96,7 +95,7 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="last_name">Last name</label>
+                                    <label class="control-label" for="last_name">{{$lang['last_name']}}</label>
                                     <div class="controls">
                                         <input type="text" id="last_name" name="last_name"
                                                placeholder="Enter last name here"
@@ -104,14 +103,14 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="phone">Phone</label>
+                                    <label class="control-label" for="phone">{{$lang['phone']}}</label>
                                     <div class="controls">
                                         <input type="text" id="phone" name="phone" placeholder="Enter phone here"
                                                value="{{$salon['phone']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="founded_in">Founded</label>
+                                    <label class="control-label" for="founded_in">{{$lang['founded']}}</label>
                                     <div class="controls">
                                         <input type="text" id="founded_in" name="founded_in"
                                                placeholder="Enter founded year here"
@@ -122,16 +121,16 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sl-4">
                             <div class="main-info">
-                                <div class="info-head">Location</div>
+                                <div class="info-head">{{$lang['location']}}</div>
                                 <div class="control-group">
-                                    <label class="control-label" for="city">City</label>
+                                    <label class="control-label" for="city">{{$lang['city']}}</label>
                                     <div class="controls">
                                         <input type="text" id="city" name="city" placeholder="Enter Salon's city here"
                                                value="{{$salon['city']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="address">Address</label>
+                                    <label class="control-label" for="address">{{$lang['address']}}</label>
                                     <div class="controls">
                                         <input type="text" id="address" name="address"
                                                placeholder="Enter Salon's address here"
@@ -139,7 +138,7 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="address">House</label>
+                                    <label class="control-label" for="address">{{$lang['house']}}</label>
                                     <div class="controls">
                                         <input style="width:50px" type="text" id="address" name="house"
                                                placeholder="Enter Salon's address here"
@@ -147,14 +146,14 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="lat">Latitude</label>
+                                    <label class="control-label" for="lat">{{$lang['latitude']}}</label>
                                     <div class="controls">
                                         <input type="text" id="lat" name="lat" placeholder="Enter Salon's Latitude here"
                                                value="{{$salon['lat']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="lng">Longitude</label>
+                                    <label class="control-label" for="lng">{{$lang['longitude']}}</label>
                                     <div class="controls">
                                         <input type="text" id="lng" name="lng"
                                                placeholder="Enter Salon's Longitude  here"
@@ -173,10 +172,10 @@
                                 <div class="control-group">
                                     <button style="margin: 0 15px" class="btn btn-primary " type="submit" name="Save"
                                             id="save-btn">
-                                        <span class="fa fa-check"></span>Save
+                                        <span class="fa fa-check"></span>{{$lang['save']}}
                                     </button>
                                     <button class="btn btn-danger" type="reset" name="cancel">
-                                        <span class="fa fa-times"></span>Cancel
+                                        <span class="fa fa-times"></span>{{$lang['cancel']}}
                                     </button>
                                 </div>
                             </div>
@@ -188,31 +187,31 @@
                 <div class="row">
                     <div class="col-ld-2 col-md-2 col-sm-2">
                         <button class="btn btn-primary" name="Message" id="messageBtn">
-                            <span class="fa fa-envelope-o"></span>Send Message
+                            <span class="fa fa-envelope-o"></span>{{$lang['send_message']}}
                         </button>
                     </div>
                     <div class="col-ld-2 col-md-2 col-sm-2">
                         <button class="btn btn-info" name="Password" id="password">
-                            <span class="fa fa-lock"></span>Send new pass
+                            <span class="fa fa-lock"></span>{{$lang['send_new_pass']}}
                         </button>
                     </div>
                     <div class="col-ld-2 col-md-2 col-sm-2">
                         <button class="btn btn-info" name="worker" id="newWorkerBtn">
-                            <span class="fa fa-lock"></span>New worker
+                            <span class="fa fa-lock"></span>{{$lang['new_worker']}}
                         </button>
                     </div>
                     <div class="col-ld-2 col-md-2 col-sm-2">
                         <button class="btn btn-info" name="Service" id="newServiceBtn">
-                            <span class="fa fa-lock"></span>New service
+                            <span class="fa fa-lock"></span>{{$lang['new_service']}}
                         </button>
                     </div>
                     <div class="col-ld-4 col-md-4 col-sm-4" id="activebutton">
                         <button class="btn btn-primary small" name="status"
-                                @if ($salon['status']=='Active') style='display: none' @endif id="activeBtn">Activate
+                                @if ($salon['status']=='Active') style='display: none' @endif id="activeBtn">{{$lang['activate']}}
                         </button>
                         <button class="btn btn-warning small" name="status"
                                 @if ($salon['status']=='Inactive') style='display: none' @endif id="deactiveBtn">
-                            Deactivate
+                            {{$lang['deactivate']}}
                         </button>
                     </div>
                 </div>
@@ -221,7 +220,7 @@
     </div>
     <div id="workers">
         <div class="panel panel-primary">
-            <div class="panel-heading services-panel"><b>Worker's list</b></div>
+            <div class="panel-heading services-panel"><b>{{$lang['worker_list']}}</b></div>
             <div class="panel-body">
                 <div class="row">
                     @foreach($workers as $worker)
@@ -244,9 +243,9 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <div><b>Spec:</b> {{$worker['spacialization']}}</div>
-                                <div><b>Start year:</b> {{$worker['start_year']}}</div>
-                                <div><b>Phone:</b> {{$worker['phone']}} </div>
+                                <div><b>{{$lang['spec']}}</b> {{$worker['spacialization']}}</div>
+                                <div><b>{{$lang['start_year'].':'}}</b> {{$worker['start_year']}}</div>
+                                <div><b>{{$lang['phone']}}:</b> {{$worker['phone']}} </div>
                             </div>
                         </div>
                     </div>
@@ -254,13 +253,13 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-primary" id="showWorkerBtn">Show more workers >>></button>
+                <button class="btn btn-primary" id="showWorkerBtn">{{$lang['show_more_workers']}}</button>
             </div>
         </div>
     </div>
     <div id="services">
         <div class="panel panel-primary">
-            <div class="panel-heading services-panel"><b>Service's list</b></div>
+            <div class="panel-heading services-panel"><b>{{$lang['service_list']}}</b></div>
             <div class="panel-body">
                 <div class="row">
                     @foreach($services as $service)
@@ -280,10 +279,10 @@
                                     </div>
                                 </div>
                                 <div class="panel-footer">
-                                    <div><b>Duration:</b> {{$service['duration']}} min</div>
-                                    <div><b>Price min:</b> {{$service['price_min']}} <i class="fa fa-ils"
+                                    <div><b>{{$lang['duration'].':'}}</b> {{$service['duration']}} min</div>
+                                    <div><b>{{$lang['price_min'].':'}}</b> {{$service['price_min']}} <i class="fa fa-ils"
                                                                                         aria-hidden="true"></i></div>
-                                    <div><b>Proce max:</b> {{$service['price_max']}} <i class="fa fa-ils"
+                                    <div><b>{{$lang['price_max']}}</b> {{$service['price_max']}} <i class="fa fa-ils"
                                                                                         aria-hidden="true"></i></div>
                                 </div>
                             </div>
@@ -363,7 +362,7 @@
                 $.ajax({
                     method: 'POST',
                     type: 'POST',
-                    url: "/auth/singup/worker/start",
+                    url: "/api/auth/singup/worker/start",
                     data: $('form#newWorkerForm').serialize(),
                     headers: {
                         'User-ID': admin_id,
@@ -371,7 +370,7 @@
                     },
                     success: function (result, textStatus) {
                         alert('OK. Worker created.');
-                        document.location.href = 'https://hairtime.co.il/admin/salon/{{$salon['salon_id']}}';
+                        document.location.href = 'https://hairtime.co.il/api/admin/salon/{{$salon['salon_id']}}';
                     },
                     error: function (jqXHR, exception) {
                         if (jqXHR.status === 0) {
@@ -405,7 +404,7 @@
                 $.ajax({
                     method: 'POST',
                     type: 'POST',
-                    url: "/service/salon/{{$salon['salon_id']}}",
+                    url: "/api/service/salon/{{$salon['salon_id']}}",
                     data: $('form#newServiceForm').serialize(),
                     headers: {
                         'User-ID': '{{$admin['entry_id']}}',
@@ -453,7 +452,7 @@
                 formNm = $('#' + formId);
             $.ajax({
                 type: "POST",
-                url: "/admin/salon/" + '<?= $salon['salon_id']?>',
+                url: "/api/admin/salon/" + '<?= $salon['salon_id']?>',
                 data: formNm.serialize(),
                 headers: {
                     'User-ID': "<?= $admin['entry_id']?>",
@@ -475,7 +474,7 @@
         $('.panel-heading-select').click(function (e) {
             e.preventDefault();
             console.log('select', e.currentTarget.id);
-            document.location.href = 'https://hairtime.co.il/admin/worker/' + e.currentTarget.id.split('_')[1];
+            document.location.href = 'https://hairtime.co.il/api/admin/worker/' + e.currentTarget.id.split('_')[1];
         });
         $('#showWorkerBtn').click(function (e) {
             e.preventDefault();
@@ -512,7 +511,7 @@
             $.ajax({
                 method: 'POST',
                 type: 'POST',
-                url: "/admin/salon/" + salon_id,
+                url: "/api/admin/salon/" + salon_id,
                 data: {
                     'status': 'Inactive',
                 },
@@ -533,7 +532,7 @@
             $.ajax({
                 method: 'POST',
                 type: 'POST',
-                url: "/admin/salon/" + salon_id,
+                url: "/api/admin/salon/" + salon_id,
                 data: {
                     'status': 'Active',
                 },

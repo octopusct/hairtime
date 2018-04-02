@@ -18,7 +18,7 @@
                     <div class="user-info">
                         <div><h5>{{$admin['first_name'].' '.$admin['last_name']}}</h5></div>
                         <div class="user-text-online">
-                            <span class="user-circle-online btn btn-success btn-circle "></span>&nbsp;Online
+                            <span class="user-circle-online btn btn-success btn-circle "></span>{{$lang['online']}}
                         </div>
                     </div>
                 </div>
@@ -26,22 +26,22 @@
             </li>
 
             <li @if ($menu=='salons') class="selected" @endif>
-                <a href="/admin"><i class="fa fa-list fa-fw"></i>Salon's list</a>
+                <a href="/api/admin"><i class="fa fa-list fa-fw"></i>{{$lang['salon_list']}}</a>
             </li>
             <li @if ($menu=='workers') class="selected" @endif>
-                <a href="/admin/worker"><i class="fa fa-scissors fa-fw"></i>Worker's list</a>
+                <a href="/api/admin/worker"><i class="fa fa-scissors fa-fw"></i>{{$lang['worker_list']}}</a>
             </li>
             <li @if ($menu=='customers') class="selected" @endif>
-                <a href="/admin/customer"><i class="fa fa-shopping-cart"></i>Customer's list</a>
+                <a href="/api/admin/customer"><i class="fa fa-shopping-cart"></i>{{$lang['customer_list']}}</a>
             </li>
             <li @if ($menu=='services') class="selected" @endif>
-                <a href="/admin/service"><i class="fa fa-wrench"></i>Services's list</a>
+                <a href="/api/admin/service"><i class="fa fa-wrench"></i>{{$lang['service_list']}}</a>
             </li>
             {{--<li @if ($menu=='comments') class="selected" @endif>--}}
                 {{--<a href="/admin/comment"><i class="fa fa-comment fa-fw"></i>Comments</a>--}}
             {{--</li>--}}
             <li @if ($menu=='messages') class="selected" @endif style="margin-bottom: 25px">
-                <a href="/admin/message"><i class="fa fa-comment fa-fw"></i>Messages</a>
+                <a href="/api/admin/message"><i class="fa fa-comment fa-fw"></i>{{$lang['service_list']}}</a>
             </li>
             {{--<li @if ($menu=='api') class="selected" @endif>--}}
                 {{--<a href="/admin/api"><i class="fa fa-reply fa-fw"></i>API requests</a>--}}

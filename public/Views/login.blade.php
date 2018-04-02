@@ -22,7 +22,7 @@
                     <h3 class="panel-title">Please Sign In</h3>
                 </div>
                 <div class="panel-body">
-                    <form method="post" action="/login">
+                    <form method="post" action="/api/login">
                         <fieldset>
                             @if(isset($error))
                                 <p>{{$error}}</p>
@@ -36,10 +36,10 @@
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                    <input name="remember" type="checkbox" value="Remember Me">{{$lang['remember_me']}}
                                 </label>
                                 <label style="align-items:right">
-                                    <a href="/admin/fogot">Forgot password...</a>
+                                    <a href="/api/admin/fogot">{{$lang['forgot_password']}}</a>
                                 </label>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->

@@ -254,7 +254,7 @@
             $.ajax({
                 method: 'POST',
                 type: 'POST',
-                url: "/service/salon/{{$salon['salon_id']}}",
+                url: "/api/service/salon/{{$salon['salon_id']}}",
                 data: $('form#newServiceForm').serialize(),
                 headers: {
                     'User-ID': '{{$admin['entry_id']}}',
@@ -310,7 +310,7 @@
             console.log('docum redy');
             $.ajax({
                 method: 'GET',
-                url: "/worker/schedule/{{$worker['worker_id']}}",
+                url: "/api/worker/schedule/{{$worker['worker_id']}}",
                 headers: {
                     'User-ID': '{{$user['user_id']}}',
                     'Token': '{{$admin['token']}}',
@@ -332,7 +332,7 @@
             const worker_id = '<?=$worker['worker_id']?>';
             $.ajax({
                 method: 'get',
-                url: 'https://hairtime.co.il/service/worker/' + worker_id,
+                url: '/api/service/worker/' + worker_id,
                 success: function (result, textStatus) {
                     if (result.status == 'success') {
                         //document.images["main-avatar"].src = result.url;
