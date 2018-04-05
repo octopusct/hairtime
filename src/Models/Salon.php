@@ -10,6 +10,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Salon
@@ -28,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Salon extends Model
 {
+    use SoftDeletes;
+
     public $timestamps = false;
 
     protected $table = 'salons';
@@ -51,7 +54,11 @@ class Salon extends Model
         'logo',
         'status',
     ];
+    protected $hidden = [
 
+        'created_at',
+        'deleted_at'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne

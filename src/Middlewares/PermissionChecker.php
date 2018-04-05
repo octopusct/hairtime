@@ -48,9 +48,9 @@ class PermissionChecker
         if ($req->isOptions()){
             return $next($req, $res);
         }
-//        return $res->withJson(['in_roles'=> $this->role]);
+//        return $res->withJson(['in_roles'=> $this->role, 'error'=>true],400);
         $id = $req->getParam('user_id');
-//        return $res->withJson(['in_roles'=> $this->role, 'id'=> $id]);
+//        return $res->withJson(['in_roles'=> $this->role, 'id'=> $id, 'error'=>true],400);
 
         $user = User::find($id);
 
@@ -59,7 +59,7 @@ class PermissionChecker
         if (in_array($user_role, $this->role)){
             return $next($req, $res);
         }else{
-            return $res->withStatus(403)->withJson(['message'=> 'Permission Errorttt']);
+            return $res->withStatus(403)->withJson(['message'=> 'Permission Errorttt', 'error'=>true, 'status'=>403], 403);
         }
     }
 }

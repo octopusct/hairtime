@@ -89,7 +89,7 @@
 
 <!--message popup end-->
 <!--result-message popup-->
-<div class="result-message">
+<div class="result-message-popup">
     <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4">
             <i class="fa fa-info" aria-hidden="true" id="messageIcon"></i>

@@ -57,7 +57,7 @@
 
             <div class="new-service-form">
                 <div class="form">
-                    <form class="n-form" id="newServiceForm">
+                    <form class="n-form" method="post"  id="newServiceForm">
                         <div class="title">Salon's Services</div>
                         <div class="wrapper-field">
                             <label><p>Salon ID</p><input type="text" required tabindex="1" name="salon_id" id="salon_id"></label>
@@ -69,8 +69,8 @@
                             <input type="text" required hidden value="{{$admin['entry_id']}}" name="User-ID"></label>
                             <input type="text" required hidden value="{{$admin['token']}}" name="Token"></label>
                             <div class="btn-wrapper clearfix">
-                                <button type="saveServiceBtn" class="btn-primary"  tabindex="7">Save</button>
-                                <button type="cancelServiceBtn" class="btn-cancel"  tabindex="8">Cancel</button>
+                                <button id="saveServiceBtn" class="btn-primary"  tabindex="7">Save</button>
+                                <button id="cancelServiceBtn" class="btn-cancel"  tabindex="8">Cancel</button>
                             </div>
                         </div>
                     </form>
@@ -87,8 +87,7 @@
 
 <script type="text/javascript">
     $(".icon-btn").click(function (e) {
-        e.preventDefault();
-        let id = $(this).attr("id").split('_'),
+        e.preventDefault();varid = $(this).attr("id").split('_'),
             service_id = id[1],
             icon_lock = $(this).find('i'),
             admin_id = '{{$admin['entry_id']}}',
@@ -102,7 +101,7 @@
             $('.popup-dialog').fadeIn(500);
             $('.popup').find("#yes").click(function () {
             e.preventDefault();
-            let id = $(this).attr("id").split('_'),
+            var id = $(this).attr("id").split('_'),
                 icon_lock = $(this).find('i');
             $.ajax({
                 method: 'POST',
@@ -162,46 +161,54 @@
       $('#addNewServiceBtn').click(function (e) {
         e.preventDefault();
         $('.new-form-wrapper').fadeIn(300);
-      });
-      $('#saveServiceBtn').click(function (e) {
-        e.preventDefault();
-        let salon_id = $('#salon_id').val();
-        console.log('salon_id: ', salon_id);
-        $.ajax({
-          method: 'POST',
-          type: 'POST',
-          url: "/api/service/salon/"+salon_id,
-          data: $('form#newServiceForm').serialize(),
-          headers: {
-            'User-ID': '{{$admin['entry_id']}}',
-            'Token': '{{$admin['token']}}',
-          },
-          success: function (result) {
-            alert('Salon successfully created');
-            document.location.href = '/admin/salon/' + result.salon_id;
-          },
-          error: function (jqXHR, exception) {
-            if (jqXHR.status === 0) {
-              alert('Salon doesn\'t created! Not connect.\n Verify Network.');
-            } else if (jqXHR.status == 404) {
-              alert('Salon doesn\'t created! Requested page not found. [404]');
-            } else if (jqXHR.status == 500) {
-              alert('Salon doesn\'t created! Internal Server Error [500].');
-            } else if (exception === 'parsererror') {
-              alert('Salon doesn\'t created! Requested JSON parse failed.');
-            } else if (exception === 'timeout') {
-              alert('Salon doesn\'t created! Time out error.');
-            } else if (exception === 'abort') {
-              alert('Salon doesn\'t created! Ajax request aborted.');
-            } else {
-              alert('Salon doesn\'t created! Uncaught Error.\n' + jqXHR.responseText);
-            }
-          }
-        })
-      });
-      $('#cancelServiceBtn').click(function (e) {
-        e.preventDefault();
-        $('.new-form-wrapper').fadeOut(300);
+
+          $('#newServiceForm').on('submit', function(){
+              e.preventDefault();
+                console.log('submit');
+          });
+          $('#saveServiceBtn').click(function (e) {
+            e.preventDefault();
+            console.log('button');
+            var salon_id = $('#salon_id').val();
+            console.log('salon_id: ', salon_id);
+            $.ajax({
+              method: 'POST',
+              type: 'POST',
+              url: "/api/service/salon/"+salon_id,
+              data: $('form#newServiceForm').serialize()+
+                '&user_id={{$admin['entry_id']}}'+
+                '&token={{$admin['token']}}',
+              success: function (result) {
+                    if (result.error){
+                        alert("Service doesn't created! Error: " + result.message)
+                    }else{
+                        alert('Salon successfully created');
+                        document.location.href = '/api/admin/salon/' + $('#salon_id')[0].value;
+                    }
+              },
+              error: function (jqXHR, exception) {
+                if (jqXHR.status === 0) {
+                  alert('Service doesn\'t created! Not connect.\n Verify Network.');
+                } else if (jqXHR.status == 404) {
+                  alert('Service doesn\'t created! Requested page not found. [404]');
+                } else if (jqXHR.status == 500) {
+                  alert('Service doesn\'t created! Internal Server Error [500].');
+                } else if (exception === 'parsererror') {
+                  alert('Service doesn\'t created! Requested JSON parse failed.');
+                } else if (exception === 'timeout') {
+                  alert('Service doesn\'t created! Time out error.');
+                } else if (exception === 'abort') {
+                  alert('Service doesn\'t created! Ajax request aborted.');
+                } else {
+                  alert('Service doesn\'t created! Uncaught Error.\n' + jqXHR.responseText);
+                }
+              }
+            })
+          });
+          $('#cancelServiceBtn').click(function (e) {
+            e.preventDefault();
+            $('.new-form-wrapper').fadeOut(300);
+          });
       });
     </script>
 @stop

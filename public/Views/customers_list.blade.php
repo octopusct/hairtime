@@ -131,9 +131,15 @@
                                   'User-ID': admin_id,
                                   'Token': token,
                                 },
-                                success: function (ajax_result, textStatus) {
-                                    $("#tr_" + customer_id).remove();
-                                    $('.popup-dialog').fadeOut(500);
+                                success: function (result, textStatus) {
+                                    if (result.error){
+                                        alert('Customer doesn\'t deleted!'+result.message)
+                                        $('.popup-dialog').fadeOut(500);
+                                    }else{
+                                        alert('Customer deleted');
+                                        $("#tr_" + customer_id).remove();
+                                        $('.popup-dialog').fadeOut(500);
+                                    }
                                 },
                                 error: function (jqXHR, exception) {
                                     if (jqXHR.status === 0) {

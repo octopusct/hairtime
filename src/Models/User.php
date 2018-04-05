@@ -40,6 +40,7 @@ class User extends Model
     protected $hidden = [
 
         'created_at',
+        'deleted_at'
     ];
 
     public function entry()

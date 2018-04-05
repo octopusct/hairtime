@@ -113,24 +113,31 @@
                             'Token': token,
                         },
                         success: function (result, textStatus) {
-                            $("#tr_" + worker_id).remove();
-                            $('.popup-dialog').fadeOut(500);
+                            if (!result.error){
+                                alert('Worker delete');
+                                $("#tr_" + worker_id).remove();
+                                $('.popup-dialog').fadeOut(500);
+                            }else{
+                                alert('Worker doesn\'t deleted! Error: '+ result.message);
+                                $('.popup-dialog').fadeOut(500);
+                                $('#tr_'+worker_id).hide();
+                            }
                         },
                         error: function (jqXHR, exception) {
                             if (jqXHR.status === 0) {
-                                alert('User doesn\'t deleted! Not connect.\n Verify Network.');
+                                alert('Worker doesn\'t deleted! Not connect.\n Verify Network.');
                             } else if (jqXHR.status == 404) {
-                                alert('User doesn\'t deleted! Requested page not found. [404]');
+                                alert('Worker doesn\'t deleted! Requested page not found. [404]');
                             } else if (jqXHR.status == 500) {
-                                alert('User doesn\'t deleted! Internal Server Error [500].');
+                                alert('Worker doesn\'t deleted! Internal Server Error [500].');
                             } else if (exception === 'parsererror') {
-                                alert('User doesn\'t deleted! Requested JSON parse failed.');
+                                alert('Worker doesn\'t deleted! Requested JSON parse failed.');
                             } else if (exception === 'timeout') {
-                                alert('User doesn\'t deleted! Time out error.');
+                                alert('Worker doesn\'t deleted! Time out error.');
                             } else if (exception === 'abort') {
-                                alert('User doesn\'t deleted! Ajax request aborted.');
+                                alert('Worker doesn\'t deleted! Ajax request aborted.');
                             } else {
-                                alert('User doesn\'t deleted! Uncaught Error.\n' + jqXHR.responseText);
+                                alert('Worker doesn\'t deleted! Uncaught Error.\n' + jqXHR.responseText);
                             }
                             icon_lock.removeClass('fa-refresh fa-spin fa-lg');
                             icon_lock.addClass('fa-trash-o fa-2x');
@@ -151,7 +158,7 @@
         jQuery(document).ready(function ($) {
             $('#submit_btn').click(function (e) {
                 e.preventDefault();
-                let
+                var
                     admin_id = '{{$admin['entry_id']}}',
                     token = '{{$admin['token']}}';
                 $.ajax({

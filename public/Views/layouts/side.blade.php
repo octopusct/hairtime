@@ -41,7 +41,7 @@
                 {{--<a href="/admin/comment"><i class="fa fa-comment fa-fw"></i>Comments</a>--}}
             {{--</li>--}}
             <li @if ($menu=='messages') class="selected" @endif style="margin-bottom: 25px">
-                <a href="/api/admin/message"><i class="fa fa-comment fa-fw"></i>{{$lang['service_list']}}</a>
+                <a href="/api/admin/message"><i class="fa fa-comment fa-fw"></i>{{$lang['message_list']}}</a>
             </li>
             {{--<li @if ($menu=='api') class="selected" @endif>--}}
                 {{--<a href="/admin/api"><i class="fa fa-reply fa-fw"></i>API requests</a>--}}

@@ -33,8 +33,7 @@ class ServiceController extends BaseController
         ));
 
         if ($validation->failed())
-            return $res->withJson($validation->errors)
-
+            return $res->withJson(['message'=>implode('; ',$validation->errors), 'status'=>400, 'error'=>true])
                 ->withStatus(400);
 
         $salon_id = $args['salon_id'];
@@ -42,7 +41,7 @@ class ServiceController extends BaseController
         $service['salon_id'] =$args['salon_id'];
         $id = Service::create($service);
 
-        return $res->withJson($id->toArray())
+        return $res->withJson(['message'=>'OK', 'error'=>false, 'status'=>'success'] + $id->toArray())
             ->withStatus(201);
     }
 

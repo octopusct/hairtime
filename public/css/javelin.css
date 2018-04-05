@@ -1,0 +1,310 @@
+.navbar-brand {
+    padding: 0;
+}
+
+.page-head {
+    margin-top: 50px;
+}
+
+.glyphicon {
+    margin-right: 5px;
+}
+
+.btn {
+    display: inline-block;
+}
+
+.panel-heading-select {
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.panel-heading-select:hover {
+    border: 1px solid rgb(200, 200, 200);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 5px;
+    transition: 0.5s;
+}
+
+.panel-heading {
+    background-color: #428BCA;
+    border-color: #428BCA;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: right;
+}
+
+.panel-img {
+    height: 240px;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.panel-img img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+    object-fit: cover;
+}
+
+.page-head {
+    text-align: center;
+    font-weight: 600;
+}
+
+.main-info {
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 15px;
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+.info-head {
+    margin-top: -25px;
+    background-color: #ffffff;
+    border: 1px solid grey;
+    border-radius: 5px;
+    min-width: 30%;
+    text-align: center;
+}
+
+.img-main-avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    max-height: 100%;
+    max-width: 100%;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+
+}
+
+.main-avatar-div {
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 1px solid #CCC;
+    width: 95%;
+    height: 275px;
+    padding: 5px;
+    display: block;
+    margin: auto;
+}
+
+.buttons-group {
+    padding: 35px;
+}
+
+.fa {
+    margin-right: 5px;
+}
+
+.activeBtn {
+    width: 100px;
+    margin: 5px 5px;
+
+}
+
+.icon-btn {
+    cursor: pointer;
+}
+
+.popup-delete-dialog {
+    text-align: center;
+}
+
+.popup-dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+}
+
+.popup {
+    margin: 25ex auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+    text-align: center;
+}
+
+.popup button {
+    margin: 0 10px;
+}
+
+.new-worker-form-wrapper, .new-form-wrapper, .new-service-form-wrapper {
+    display: none;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    position: fixed;
+    top: 0px;
+    bottom: 0;
+    z-index: 5000000000;
+    left: 0;
+    right: 0;
+}
+
+.new-worker-form, .new-salon-form, .new-service-form {
+    margin: 40px auto 0px auto;
+    width: 50%;
+    padding: 10px;
+    z-index: 501;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    height: 100%;
+    overflow: auto;
+}
+
+.form {
+    width: 660px;
+    max-width: 100%;
+}
+
+th {
+    text-align: center;
+}
+
+.cells {
+    text-align: center;
+}
+
+.btn {
+    margin-right: 10px;
+}
+input {
+    text-align: right;
+    width: 80%;
+}
+
+pre {
+    margin-left: 25px;
+    text-align: right;
+}
+
+pre:hover {
+    border: 1px solid rgb(200, 200, 200);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+    background: rgba(200, 200, 200, 0.1);
+    transition: 0.5s;
+}
+
+.message-to-user-popup {
+    background: rgba(100, 100, 100, 0.6);
+    position: fixed;
+    display: none;
+    z-index: 5000;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.message-to-user-popup > div {
+    border-radius: 10px;
+    position: fixed;
+    background: #FFFFFF;
+    padding: 30px 15px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+
+    /* Width of popup can be changed */
+    width: 50%;
+    max-width: 600px;
+    z-index: 5001;
+@include transform(translate(- 50 %, - 50 %));
+    left: 25%;
+    top: 25%;
+    text-align: center;
+    border: 5px solid #ffaf03;
+}
+
+.result-message-popup {
+    background: rgba(100, 100, 100, 0.6);
+    position: fixed;
+    display: none;
+    z-index: 5000;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.result-message-popup > div {
+    border-radius: 10px;
+    position: fixed;
+    background: #FFFFFF;
+    padding: 30px 15px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+
+    /* Width of popup can be changed */
+    width: 50%;
+    max-width: 600px;
+    z-index: 5000;
+@include transform(translate(- 50 %, - 50 %));
+    left: 25%;
+    top: 25%;
+    text-align: center;
+    border: 5px solid #ffaf03;
+}
+.octopus-img {
+    background-color: #31708f;
+    margin: auto;
+
+}
+
+.hidden-worker {
+    display: none;
+    transition: 0.5s;
+}
+
+.hidden-service {
+    display: none;
+    transition: 0.5s;
+}
+
+.active-service {
+    display: block;
+    transition: 0.5s;
+}
+
+.active-worker {
+    display: block;
+    transition: 0.5s;
+}
+#wrapper {
+    position: relative;
+}
+
+.form-horizontal input {
+    width: 100%;
+    padding: 0 10px;
+}

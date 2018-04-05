@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class User
@@ -27,9 +28,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Queue extends Model
 {
+    use SoftDeletes;
+
+
     public $timestamps = false;
     protected $table = 'queue';
     protected $primaryKey = 'queue_id';
+
+    protected $dates = ['deleted_at'];
+
     protected $fillable = [
         'service_id',
         'worker_id',
@@ -40,6 +47,7 @@ class Queue extends Model
     ];
     protected $hidden = [
         'created_at',
+        'deleted_at'
     ];
 
 

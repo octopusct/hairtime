@@ -428,10 +428,10 @@ The HairTime Team.</p>';
                 $i++;
             }
             // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
-            return $res->withJson(['message'=>'Validation error', 'status'=>'error', 'error'=>$result])->withStatus(400);
+            return $res->withJson(['message'=>$result, 'status'=>400, 'error'=>true], 400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
-            return $res->withJson(['message' => 'This e-mail already exist. Try other e-mail', 'error' => '400'])->withStatus(400);
+            return $res->withJson(['message' => 'This e-mail already exist. Try other e-mail', 'status'=>400, 'error' => true], 400);
         }
         //$token = $this->makeToken();
         $salon = Salon::where('salon_id', $req->getParam('salon_id'))->first();

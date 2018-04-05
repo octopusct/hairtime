@@ -243,7 +243,7 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <div><b>{{$lang['spec']}}</b> {{$worker['spacialization']}}</div>
+                                <div><b>{{$lang['spec']}}</b> {{$worker['specialization']}}</div>
                                 <div><b>{{$lang['start_year'].':'}}</b> {{$worker['start_year']}}</div>
                                 <div><b>{{$lang['phone']}}:</b> {{$worker['phone']}} </div>
                             </div>
@@ -253,7 +253,7 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-primary" id="showWorkerBtn">{{$lang['show_more_workers']}}</button>
+                <button class="btn btn-primary" id="showWorkerBtn">{{$lang['show_mode_workers']}}</button>
             </div>
         </div>
     </div>
@@ -295,7 +295,7 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-primary" id="showServiceBtn">Show more services >>></button>
+                <button class="btn btn-primary" id="showServiceBtn">{{$lang['show_more_service']}}</button>
             </div>
         </div>
     </div>
@@ -324,30 +324,28 @@
         <!-- register new worker -->
 
         <div class="new-service-form">
-            <form method="post" id="newServiceForm" action="/service/salon/{salon_id}" class="n-form">
-                <div class="title">Salon's Services</div>
-                <div class="wrapper-field">
-                    <input type="text" hidden value="{{$salon['salon_id']}}" name="salon_id">
-                    <label><p>Service’s name. </p><input type="text" required
-                                                         placeholder="name - Service's name. String [250]" name="name"></label>
-                    <label><p>service’s duration min, min </p><input type="text"
-                                                                     placeholder="duration - service's duration Int [10]"
-                                                                     name="duration_min"></label>
-                    <label><p>service’s duration max, min </p><input type="text" required
-                                                                     placeholder="duration - service's duration Int [10]"
-                                                                     name="duration_max"></label>
-                    <label><p>Service’s minimal price. </p><input type="text" required
-                                                                  placeholder="price_min - Service's minimal price. Int [10]"
-                                                                  name="price_min"></label>
-                    <label><p>Service’s maximal price. </p><input type="text"
-                                                                  placeholder="price_max - Service's maximal price. Int [10]"
-                                                                  name="price_max"></label>
-                    <div class="btn-wrapper clearfix">
-                        <button type="sumbit" id='serviceSaveBtn' class="btn-primary">Save</button>
-                        <button type="reset" class="serviceCancelBtn">Cancel</button>
+            <div class="form">
+                <form method="post" id="newServiceForm" class="n-form">
+                    <div class="title">Salon's Services</div>
+                    <div class="wrapper-field">
+                        <input type="text" hidden value="{{$salon['salon_id']}}" name="salon_id">
+                        <label><p>Service’s name. </p>
+                            <input type="text" required name="name"></label>
+                        <label><p>service’s duration min, min </p>
+                            <input type="text" name="duration_min"></label>
+                        <label><p>service’s duration max, min </p>
+                            <input type="text" required name="duration"></label>
+                        <label><p>Service’s minimal price. </p>
+                            <input type="text" required name="price_min"></label>
+                        <label><p>Service’s maximal price. </p>
+                            <input type="text" name="price_max"></label>
+                        <div class="btn-wrapper clearfix">
+                            <button type="sumbit" id='serviceSaveBtn' class="btn-primary">Save</button>
+                            <button type="reset" class="serviceCancelBtn">Cancel</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -363,14 +361,15 @@
                     method: 'POST',
                     type: 'POST',
                     url: "/api/auth/singup/worker/start",
-                    data: $('form#newWorkerForm').serialize(),
-                    headers: {
-                        'User-ID': admin_id,
-                        'Token': token,
-                    },
+                    data: $('form#newWorkerForm').serialize()+
+                        '&user_id='+admin_id+'&token='+token,
                     success: function (result, textStatus) {
-                        alert('OK. Worker created.');
-                        document.location.href = 'https://hairtime.co.il/api/admin/salon/{{$salon['salon_id']}}';
+                        if (!result.error){
+                            alert('OK. Worker created.');
+                            document.location.href = 'https://hairtime.co.il/api/admin/salon/{{$salon['salon_id']}}';
+                        }else{
+                            alert('Worker doesn\'t created! Error.' + result.message)
+                        }
                     },
                     error: function (jqXHR, exception) {
                         if (jqXHR.status === 0) {
@@ -405,14 +404,16 @@
                     method: 'POST',
                     type: 'POST',
                     url: "/api/service/salon/{{$salon['salon_id']}}",
-                    data: $('form#newServiceForm').serialize(),
-                    headers: {
-                        'User-ID': '{{$admin['entry_id']}}',
-                        'Token': '{{$admin['token']}}',
-                    },
+                    data: $('form#newServiceForm').serialize()+
+                        '&user_id={{$admin['entry_id']}}'+
+                        '&token{{$admin['token']}}',
                     success: function (result) {
-                        alert('OK. Service created.');
-                        //document.location.href = 'https://hairtime.co.il/admin/salon/{{$salon['salon_id']}}';
+                        if (!result.error){
+                            alert('OK. Service created.');
+                            document.location.href = 'https://hairtime.co.il/api/admin/salon/{{$salon['salon_id']}}';
+                        }else{
+                            alert('Service doesn\'t created. Error: ' + result.message)
+                        }
                     },
                     error: function (jqXHR, exception) {
                         if (jqXHR.status === 0) {
@@ -505,7 +506,7 @@
             }
         });
         $("#deactiveBtn").click(function () {
-            salon_id = window.location.pathname.split('/')[3];
+            salon_id = window.location.pathname.split('/')[4];
             admin_id = '<?=$admin['entry_id']?>';
             token = '<?=$admin['token']?>';
             $.ajax({
@@ -514,10 +515,8 @@
                 url: "/api/admin/salon/" + salon_id,
                 data: {
                     'status': 'Inactive',
-                },
-                headers: {
-                    'User-ID': admin_id,
-                    'Token': token,
+                    'user_id': admin_id,
+                    'token': token,
                 },
                 success: function (result, textStatus) {
                     document.getElementById('activeBtn').style.display = "";
@@ -526,7 +525,7 @@
             })
         })
         $("#activeBtn").click(function () {
-            salon_id = window.location.pathname.split('/')[3];
+            salon_id = window.location.pathname.split('/')[4];
             admin_id = '<?=$admin['entry_id']?>';
             token = '<?=$admin['token']?>';
             $.ajax({
@@ -535,10 +534,8 @@
                 url: "/api/admin/salon/" + salon_id,
                 data: {
                     'status': 'Active',
-                },
-                headers: {
-                    'User-ID': admin_id,
-                    'Token': token,
+                    'user_id': admin_id,
+                    'token': token,
                 },
                 success: function (result, textStatus) {
                     document.getElementById('activeBtn').style.display = "none";

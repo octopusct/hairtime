@@ -49,6 +49,7 @@
     "worker_list"   : "עובדים",
     "customer_list" : "לקוחות",
     "service_list"  : "שירותים",
+    "message_list"  : "Message list",
     "add_salon"     : "עסק חדש",
     "settings"      : "הגדרות",
     "user_profile"  : "פרופיל משתמש",
@@ -79,13 +80,15 @@
     "longitude"     : "קו אורך",
     "save"          : "שמור",
     "cancel"        : "בטל",
-    "show_more_workers"   : "הצג עוד עובדים",
+    "show_mode_workers"   : "הצג עוד עובדים",
     "show_more_service"  : "הצג עוד שירותים",
     "send_message"  : "שלח הודעה",
     "send_new_pass" : "שלח סיסמא חדשה",
     "new_worker"    : "עובד חדש",
     "new_service"   : "שירות חדש",
     "activate"      : "הפעל חשבון",
+    "deactivate"    : "Deactivate",
+
     "rate"          : "דירוג",
     "staff"         : "צוות",
     "comments"      : "תגובות",
@@ -100,12 +103,7 @@
     "start_year"      : "Start year",
     "duration"      : "Duration",
     "price_min"      : "Price min",
-    "price_max"      : "Price max",
-    "comments"      : "",
-    "comments"      : "",
-    "comments"      : "",
-    "comments"      : "",
-    "comments"      : "",
-    "comments"      : ""
+    "price_max"      : "Price max"
+
   }
 }
