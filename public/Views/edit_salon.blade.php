@@ -341,7 +341,7 @@
                             <input type="text" name="price_max"></label>
                         <div class="btn-wrapper clearfix">
                             <button type="sumbit" id='serviceSaveBtn' class="btn-primary">Save</button>
-                            <button type="reset" class="serviceCancelBtn">Cancel</button>
+                            <button type="reset" id="serviceCancelBtn" class="btn btn-danger">Cancel</button>
                         </div>
                     </div>
                 </form>
@@ -479,13 +479,13 @@
         });
         $('#showWorkerBtn').click(function (e) {
             e.preventDefault();
-            if ($('#showWorkerBtn').text() == 'Show more workers >>>') {
-                $('#showWorkerBtn').text('Hide workers <<<');
+            if ($('#showWorkerBtn').text() == 'Show more workers') {
+                $('#showWorkerBtn').text('Hide workers');
                 changeClass = $(".hidden-worker");
                 changeClass.removeClass('hidden-worker');
                 changeClass.addClass('active-worker');
-            } else if ($('#showWorkerBtn').text() == 'Hide workers <<<') {
-                $('#showWorkerBtn').text('Show more workers >>>');
+            } else if ($('#showWorkerBtn').text() == 'Hide workers') {
+                $('#showWorkerBtn').text('Show more workers');
                 changeClass = $(".active-worker");
                 changeClass.removeClass('active-worker');
                 changeClass.addClass('hidden-worker');
@@ -493,13 +493,15 @@
         });
         $('#showServiceBtn').click(function (e) {
             e.preventDefault();
-            if ($('#showServiceBtn').text() == 'Show more services >>>') {
-                $('#showServiceBtn').text('Hide services <<<');
+            console.log('showServiceBtn click');
+
+            if ($('#showServiceBtn').text() == 'Show more services') {
+                $('#showServiceBtn').text('Hide services');
                 changeClass = $(".hidden-service");
                 changeClass.removeClass('hidden-service');
                 changeClass.addClass('active-service');
-            } else if ($('#showServiceBtn').text() == 'Hide services <<<') {
-                $('#showServiceBtn').text('Show more services >>>');
+            } else if ($('#showServiceBtn').text() == 'Hide services') {
+                $('#showServiceBtn').text('Show more services');
                 changeClass = $(".active-service");
                 changeClass.removeClass('active-service');
                 changeClass.addClass('hidden-service');

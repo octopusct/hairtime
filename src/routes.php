@@ -208,7 +208,7 @@ $app->group('/api/service', function () {
                 ->add(new PermissionChecker(['salon', 'worker', 'admin']));
         });
     });
-    $this->group('/api/worker', function () {
+    $this->group('/worker', function () {
         $this->group('/{worker_id:[0-9]*}', function () {
             $this->get('', 'App\Controllers\ServiceController:getByWorker');
             $this->post('/{service_id:[0-9]*}', 'App\Controllers\ServiceController:newByWorker')

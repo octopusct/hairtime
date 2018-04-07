@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sl-4" style="margin-bottom: 15px">
                         <form class="form-horizontal" name="form" id="form-edit" method="post"
-                              action="/admin/customer/{{$customer['customer_id']}}">
+                              action="/api/admin/customer/{{$customer['customer_id']}}">
                             <div class="main-info">
                                 <div class="info-head">Main info</div>
                                 <div class="control-group">
@@ -96,7 +96,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sl-4">
                         <div class="main-info">
-                            <div class="info-head">Schedules</div>
+
 
                         </div>
                     </div>
@@ -109,12 +109,6 @@
                     </button>
                     <button class="btn btn-info" name="Password" id="password">
                         <span class="fa fa-lock"></span>Send new pass
-                    </button>
-                    <button class="btn btn-info" name="Delete" id="delete">
-                        <span class="fa fa-trash-o"></span>Delete this user
-                    </button>
-                    <button class="btn btn-info" name="Service" id="service">
-                        <span class="fa fa-lock"></span>New service
                     </button>
                 </div>
             </div>

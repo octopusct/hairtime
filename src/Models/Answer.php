@@ -24,9 +24,9 @@ class Answer extends Model
         'create_at',
         'delete_at',
     ];
-    protected $tates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
 
-    protected $hidden= [];
+    protected $hidden= ['deleted_at'];
 
     public function message()
     {

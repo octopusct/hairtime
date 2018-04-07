@@ -92,44 +92,12 @@
                                 <div class="control-group">
                                     <label class="control-label" for="salon_id">Salon id</label>
                                     <div class="controls">
-                                        <a href="/admin/salon/{{$worker['salon_id']}}">
+                                        <a href="/api/admin/salon/{{$worker['salon_id']}}">
                                             <input type="text" id="salon_id" name="salon_id"
                                                    value="{{$worker['salon_id']}}" disabled style="cursor:pointer">
                                         </a>
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sl-4">
-                            <div class="main-info">
-                                <div class="info-head">Schedules & Queue</div>
-                                <!-- Responsive calendar - START -->
-                                <div class="responsive-calendar">
-                                    <div class="controls">
-                                        <a class="pull-left" data-go="prev">
-                                            <div class="btn btn-primary btn-circle"><</div>
-                                        </a>
-                                        <h5><span data-head-year></span> <span data-head-month></span></h5>
-                                        <a class="pull-right" data-go="next">
-                                            <div class="btn btn-primary btn-circle">></div>
-                                        </a>
-                                    </div>
-                                    <hr/>
-                                    <div class="day-headers">
-                                        <div class="day header">Sun</div>
-                                        <div class="day header">Mon</div>
-                                        <div class="day header">Tue</div>
-                                        <div class="day header">Wed</div>
-                                        <div class="day header">Thu</div>
-                                        <div class="day header">Fri</div>
-                                        <div class="day header">Sat</div>
-                                    </div>
-                                    <div class="days" data-group="days">
-
-                                    </div>
-                                </div>
-                                <!-- Responsive calendar - END -->
                             </div>
                             <div class="buttons-group">
                                 <div class="control-group">
@@ -147,6 +115,14 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sl-4">
+                            <div class="main-info" style="min-height:320px">
+                                <div class="info-head">Schedules & Queue</div>
+                                <!-- Full calendar - START -->
+                                <div id='calendar' style="min-height: 320px"></div>
+                                <!-- Full calendar - END -->
                             </div>
                         </div>
                     </form>
@@ -169,15 +145,15 @@
                             <span class="fa fa-wrench"></span>New service
                         </button>
                     </div>
-                    <div class="col-ld-3 col-md-3 col-sm-3">
-                        <button class="btn btn-info" name="schedules" id="schedulesBtn">
-                            <span class="fa fa-lock"></span>Change Schedules
-                        </button>
-                    </div>
-                    <div class="col-ld-2 col-md-2 col-sm-2">
-                        <button class="btn btn-info" name="queue" id="queueBtn">
-                            <span class="fa fa-lock"></span>Add queue
-                        </button>
+                    {{--<div class="col-ld-3 col-md-3 col-sm-3">--}}
+                        {{--<button class="btn btn-info" name="schedules" id="schedulesBtn">--}}
+                            {{--<span class="fa fa-lock"></span>Change Schedules--}}
+                        {{--</button>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-ld-2 col-md-2 col-sm-2">--}}
+                        {{--<button class="btn btn-info" name="queue" id="queueBtn">--}}
+                            {{--<span class="fa fa-lock"></span>Add queue--}}
+                        {{--</button>--}}
                     </div>
                 </div>
             </div>
@@ -191,8 +167,8 @@
                 </div>
                 <div class="row">
                     @endif
-                    <div class="col-lg-3 col-md-3 col-sm-3" @if ($loop->iteration >4) style="display:none;"
-                         id="hiddenPanel" @endif>
+                    <div @if ($loop->iteration >4) class="col-lg-3 col-md-3 col-sm-3 hiddenPanel"  style="display:none;"
+                         @else class="col-lg-3 col-md-3 col-sm-3" @endif>
                         <div class="panel panel-primary panel-heading-select">
                             <div class="panel-heading"><b>{{$service['name']}} # {{$service['service_id']}}</b></div>
                             <div class="panel-body">
@@ -215,7 +191,7 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-primary" id="showServiceBtn">Show more services >>></button>
+                <button class="btn btn-primary" id="showServiceBtn">Show more services</button>
             </div>
         </div>
         <div class="new-form-wrapper">
@@ -223,17 +199,14 @@
 
             <div class="new-service-form">
                 <div class="form">
-                    <form method="post" action="/service/worker/{worker_id}/{service_id}" class="n-form"
+                    <form method="post" action="/api/service/worker/{{$worker['worker_id']}}/" class="n-form"
                           id='newServiceForm'>
                         <div class="title">Services</div>
                         <div class="wrapper-field">
-                            <input type="text" required value="{{$worker['worker_id']}}" name="worker_id" hidden>
-                            <label><p>Servie ID number</p><input type="text" required
-                                                                 placeholder="service_id - Servie ID number"
-                                                                 name="service_id"></label>
-                            <label><p>Service’s description</p><input type="text"
-                                                                      placeholder="Service's name for this Worker. "
-                                                                      name="description"></label>
+                            <label><p>Servie ID number</p>
+                                <input type="text" required placeholder="Servie ID number" name="service_id"></label>
+                            <label><p>Service’s description</p>
+                                <input type="text" placeholder="Service's name for this Worker. " name="description"></label>
                             <div class="btn-wrapper clearfix">
                                 <button type="sumbit" id='serviceSaveBtn' class="btn-primary">Save</button>
                                 <button type="reset" id='serviceCancelBtn' class="btn-cancel">Cancel</button>
@@ -243,9 +216,7 @@
                 </div>
             </div>
         </div>
-        <pre><? echo var_dump($salon_services)?></pre>
 
-        <div id="content"></div>
     </div>
     <!-- open select file dialog  -->
     <script type="text/javascript">
@@ -254,15 +225,17 @@
             $.ajax({
                 method: 'POST',
                 type: 'POST',
-                url: "/api/service/salon/{{$salon['salon_id']}}",
-                data: $('form#newServiceForm').serialize(),
-                headers: {
-                    'User-ID': '{{$admin['entry_id']}}',
-                    'Token': '{{$admin['token']}}',
-                },
+                url: "/api/service/worker/{{$worker['worker_id']}}/"+$('form#newServiceForm input[name=service_id]')["0"].value,
+                data: $('form#newServiceForm').serialize()+
+                    '&user_id={{$admin['entry_id']}}'+
+                    '&token={{$admin['token']}}',
                 success: function (result) {
-                    alert('OK. Service created.');
-                    //document.location.href = 'https://hairtime.co.il/admin/salon/{{$salon['salon_id']}}';
+                    if (result.error){
+                        alert('Service doesn\'t created! Error:' + result.message);
+                    }else{
+                        alert('OK. Service created.');
+                        //document.location.href = 'https://hairtime.co.il/admin/salon/{{$salon['salon_id']}}';
+                    }
                 },
                 error: function (jqXHR, exception) {
                     if (jqXHR.status === 0) {
@@ -294,12 +267,12 @@
 
         $('#showServiceBtn').click(function (e) {
             e.preventDefault();
-            var panels = $('#hiddenPanel');
-            if ($('#showServiceBtn').text() == 'Show more services >>>') {
-                $('#showServiceBtn').text('Hide services <<<');
+            var panels = $('.hiddenPanel');
+            if ($('#showServiceBtn').text() == 'Show more services') {
+                $('#showServiceBtn').text('Hide services');
                 panels.fadeIn(300);
-            } else if ($('#showServiceBtn').text() == 'Hide services <<<') {
-                $('#showServiceBtn').text('Show more services >>>');
+            } else if ($('#showServiceBtn').text() == 'Hide services') {
+                $('#showServiceBtn').text('Show more services');
                 panels.fadeOut(300);
             }
         })
@@ -307,7 +280,83 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            var events = [];
             console.log('docum redy');
+            moment().format();
+            console.log(moment().dayOfYear(1).format('DD.MM.YYYY'));
+            console.log(moment().dayOfYear(366).format('DD.MM.YYYY'));
+            var week_day    = (new Date()).getDay();
+            // var start       = moment().day(0);
+            var start       = moment().dayOfYear(1).format('DD.MM.YYYY');
+            var stop        = moment().dayOfYear(366).format('DD.MM.YYYY');
+            $.ajax({
+                method: 'GET',
+                type: 'GET',
+                url: "/api/queue/worker/{{$worker['worker_id']}}",
+                data: {
+                    worker_id   : '{{$worker['worker_id']}}',
+                    user_id     : '{{$admin['entry_id']}}',
+                    from        : start,
+                    to          : stop,
+                    token       : '{{$admin['token']}}',
+
+                },
+                success: function (result) {
+                    if (result.error){
+                        alert('Can\'t receive queue. Error: ' + result.message);
+                    }else{
+                        result.forEach(function(value, index){
+                            console.log('value', value);
+                            console.log('name ', value.queue.name);
+                            console.log('time ', value.queue.time);
+                            console.log('duration ', value.queue.duration);
+                            events.push({
+                                title   : value.queue.name,
+                                start   : value.queue.time,
+                                end     : moment(value.queue.time).add(value.queue.duration,'m').format('YYYY-MM-DD HH:mm'),
+                                description: 'https://hairtime.co.il/api/admin/service/'+value.queue.service_id
+                            });
+                        });
+                        console.log('events ',events);
+                        $('#calendar').fullCalendar({
+                            height              : 'parent',
+                            bootstrapFontAwesome : {
+                                close: 'fa-times',
+                                prev: 'fa-chevron-left',
+                                next: 'fa-chevron-right',
+                                prevYear: 'fa-angle-double-left',
+                                nextYear: 'fa-angle-double-right'
+                            },
+                            themeSystem         : 'bootstrap4',
+                            timeFormat          : 'H:mm', // uppercase H for 24-hour clock
+                            displayEvantEnd     : true,
+                            defaultView         : 'listWeek',
+                            events:  events
+                        });
+                        $('.fc-toolbar .fc-left h2').css('font-size', 18);
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    if (jqXHR.status === 0) {
+                        alert('Service doesn\'t created! Not connect.\n Verify Network.');
+                    } else if (jqXHR.status == 404) {
+                        alert('Service doesn\'t created! Requested page not found. [404]');
+                    } else if (jqXHR.status == 500) {
+                        alert('Service doesn\'t created! Internal Server Error [500].');
+                    } else if (exception === 'parsererror') {
+                        alert('Service doesn\'t created! Requested JSON parse failed.');
+                    } else if (exception === 'timeout') {
+                        alert('Service doesn\'t created! Time out error.');
+                    } else if (exception === 'abort') {
+                        alert('Service doesn\'t created! Ajax request aborted.');
+                    } else {
+                        alert('Service doesn\'t created! Uncaught Error.\n' + jqXHR.responseText);
+                    }
+                }
+            });
+
+            // $('.fc-toolbar .fc-right').hide();
+
             $.ajax({
                 method: 'GET',
                 url: "/api/worker/schedule/{{$worker['worker_id']}}",
@@ -319,16 +368,7 @@
                     console.log('schedules: ', ajax_result);
                 }
             });
-            $(".responsive-calendar").responsiveCalendar({
-                startFromSunday: true,
-                time: new Date().getFullYear() + '-' + new Date().getMonth(),
-                events: {
-                    "2017-11-30": {},
-                    "2017-11-26": {},
-                    "2017-11-03": {},
-                    "2017-11-12": {}
-                }
-            });
+
             const worker_id = '<?=$worker['worker_id']?>';
             $.ajax({
                 method: 'get',

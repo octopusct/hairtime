@@ -28,7 +28,7 @@
                             <tr id="tr_{{$service['service_id']}}">
                                 <td style="text-align: center">{{$service['service_id']}}</td>
                                 <td>{{$service['name']}}</td>
-                                <td><a href="/admin/salon/{{$service['salon_id']}}">{{$service['salon_id']}}</a></td>
+                                <td><a href="/api/admin/salon/{{$service['salon_id']}}">{{$service['salon_id']}}</a></td>
                                 <td>{{$service['duration']}}</td>
                                 <td style="align-content: center;">
                                     <div class="row">
@@ -87,7 +87,8 @@
 
 <script type="text/javascript">
     $(".icon-btn").click(function (e) {
-        e.preventDefault();varid = $(this).attr("id").split('_'),
+        e.preventDefault();
+        var id = $(this).attr("id").split('_'),
             service_id = id[1],
             icon_lock = $(this).find('i'),
             admin_id = '{{$admin['entry_id']}}',
@@ -114,8 +115,8 @@
                 success: function (result, textStatus) {
                   if (result.status==='success'){
                     alert(result.message);
-                    console.log('service_id: ', $('#tr_{{$service['service_id']}}').text());
-                    $('#tr_'+ id[1]).remove();
+                    console.log('service_id: ', $('#tr_'+service_id).text());
+                    $('#tr_'+service_id).remove();
                     $('.popup-dialog').fadeOut(500);
                   }else{
                     alert('Error: ', result.message);

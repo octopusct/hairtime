@@ -8,8 +8,10 @@
     <link href="/plugins/bootstrap/bootstrap.css" rel="stylesheet"/>
     <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
 
     <link href="/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <!--
@@ -18,7 +20,7 @@
     <link href="/css/main-style.css" rel="stylesheet"/>
     <link href="/css/form.css" rel="stylesheet"/>
     <link href="/css/javelin.css" rel="stylesheet"/>
-    <link href="/css/responsive-calendar.css" rel="stylesheet"/>
+    <link href="/css/fullcalendar.css" rel="stylesheet"/>
     <!-- CSS React table -->
     <link rel="stylesheet" href="https://unpkg.com/react-table@latest/react-table.css">
 
@@ -35,16 +37,6 @@
             background: dimgray;
         }
 
-        @font-face {
-            font-family: 'RalewayThin';
-            src: url('/fonts/glyphicons-halflings-regular.woff');
-            src: url('/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
-            url('/fonts/glyphicons-halflings-regular.woff') format('woff'),
-            url('/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
-            url('/fonts/glyphicons-halflings-regular.svg#RalewayThin') format('svg');
-            font-weight: normal;
-            font-style: normal;
-        }
     </style>
 
 </head>
@@ -162,6 +154,7 @@
     </script>
 @endif
 </body>
+
 
 <script type="text/javascript">
     $("#img-main-avatar").click(function (e) {
@@ -321,7 +314,8 @@
     });
     $('#messageBtn').click(function (e) {
         e.preventDefault();
-        popup = $('.message-to-user-popup');
+        console.log('newmessage click');
+        popup = $('.result-message-popup');
         if ($(".wrapper").length == 0) {
             popup.wrapInner("<div class='wrapper'>" +
                 "    <div class='wrapper'>\n" +

@@ -15,6 +15,7 @@ use App\Models\Answer;
 use App\Models\Comment;
 use App\Models\Customer;
 use App\Models\Message;
+use App\Models\Queue;
 use App\Models\Salon;
 use App\Models\Schedule;
 use App\Models\Service;
@@ -104,10 +105,8 @@ class AdminController extends BaseController
 
     public function workWithMessage(Request $req, Response $res, $args)
     {
-        session_start();
-        
         if (isset($_SESSION['user_id'])) {
-            $admin = Admin::where('admin_id', $_SESSION['user_id'])->first();
+            $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
             if (isset($admin)) {
                 if ($req->getParam('operator') == 'Delete') {
                     $message = Message::where('message_id', $args['message_id'])->first();
@@ -605,6 +604,12 @@ The HairTime Team.</p>';
                 //return $res->withStatus(200)->withJson($customer);
 
                 $user = $customer->user;
+                if ($req->getParam('email') != $user->email) {
+                    $user->email =$req->getParam('email') ;
+                    $user->confirm_email = 0;
+                    $user->save();
+
+                }
                 $customer->first_name = $req->getParam('first_name');
                 $customer->last_name = $req->getParam('last_name');
                 $customer->phone = $req->getParam('phone');
@@ -786,13 +791,14 @@ The HairTime Team.</p>';
      */
     public function getWorker(Request $req, Response $res, $args)
     {
-        
         if (isset($_SESSION['user_id'])) {
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
 //            return $res->withStatus(200)->withJson($admin);
             if (isset($admin)) {
                 $admin['token'] = $_SESSION['token'];
-                $sw = ServiceWorker::where('worker_id', $args['worker_id'])->get();
+                $sw = ServiceWorker::where('worker_id', $args['worker_id'])
+//                    ->leftJoin('services', 'service_worker.service_id', '=', 'services.service_id')
+                    ->get();
                 $i = 0;
                 foreach ($sw as $value) {
                     $result[$i] = Service::where('service_id', $value['service_id'])->first();
@@ -801,8 +807,20 @@ The HairTime Team.</p>';
                     $result[$i]['worker']['service_logo'] = $value['logo'];
                     $i++;
                 }
+//                return $res->withJson(['sw'=>$sw, 'res'=>$result], 200);
+
                 $worker = Worker::where('worker_id', $args['worker_id'])->first();
-                $services = $worker->services;
+//                $services = $worker->services;
+//                $data_week_day = \DateTime::createFromFormat("d-m-Y", $args['date'])->format("N");
+                $week_day = Date('N');
+                $start = Date('U') - $week_day * 60 * 60 *24;
+                $stop = Date('U') + (7-$week_day) * 60 * 60 *24;
+                $queue = Queue::where('worker_id', $worker->worker_id)
+//                    ->where('time_stamp', '>=', $start)
+                    ->whereBetween('time_stamp', [$start, $stop])
+                    ->leftJoin('services', 'queue.service_id', '=', 'services.service_id')
+                    ->get();
+//                return $res->withJson(['start'=>$start, 'stop'=>$stop, 'queue'=>$queue], 200);
                 $salon_services = Service::where('salon_id', $worker->salon_id)->get();
                 $schedules = $schedules = Schedule::where('worker_id', $args['worker_id'])
                     ->orderBy('day')
@@ -819,6 +837,7 @@ The HairTime Team.</p>';
                     'services' => $result,
                     'salon_services' => $salon_services,
                     'schedules' => $schedules,
+                    'queue' => $queue,
                     'menu' => 'workers',
 
                 ]);

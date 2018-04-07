@@ -34,16 +34,7 @@
             background: dimgray;
         }
 
-        @font-face {
-            font-family: 'RalewayThin';
-            src: url('/fonts/glyphicons-halflings-regular.woff');
-            src: url('/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
-            url('/fonts/glyphicons-halflings-regular.woff') format('woff'),
-            url('/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
-            url('/fonts/glyphicons-halflings-regular.svg#RalewayThin') format('svg');
-            font-weight: normal;
-            font-style: normal;
-        }
+
     </style>
 
 </head>

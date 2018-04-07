@@ -67,7 +67,7 @@
                             <td id="tcenter">{{date('d-m-Y', mktime($message['create_at']))}}</td>
                         @endif
                         <td id="tbutton">
-                            <form name="form-inline" method="GET" action={{"/api/admin/message/".$message['message_id']}}>
+                            <form name="form-inline" method="GET" action="/api/admin/message/{{$message['message_id']}}">
                                 @if ($message['answer_at'] == null)
                                     <INPUT TYPE="HIDDEN">
                                     <p>
