@@ -69,19 +69,14 @@
                         <div class="wrapper-field">
                             <label><p>e-mail use as username </p><input type="text" required="" tabindex="1"
                                                                         autofocus
-                                                                        placeholder="email - e-mail use as username to login. String[250]"
                                                                         name="email"></label>
                             <label><p>Customer’s password. </p><input type="text" required="" tabindex="2"
-                                                                   placeholder="password - Salon's password. String[50]"
                                                                    name="password"></label>
                             <label><p>User’s first name. </p><input type="text" required="" tabindex="3"
-                                                                    placeholder="first_name - User's first name. String[100]"
                                                                     name="first_name"></label>
                             <label><p>User’s last name. </p><input type="text" required="" tabindex="4"
-                                                                   placeholder="last_name - User's last name. String[100]"
                                                                    name="last_name"></label>
                             <label><p>Customer’s phone. </p><input type="text" required="" tabindex="5"
-                                                                placeholder="phone - Customer's phone. String[20]"
                                                                 name="phone"></label>
                             <div class="btn-wrapper clearfix">
                                 <button id='saveCustomerBtn' class="btn-primary" tabindex="6">Save</button>

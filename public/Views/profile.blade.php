@@ -62,26 +62,18 @@
                                 <div class="main-info">
                                     <div class="info-head">Login info</div>
                                     <label for="email">Email: </label>
-                                    <input name="email" id="email" value="{{$admin->email}}"
-                                           placeholder="enter email here">
+                                    <input name="email" id="email" value="{{$admin->email}}">
 
                                     <label for="pass">Password:</label>
-                                    <input type="password" value="{{$admin->password}}" id="pass" name="password"
-                                           placeholder="input pasword here">
+                                    <input type="password" value="{{$admin->password}}" id="pass" name="password">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="main-info">
                                     <div class="info-head">Main info</div>
-                                    <label for="first_name">First name: </label><input name="first_name" id="first_name"
-                                                                                       value="{{$admin->first_name}}"
-                                                                                       placeholder="enter first name here">
+                                    <label for="first_name">First name: </label><input name="first_name" id="first_name" value="{{$admin->first_name}}">
 
-                                    <label for="last_name">Last name: </label><input name="last_name" id="last_name"
-                                                                                     value="{{$admin->last_name}}"
-                                                                                     placeholder="enter last name here">
-
-
+                                    <label for="last_name">Last name: </label><input name="last_name" id="last_name" value="{{$admin->last_name}}">
                                 </div>
                                 <div class="buttons-group">
                                     <div class="control-group">

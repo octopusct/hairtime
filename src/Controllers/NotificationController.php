@@ -35,7 +35,7 @@ class NotificationController extends BaseController
         return $res->withJson($notification+[
                 'message'=> count($notification)>0 ? 'OK' : $this->messages['2010'],
                 'status'=>'success',
-                'error'=>''
+                'error'=>false
             ], 200);
     }
 
@@ -48,7 +48,7 @@ class NotificationController extends BaseController
             $answer = [
                 'message'=> $this->errors['1014'],
                 'status'=>'error',
-                'error'=>''
+                'error'=>false
             ];
         }
         return $res->withJson($answer, 200);

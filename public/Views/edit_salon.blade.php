@@ -74,7 +74,6 @@
                                     <label class="control-label" for="business_name">{{$lang['user_email']}}</label>
                                     <div class="controls">
                                         <input type="text" id="email" name="email"
-                                               placeholder="Enter business name here"
                                                value="{{$user['email']}}">
                                     </div>
                                 </div>
@@ -82,7 +81,6 @@
                                     <label class="control-label" for="business_name">{{$lang['business_name']}}</label>
                                     <div class="controls">
                                         <input type="text" id="business_name" name="business_name"
-                                               placeholder="Enter business name here"
                                                value="{{$salon['business_name']}}">
                                     </div>
                                 </div>
@@ -90,7 +88,6 @@
                                     <label class="control-label" for="first_name">{{$lang['first_name']}}</label>
                                     <div class="controls">
                                         <input type="text" id="first_name" name="first_name"
-                                               placeholder="Enter first name here"
                                                value="{{$salon['first_name']}}">
                                     </div>
                                 </div>
@@ -98,14 +95,13 @@
                                     <label class="control-label" for="last_name">{{$lang['last_name']}}</label>
                                     <div class="controls">
                                         <input type="text" id="last_name" name="last_name"
-                                               placeholder="Enter last name here"
                                                value="{{$salon['last_name']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="phone">{{$lang['phone']}}</label>
                                     <div class="controls">
-                                        <input type="text" id="phone" name="phone" placeholder="Enter phone here"
+                                        <input type="text" id="phone" name="phone"
                                                value="{{$salon['phone']}}">
                                     </div>
                                 </div>
@@ -113,7 +109,6 @@
                                     <label class="control-label" for="founded_in">{{$lang['founded']}}</label>
                                     <div class="controls">
                                         <input type="text" id="founded_in" name="founded_in"
-                                               placeholder="Enter founded year here"
                                                value="{{$salon['founded_in']}}">
                                     </div>
                                 </div>
@@ -125,7 +120,7 @@
                                 <div class="control-group">
                                     <label class="control-label" for="city">{{$lang['city']}}</label>
                                     <div class="controls">
-                                        <input type="text" id="city" name="city" placeholder="Enter Salon's city here"
+                                        <input type="text" id="city" name="city"
                                                value="{{$salon['city']}}">
                                     </div>
                                 </div>
@@ -133,7 +128,6 @@
                                     <label class="control-label" for="address">{{$lang['address']}}</label>
                                     <div class="controls">
                                         <input type="text" id="address" name="address"
-                                               placeholder="Enter Salon's address here"
                                                value="{{$salon['address']}}">
                                     </div>
                                 </div>
@@ -141,14 +135,13 @@
                                     <label class="control-label" for="address">{{$lang['house']}}</label>
                                     <div class="controls">
                                         <input style="width:50px" type="text" id="address" name="house"
-                                               placeholder="Enter Salon's address here"
                                                value="{{$salon['house']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="lat">{{$lang['latitude']}}</label>
                                     <div class="controls">
-                                        <input type="text" id="lat" name="lat" placeholder="Enter Salon's Latitude here"
+                                        <input type="text" id="lat" name="lat"
                                                value="{{$salon['lat']}}">
                                     </div>
                                 </div>
@@ -156,14 +149,13 @@
                                     <label class="control-label" for="lng">{{$lang['longitude']}}</label>
                                     <div class="controls">
                                         <input type="text" id="lng" name="lng"
-                                               placeholder="Enter Salon's Longitude  here"
                                                value="{{$salon['lng']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="waze">WAZE URL</label>
                                     <div class="controls">
-                                        <input type="text" id="waze" name="waze" placeholder="Enter WAZE URL here"
+                                        <input type="text" id="waze" name="waze"
                                                value="{{$salon['waze']}}">
                                     </div>
                                 </div>
@@ -280,10 +272,10 @@
                                 </div>
                                 <div class="panel-footer">
                                     <div><b>{{$lang['duration'].':'}}</b> {{$service['duration']}} min</div>
-                                    <div><b>{{$lang['price_min'].':'}}</b> {{$service['price_min']}} <i class="fa fa-ils"
-                                                                                        aria-hidden="true"></i></div>
-                                    <div><b>{{$lang['price_max']}}</b> {{$service['price_max']}} <i class="fa fa-ils"
-                                                                                        aria-hidden="true"></i></div>
+                                    <div><b>{{$lang['price_min'].':'}}</b> {{$service['price_min']}} ₪
+                                    </div>
+                                    <div><b>{{$lang['price_max']}}</b> {{$service['price_max']}} ₪
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -308,7 +300,7 @@
                     <div class="title">Make new Worker</div>
                     <div class="wrapper-field">
                         <label><p>e-mail </p>
-                            <input type="text" required placeholder="e-mail use as username" name="email"
+                            <input type="text" required  name="email"
                                    id="newWorkerEmail"></label>
                         <input type="text" hidden value="{{$salon['salon_id']}}" name="salon_id">
                         <div class="btn-wrapper clearfix">
@@ -475,7 +467,7 @@
         $('.panel-heading-select').click(function (e) {
             e.preventDefault();
             console.log('select', e.currentTarget.id);
-            document.location.href = 'https://hairtime.co.il/api/admin/worker/' + e.currentTarget.id.split('_')[1];
+            document.location.href = 'https://hairtime.co.il/api/admin/'+ e.currentTarget.id.split('_')[0]+'/' + e.currentTarget.id.split('_')[1];
         });
         $('#showWorkerBtn').click(function (e) {
             e.preventDefault();

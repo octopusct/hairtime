@@ -99,14 +99,14 @@ class ScheduleController extends BaseController
         if ($result) {
             return $res->withJson([
                 'message' => $this->messages['2016'],
-                'error' => "",
+                'error' => false,
                 'status' => 'success'])
 
                 ->withStatus(201);
         } else {
             return $res->withJson([
                 'message' => $this->errors['1017'],
-                'error' => "",
+                'error' => true,
                 'status' => 'error 1017'
             ])->withStatus(400);
         }

@@ -641,7 +641,9 @@ The HairTime Team.</p>';
             if (isset($admin)) {
                 $admin['token'] = $_SESSION['token'];
                 $customer = Customer::where('customer_id', $args['customer_id'])->first();
-                $user = $customer->user;
+                $user = User::where('entry_id', $customer->customer_id)
+                    ->where('entry_type', 'App\\Models\\Customer')
+                    ->first();
                 echo $this->blade->render("edit_customer", [
                     'lang'      => $this->admin,
                     'admin' => $admin,

@@ -106,7 +106,9 @@ class CommentController extends BaseController
         //$comment = Comment::getUserComment($args['comment_id'], $user_id); // Both args has string type, but must be int
         if (!$comment)
             return $res->withJson([
-                'error' => $this->errors['1013'],
+                'error' => true,
+                'message' =>  $this->errors['1013'],
+                'status' => 'error 1013',
                 'user_id' => $user_id,
                 'comment_id' => intval($args['comment_id'])
             ])->withStatus(404);

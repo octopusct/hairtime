@@ -46,7 +46,6 @@
                                     <label class="control-label" for="business_name">User email</label>
                                     <div class="controls">
                                         <input type="text" id="email" name="email"
-                                               placeholder="Enter business name here"
                                                value="{{$user['email']}}">
                                     </div>
                                 </div>
@@ -54,7 +53,6 @@
                                     <label class="control-label" for="first_name">First name</label>
                                     <div class="controls">
                                         <input type="text" id="first_name" name="first_name"
-                                               placeholder="Enter first name here"
                                                value="{{$customer['first_name']}}">
                                     </div>
                                 </div>
@@ -62,14 +60,13 @@
                                     <label class="control-label" for="last_name">Last name</label>
                                     <div class="controls">
                                         <input type="text" id="last_name" name="last_name"
-                                               placeholder="Enter last name here"
                                                value="{{$customer['last_name']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="phone">Phone</label>
                                     <div class="controls">
-                                        <input type="text" id="phone" name="phone" placeholder="Enter phone here"
+                                        <input type="text" id="phone" name="phone"
                                                value="{{$customer['phone']}}">
                                     </div>
                                 </div>

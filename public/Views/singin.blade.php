@@ -28,10 +28,10 @@
                                     <p>{{$error}}</p>
                                 @endif
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="login" name="email" type="email" autofocus>
+                                    <input class="form-control"  name="email" type="email" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="password" name="password" type="password"
+                                    <input class="form-control" name="password" type="password"
                                            value="">
                                 </div>
                                 <div>

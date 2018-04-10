@@ -63,10 +63,10 @@
                         <div class="title">Make new Worker</div>
                         <div class="wrapper-field">
                             <label><p>e-mail </p>
-                                <input type="text" required placeholder="e-mail use as username" name="email"
+                                <input type="text" required name="email"
                                        id="newWorkerEmail"></label>
                             <label><p>Salon ID</p>
-                                <input type="text" required placeholder="salon ID where it works"
+                                <input type="text" required
                                        name="salon_id"></label>
                             <div class="btn-wrapper clearfix">
                                 <button id="submit_btn" class="btn-primary">Save</button>

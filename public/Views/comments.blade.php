@@ -10,7 +10,6 @@
                         <div class="form-inline form-search">
                             <label for="search">Search comment</label>
                             <input type="text" class="search-query" style="width:250px" id="search" name="search"
-                                   placeholder="enter Comment for search">
                         </div>
                     </form>
                 </td>

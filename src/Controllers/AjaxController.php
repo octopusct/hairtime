@@ -152,7 +152,7 @@ class AjaxController extends BaseController
             return $res->withJson(['message' => 'Customer successfully deleted !', 'status' =>'success', 'error' => false])->withStatus(200);
         } elseif (isset($args['worker_id'])) {
             $result = $this->_deleteWorker($args['worker_id']);
-            return $res->withJson(['message' => 'Worker successfully deleted !', 'status' =>$result, 'error' => true])->withStatus(400);
+            return $res->withJson(['message' => 'Worker successfully deleted !', 'status' =>$result, 'error' => false])->withStatus(400);
         } elseif (isset($args['salon_id'])) {
             $result = $this->_deleteSalon($args['salon_id']);
             return $res->withJson(['message' => 'Salon successfully deleted !', 'status' => 'success', 'error' =>false])->withStatus(200);

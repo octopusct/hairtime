@@ -75,44 +75,32 @@
                                 <div class="row">
                                     <div class="col-lx-6 col-md-6 col-sx-6">
                                         <label><p>Salon’s city. </p><input type="text" required="" tabindex="7"
-                                                                           placeholder="city - Salon's city. String[255]"
                                                                            name="city"></label>
                                         <label><p>Salon’s address. </p><input type="text" required="" tabindex="8"
-                                                                              placeholder="address - Salon's address. String[255]"
                                                                               name="address"></label>
                                         <label><p>Salon’s house number. ]</p><input type="text" required="" tabindex="9"
-                                                                                    placeholder="house - Salon's house number. String[10]"
                                                                                     name="house"></label>
                                         <label><p>Salon’s coordinata LAT </p><input type="text" tabindex="10"
-                                                                                    placeholder="lat - Salon's coordinata LAT 'XX.XXXXXXXX'. String[11]"
                                                                                     name="lat"></label>
                                         <label><p>Salon’s coordinata LNG </p><input type="text" tabindex="11"
-                                                                                    placeholder="lng - Salon's coordinata LNG '(-)XX.XXXXXXXX'. String[12]"
                                                                                     name="lng"></label>
                                         <label><p>Salon’s phone. </p><input type="text" required="" tabindex="12"
-                                                                            placeholder="phone - Salon's phone. String[20]"
                                                                             name="phone"></label>
                                     </div>
                                     <div class="col-lx-6 col-md-6 col-sx-6">
-                                        <label><p>e-mail use as username </p><input type="text" required="" tabindex="1"
+                                        <label><p>e-mail use as username </p><input type="text" required tabindex="1"
                                                                                     autofocus
-                                                                                    placeholder="email - e-mail use as username to login. String[250]"
                                                                                     name="email"></label>
-                                        <label><p>Salon’s password. </p><input type="text" required="" tabindex="2"
-                                                                               placeholder="password - Salon's password. String[50]"
+                                        <label><p>Salon’s password. </p><input type="text" required tabindex="2"
                                                                                name="password"></label>
-                                        <label><p>User’s first name. </p><input type="text" required="" tabindex="3"
-                                                                                placeholder="first_name - User's first name. String[100]"
+                                        <label><p>User’s first name. </p><input type="text" required tabindex="3"
                                                                                 name="first_name"></label>
-                                        <label><p>User’s last name. </p><input type="text" required="" tabindex="4"
-                                                                               placeholder="last_name - User's last name. String[100]"
+                                        <label><p>User’s last name. </p><input type="text" required tabindex="4"
                                                                                name="last_name"></label>
-                                        <label><p>Salon’s bussiness name. </p><input type="text" required=""
+                                        <label><p>Salon’s bussiness name. </p><input type="text" required
                                                                                      tabindex="5"
-                                                                                     placeholder="business_name - Salon's bussiness name. String[100]"
                                                                                      name="business_name"></label>
-                                        <label><p>Founded date. </p><input type="text" required="" tabindex="6"
-                                                                           placeholder="founded_in - Founded date. String[4]"
+                                        <label><p>Founded date. </p><input type="text" required tabindex="6"
                                                                            name="founded_in"></label>
                                     </div>
 

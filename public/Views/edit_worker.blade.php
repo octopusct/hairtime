@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <form class="form-horizontal" name="form" id="form-edit" method="post"
-                          action="/admin/worker/{{$worker['worker_id']}}">
+                          action="/api/admin/worker/{{$worker['worker_id']}}">
                         <div class="col-lg-4 col-md-4 col-sl-4" style="margin-bottom: 15px">
                             <div class="main-info">
                                 <div class="info-head">Main info</div>
@@ -46,7 +46,6 @@
                                     <label class="control-label" for="business_name">User email</label>
                                     <div class="controls">
                                         <input type="text" id="email" name="email"
-                                               placeholder="Enter business name here"
                                                value="{{$user['email']}}">
                                     </div>
                                 </div>
@@ -54,7 +53,6 @@
                                     <label class="control-label" for="first_name">First name</label>
                                     <div class="controls">
                                         <input type="text" id="first_name" name="first_name"
-                                               placeholder="Enter first name here"
                                                value="{{$worker['first_name']}}">
                                     </div>
                                 </div>
@@ -62,7 +60,6 @@
                                     <label class="control-label" for="last_name">Last name</label>
                                     <div class="controls">
                                         <input type="text" id="last_name" name="last_name"
-                                               placeholder="Enter last name here"
                                                value="{{$worker['last_name']}}">
                                     </div>
                                 </div>
@@ -70,7 +67,6 @@
                                     <label class="control-label" for="Specialization">Specialization</label>
                                     <div class="controls">
                                         <input type="text" id="Specialization" name="specialization"
-                                               placeholder="Enter phone here"
                                                value="{{$worker['specialization']}}">
                                     </div>
                                 </div>
@@ -78,7 +74,6 @@
                                     <label class="control-label" for="start_year">Start year</label>
                                     <div class="controls">
                                         <input type="text" id="start_year" name="start_year"
-                                               placeholder="Enter founded year here"
                                                value="{{$worker['start_year']}}">
                                     </div>
                                 </div>
@@ -169,7 +164,7 @@
                     @endif
                     <div @if ($loop->iteration >4) class="col-lg-3 col-md-3 col-sm-3 hiddenPanel"  style="display:none;"
                          @else class="col-lg-3 col-md-3 col-sm-3" @endif>
-                        <div class="panel panel-primary panel-heading-select">
+                        <div class="panel panel-primary panel-heading-select" id="service_{{$service['service_id']}}">
                             <div class="panel-heading"><b>{{$service['name']}} # {{$service['service_id']}}</b></div>
                             <div class="panel-body">
                                 <div></div>
@@ -204,9 +199,9 @@
                         <div class="title">Services</div>
                         <div class="wrapper-field">
                             <label><p>Servie ID number</p>
-                                <input type="text" required placeholder="Servie ID number" name="service_id"></label>
+                                <input type="text" required  name="service_id"></label>
                             <label><p>Service’s description</p>
-                                <input type="text" placeholder="Service's name for this Worker. " name="description"></label>
+                                <input type="text"  name="description"></label>
                             <div class="btn-wrapper clearfix">
                                 <button type="sumbit" id='serviceSaveBtn' class="btn-primary">Save</button>
                                 <button type="reset" id='serviceCancelBtn' class="btn-cancel">Cancel</button>
@@ -220,6 +215,11 @@
     </div>
     <!-- open select file dialog  -->
     <script type="text/javascript">
+           $('.panel-heading-select').click(function (e) {
+            e.preventDefault();
+            console.log('select', e.currentTarget.id);
+            document.location.href = 'https://hairtime.co.il/api/admin/'+e.currentTarget.id.split('_')[0]+'/' + e.currentTarget.id.split('_')[1];
+        });
         $('#serviceSaveBtn').click(function (e) {
             e.preventDefault();
             $.ajax({

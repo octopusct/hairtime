@@ -179,8 +179,14 @@
         e.preventDefault();
         var formData = new FormData(this);
         console.log('form#data', formData);
+        if (window.location.toString().split('/')[5] == 'service'){
+            uploadUrl = 'https://hairtime.co.il/api/service/salon/{{$salon['salon_id']}}/upload/{{$service['service_id']}}';
+        }else{
+            uploadUrl = 'https://hairtime.co.il/api/upload';
+        }
+        console.log(uploadUrl);
         $.ajax({
-            url: 'https://hairtime.co.il/api/upload',
+            url: uploadUrl,
             type: 'POST',
             data: formData,
             async: false,
@@ -188,10 +194,13 @@
             contentType: false,
             processData: false,
             success: function (loadResult, textStatus) {
-                if (loadResult.status === 'success') {
+                if (!loadResult.error) {
+                    console.log(loadResult);
                     document.images["img-main-avatar"].src = loadResult.url;
-
+                }else{
+                    alert('Error:'+ loadResult.message)
                 }
+
             },
             error: function (jqXHR, exception) {
                 if (jqXHR.status === 0) {
@@ -221,6 +230,7 @@
 </script>
 
 <script type="text/javascript">
+
     {{-- Delete this user --}}
     $('#delete').click(function (e) {
       e.preventDefault()
@@ -315,26 +325,24 @@
     $('#messageBtn').click(function (e) {
         e.preventDefault();
         console.log('newmessage click');
-        popup = $('.result-message-popup');
-        if ($(".wrapper").length == 0) {
-            popup.wrapInner("<div class='wrapper'>" +
-                "    <div class='wrapper'>\n" +
+        popup = $('.popup-dialog');
+        if (popup.find(".wrapper").length !== 0) {$('popup .wrapper').remove()}
+            $('.popup-dialog .popup').wrapInner("<div class='wrapper'>" +
                 "        <div class='row'>\n" +
                 "            <div class='col-sm-3 col-md-3 col-lg-3' style='color: #428bca'>\n" +
                 "                <i class='fa fa-info-circle fa-3x' style='color: #428bca;'></i><br>Message to user\n" +
                 "            </div>\n" +
                 "            <div class='col-sm-9 col-md-9 col-lg-9'>\n" +
                 "                <h5 style='align-content:left;color:#428bca;'>write message here:</h5>\n" +
-                "                <div style='margin-bottom: 10px'><textarea id='textMsg' autofocus rows='5' cols='50' required tabindex='1' style=' resize: none;'></textarea></div>\n" +
+                "                <div style='margin-bottom: 10px'><textarea id='textMsg' autofocus rows='5' cols='45' required tabindex='1' style=' resize: none;'></textarea></div>\n" +
                 "                <button class='btn btn-primary' tabindex='2' id='send' style='min-width:125px;max-width:150px;'><span class='fa fa-envelope-o'></span>Send Message</button>\n" +
                 "                <button class='btn btn-danger' tabindex='3' id='close' style='width: 100px'><span class='fa fa-times'></span>Cancel</button>\n" +
                 "            </div>\n" +
                 "        </div>\n" +
-                "    </div>" +
                 "</div>"
             );
             //popup.find('.wrapper').style('border-color:#428bca!important;');
-        }
+        //}
         popup.fadeIn(300);
         popup.find("#send").click(function () {
             e.preventDefault();
@@ -354,7 +362,7 @@
                 },
                 success: function (ajax_result, textStatus) {
                     popup.find('.col-sm-9').remove();
-                    popup.wrapInner(" <div class='col-sm-9 col-md-9 col-lg-9'>\n" +
+                    popup.find('.row').append(" <div class='col-sm-9 col-md-9 col-lg-9'>\n" +
                         "                <h5 style='align-content:left;color:#428bca;'>message successfully sent!</h5>\n" +
                         "                <button class='btn btn-primary' tabindex='3' id='close' style='width: 100px'><span class='fa fa-thumbs-o-up'></span>OK</button>\n" +
                         "            </div>"
@@ -395,8 +403,15 @@
 <!-- javascript to filling in messages list -->
 <script type="text/javascript">
     window.onload = function () {
+        var fa_check = $("#save-btn .fa-check")
+        $('#save-btn').click(function(){
+            fa_check.removeClass('fa-check');
+            fa_check.addClass('fa-refresh fa-spin');
+        })
         $('#okBtn').click(function () {
             $('.result-message-popup').hide();
+            fa_check.removeClass('fa-refresh fa-spin');
+            fa_check.addClass('fa-check');
         });
         var result = '<?=$result?>',
             admin_id = '<?=$admin['entry_id']?>',

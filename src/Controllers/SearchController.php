@@ -42,7 +42,7 @@ class SearchController extends BaseController
         return $res->withJson($list + [
             'message' => 'OK',
             'status' => $this->messages['2011'],
-            'error' => ''
+            'error' => false
             ], 200);
     }
 }

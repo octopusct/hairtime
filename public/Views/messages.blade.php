@@ -35,8 +35,7 @@
                     <form name="search" action="/admin/message" method="GET">
                         <div class="form-inline form-search">
                             <label for="search">Search user</label>
-                            <input type="text" class="search-query" style="width:250px" id="search" name="search"
-                                   placeholder="enter user name here">
+                            <input type="text" class="search-query" style="width:250px" id="search" name="search">
                         </div>
                     </form>
                 </td>

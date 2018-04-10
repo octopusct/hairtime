@@ -30,6 +30,10 @@
                                             value="{{$service['service_id']}}"></div>
                                 <div><input type="text" style="margin-top: 5px" hidden name="service_id"
                                             value="{{$salon['salon_id']}}"></div>
+                                <div><input type="text" hidden name="user_id"
+                                            value="{{$admin['entry_id']}}"></div>
+                                <div><input type="text" style="margin-top: 5px" hidden name="service_id"
+                                            value="{{$admin['token']}}"></div>
                                 <div>
                                     <button style="display: none" class="btn btn-primary small" id="uploadnow">Upload
                                         now!
@@ -48,37 +52,34 @@
                                     <label class="control-label" for="name">Service name</label>
                                     <div class="controls">
                                         <input type="text" id="name" name="name"
-                                               placeholder="Enter service name here"
                                                value="{{$service['name']}}">
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="duration_min">Duration nim</label>
-                                    <div class="controls">
-                                        <input type="text" id="duration_min" name="duration_min"
-                                               placeholder="Enter duration here"
-                                               value="{{$service['duration_min']}}">
-                                    </div>
-                                </div>
+                                {{--<div class="control-group">--}}
+                                    {{--<label class="control-label" for="duration_min">Duration nim</label>--}}
+                                    {{--<div class="controls">--}}
+                                        {{--<input type="text" id="duration_min" name="duration_min"--}}
+                                               {{--value="{{$service['duration_min']}}">--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
                                 <div class="control-group">
                                     <label class="control-label" for="duration">Duration max</label>
                                     <div class="controls">
                                         <input type="text" id="duration" name="duration"
-                                               placeholder="Enter duration max here"
                                                value="{{$service['duration']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="price_min">Price Min</label>
                                     <div class="controls">
-                                        <input type="text" id="price_min" name="price_min" placeholder="Enter price min here"
+                                        <input type="text" id="price_min" name="price_min"
                                                value="{{$service['price_min']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="price_max">Price Max</label>
                                     <div class="controls">
-                                        <input type="text" id="price_max" name="price_max" placeholder="Enter price max here"
+                                        <input type="text" id="price_max" name="price_max"
                                                value="{{$service['price_max']}}">
                                     </div>
                                 </div>

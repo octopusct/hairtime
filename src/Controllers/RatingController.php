@@ -27,7 +27,9 @@ class RatingController extends BaseController
         }
         if ($new_rating < 1 AND $new_rating > 5) {
             return $res->withJson([
-                "error" => $this->errors['1016']
+                "error" => true,
+                'message' =>$this->errors['1016'],
+                'status' => 'error 1016',
             ])->withStatus(400);
         }
 

@@ -23,7 +23,8 @@
     "1021"  : "This Worker does not work in this Salon. Check worker_id or salon_id.",
     "1022"  : "This Service for this Worker does not found. Check worker_id or service_id.",
     "1023"  : "No files uploaded!!!",
-    "1024"  : "User can't load Service logo."
+    "1024"  : "User can't load Service logo.",
+    "1025"  : "Download error"
   },
   "messages" : {
     "2001"  : "Verify e-mail address, please.",
