@@ -54,7 +54,7 @@
 
         <div class="row">
             <!-- Page Header -->
-            <div class="col-lg-12" id="main-content">
+            <div class="col-lg-12" id="main-content" style="text-align: center; direction: rtl">
                 @yield('content')
             </div>
             <!--End Page Header -->
@@ -150,7 +150,15 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTables-example').dataTable();
+        var lang = '{{$lang['lang']}}';
+        $('#dataTables-example').dataTable({
+
+            "language": {
+                "url": lang === 'he' ? "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Hebrew.json" :
+                    "https://cdn.datatables.net/plug-ins/1.10.16/i18n/English.json"
+            }
+        });
+        if (lang=='he') $('.table-responsive').css({'direction':'rtl'});
     });
 </script>
 
@@ -249,7 +257,7 @@
                 $("#mesCount").html("<b>" + results.length + "</b>");
                 $.each(results, function (index, results) {
                     $("#messagesList").append(" <li>\n" +
-                        "                        <a href=\"/admin/message/" + results.message_id + "?operator=Answer\">\n" +
+                        "                        <a href=\"/api/admin/message/" + results.message_id + "?operator=Answer\">\n" +
                         "                            <div>\n" +
                         "                                <strong><span class=\" label label-danger\">" + results.name + "</span></strong>\n" +
                         "                                <span class=\"pull-right text-muted\">\n" +

@@ -70,44 +70,42 @@
                 <div class="new-salon-form">
                     <div class="form">
                         <form id='newSalonForm' class="n-form">
-                            <div class="title">New Salon</div>
+                            <div class="title">{{$lang['new_salon']}}</div>
                             <div class="wrapper-field">
                                 <div class="row">
                                     <div class="col-lx-6 col-md-6 col-sx-6">
-                                        <label><p>Salon’s city. </p><input type="text" required="" tabindex="7"
-                                                                           name="city"></label>
-                                        <label><p>Salon’s address. </p><input type="text" required="" tabindex="8"
-                                                                              name="address"></label>
-                                        <label><p>Salon’s house number. ]</p><input type="text" required="" tabindex="9"
-                                                                                    name="house"></label>
-                                        <label><p>Salon’s coordinata LAT </p><input type="text" tabindex="10"
-                                                                                    name="lat"></label>
-                                        <label><p>Salon’s coordinata LNG </p><input type="text" tabindex="11"
-                                                                                    name="lng"></label>
-                                        <label><p>Salon’s phone. </p><input type="text" required="" tabindex="12"
-                                                                            name="phone"></label>
+                                        <label><p>{{$lang['city']}}</p>
+                                            <input type="text" required tabindex="7" name="city"></label>
+                                        <label><p>{{$lang['address']}}</p>
+                                            <input type="text" required tabindex="8" name="address"></label>
+                                        <label><p>{{$lang['house']}}</p>
+                                            <input type="text" required tabindex="9" name="house"></label>
+                                        <label><p>{{$lang['latitude']}}</p>
+                                            <input type="text" tabindex="10" name="lat"></label>
+                                        <label><p>{{$lang['longitude']}}</p>
+                                            <input type="text" tabindex="11" name="lng"></label>
+                                        <label><p>{{$lang['phone']}}</p>
+                                            <input type="text" required tabindex="12" name="phone"></label>
                                     </div>
                                     <div class="col-lx-6 col-md-6 col-sx-6">
-                                        <label><p>e-mail use as username </p><input type="text" required tabindex="1"
-                                                                                    autofocus
-                                                                                    name="email"></label>
-                                        <label><p>Salon’s password. </p><input type="text" required tabindex="2"
-                                                                               name="password"></label>
-                                        <label><p>User’s first name. </p><input type="text" required tabindex="3"
-                                                                                name="first_name"></label>
-                                        <label><p>User’s last name. </p><input type="text" required tabindex="4"
-                                                                               name="last_name"></label>
-                                        <label><p>Salon’s bussiness name. </p><input type="text" required
-                                                                                     tabindex="5"
-                                                                                     name="business_name"></label>
-                                        <label><p>Founded date. </p><input type="text" required tabindex="6"
-                                                                           name="founded_in"></label>
+                                        <label><p>{{$lang['email']}} </p>
+                                            <input type="text" required tabindex="1" autofocus name="email"></label>
+                                        <label><p>{{$lang['password']}}</p>
+                                            <input type="text" required tabindex="2" name="password"></label>
+                                        <label><p>{{$lang['first_name']}}</p>
+                                            <input type="text" required tabindex="3" name="first_name"></label>
+                                        <label><p>{{$lang['last_name']}}</p>
+                                            <input type="text" required tabindex="4" name="last_name"></label>
+                                        <label><p>{{$lang['business_name']}} </p>
+                                            <input type="text" required tabindex="5" name="business_name"></label>
+                                        <label><p>{{$lang['founded']}}</p>
+                                            <input type="text" required tabindex="6" name="founded_in"></label>
                                     </div>
 
                                 </div>
                                 <div class="btn-wrapper clearfix">
-                                    <button id='saveSalonBtn' class="btn-primary" tabindex="13">Save</button>
-                                    <button type="reset" id="cancelSalonBtn" class="btn-cancel" tabindex="14">Cancel
+                                    <button id='saveSalonBtn' class="btn-primary" tabindex="13">{{$lang['save']}}</button>
+                                    <button type="reset" id="cancelSalonBtn" class="btn-cancel" tabindex="14">{{$lang['cancel']}}
                                     </button>
                                 </div>
                             </div>
@@ -138,13 +136,13 @@
                     type: 'POST',
                     url: "/api/auth/singup/salon",
                     data: $('form#newSalonForm').serialize(),
-                    headers: {
-                        'User-ID': '{{$user['user_id']}}',
-                        'Token': '{{$admin['token']}}',
-                    },
                     success: function (result) {
-                        alert('Salon successfully created');
-                        document.location.href = '/api/admin/salon/' + result.salon_id;
+                        if (result.error){
+                            alert('Salon doesn\'t created! Error: '+ result.message);
+                        }else{
+                            alert('Salon successfully created');
+                            document.location.href = '/api/admin/salon/' + result.salon_id;
+                        }
                     },
                     error: function (jqXHR, exception) {
                         if (jqXHR.status === 0) {

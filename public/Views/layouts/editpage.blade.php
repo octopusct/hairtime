@@ -56,7 +56,7 @@
 
         <div class="row">
             <!-- Page Header -->
-            <div class="col-lg-12" id="main-content">
+            <div class="col-lg-12" id="main-content" style="direction: rtl">
                 @yield('content')
             </div>
             <!--End Page Header -->
@@ -68,7 +68,7 @@
 
 <!--message popup-->
 <div class="popup-dialog">
-    <div class="popup">
+    <div class="popup" style="min-width: 600px">
     </div>
 </div>
 <div class="dialog-templates" style="display: none">
@@ -247,7 +247,7 @@
           },
           success: function (ajax_result, textStatus) {
             alert('User successfully deleted !');
-            document.location.href = '/aapi/admin/customer';
+            document.location.href = '/api/admin/customer';
 
           },
           error: function (jqXHR, exception) {
@@ -326,7 +326,8 @@
         e.preventDefault();
         console.log('newmessage click');
         popup = $('.popup-dialog');
-        if (popup.find(".wrapper").length !== 0) {$('popup .wrapper').remove()}
+        //if (popup.find(".wrapper").length !== 0) {$('popup .wrapper').remove()}
+        $('.popup-dialog .popup').html('');
             $('.popup-dialog .popup').wrapInner("<div class='wrapper'>" +
                 "        <div class='row'>\n" +
                 "            <div class='col-sm-3 col-md-3 col-lg-3' style='color: #428bca'>\n" +

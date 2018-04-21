@@ -31,7 +31,9 @@ require __DIR__ . '/../src/dependencies.php';
 require __DIR__ . '/../src/routes.php';
 
 $app->add(function (\Slim\Http\Request $req, \Slim\Http\Response $res, $next) {
-    $res = $next($req, $res);
+    if (!$req->isOptions()){
+        $res = $next($req, $res);
+    }
     return $res->withAddedHeader('Access-Control-Allow-Origin', '*')
             ->withAddedHeader('Access-Control-Allow-Credentials', 'true')
             ->withAddedHeader('Access-Control-Allow-Methods', 'GET, POST, PUT ,DELETE, OPTIONS')

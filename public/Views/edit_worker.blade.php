@@ -7,7 +7,7 @@
             list-style-type: none;
         }
     </style>
-    <h3 class="page-head">Edit Worker</h3><br>
+    <h3 class="page-head">{{$lang['edit_worker']}}</h3><br>
     <div class="container-fluid">
         <div class="panel panel-primary">
             <div class="panel-heading"><b>{{$worker['first_name']}} {{$worker['last_name']}}
@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sl-4">
                         <div class="main-info">
-                            <div class="info-head">Avatar</div>
+                            <div class="info-head">{{$lang['avatar']}}</div>
                             <div class="main-avatar-div">
                                 <img class="img-main-avatar" id="img-main-avatar" alt="Click to load new avatar"
                                      style="cursor: pointer;"
@@ -41,51 +41,51 @@
                           action="/api/admin/worker/{{$worker['worker_id']}}">
                         <div class="col-lg-4 col-md-4 col-sl-4" style="margin-bottom: 15px">
                             <div class="main-info">
-                                <div class="info-head">Main info</div>
+                                <div class="info-head">{{$lang['main_info']}}</div>
                                 <div class="control-group">
-                                    <label class="control-label" for="business_name">User email</label>
+                                    <label class="control-label" for="business_name">{{$lang['user_email']}}</label>
                                     <div class="controls">
                                         <input type="text" id="email" name="email"
                                                value="{{$user['email']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="first_name">First name</label>
+                                    <label class="control-label" for="first_name">{{$lang['first_name']}}</label>
                                     <div class="controls">
                                         <input type="text" id="first_name" name="first_name"
                                                value="{{$worker['first_name']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="last_name">Last name</label>
+                                    <label class="control-label" for="last_name">{{$lang['last_name']}}</label>
                                     <div class="controls">
                                         <input type="text" id="last_name" name="last_name"
                                                value="{{$worker['last_name']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="Specialization">Specialization</label>
+                                    <label class="control-label" for="Specialization">{{$lang['specialization']}}</label>
                                     <div class="controls">
                                         <input type="text" id="Specialization" name="specialization"
                                                value="{{$worker['specialization']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="start_year">Start year</label>
+                                    <label class="control-label" for="start_year">{{$lang['from']}}</label>
                                     <div class="controls">
                                         <input type="text" id="start_year" name="start_year"
                                                value="{{$worker['start_year']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="phone">Phone</label>
+                                    <label class="control-label" for="phone">{{$lang['phone']}}</label>
                                     <div class="controls">
                                         <input type="text" id="phone" name="phone"
                                                value="{{$worker['phone']}}">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="salon_id">Salon id</label>
+                                    <label class="control-label" for="salon_id">{{$lang['salon_id']}}</label>
                                     <div class="controls">
                                         <a href="/api/admin/salon/{{$worker['salon_id']}}">
                                             <input type="text" id="salon_id" name="salon_id"
@@ -100,12 +100,12 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <button style="margin: 0 15px" class="btn btn-primary " type="submit"
                                                     name="Save"
-                                                    id="save-btn"><i class="fa fa-check"></i>Save
+                                                    id="save-btn"><i class="fa fa-check"></i>{{$lang['save']}}
                                             </button>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <button class="btn btn-danger" type="cancel" name="cancel">
-                                                <i class="fa fa-times"></i>Cancel
+                                            <button class="btn btn-danger" type="reset" name="cancel">
+                                                <i class="fa fa-times"></i>{{$lang['cancel']}}
                                             </button>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sl-4">
                             <div class="main-info" style="min-height:320px">
-                                <div class="info-head">Schedules & Queue</div>
+                                <div class="info-head">{{$lang['queue']}}</div>
                                 <!-- Full calendar - START -->
                                 <div id='calendar' style="min-height: 320px"></div>
                                 <!-- Full calendar - END -->
@@ -125,19 +125,21 @@
             </div>
             <div class="panel-footer" id="panel-footer">
                 <div class="row">
-                    <div class="col-ld-2 col-md-2 col-sm-2">
+                    <div class="col-ld-3 col-md-3 col-sm-3">
+                    </div>
+                    <div class="col-ld-3 col-md-3 col-sm-3">
                         <button class="btn btn-primary" name="Message" id="messageBtn">
-                            <span class="fa fa-envelope-o"></span>Send Message
+                            <span class="fa fa-envelope-o"></span>{{$lang['send_message']}}
                         </button>
                     </div>
-                    <div class="col-ld-2 col-md-2 col-sm-2">
+                    <div class="col-ld-3 col-md-3 col-sm-3">
                         <button class="btn btn-info" name="Password" id="password">
-                            <span class="fa fa-lock"></span>Send new pass
+                            <span class="fa fa-lock"></span>{{$lang['send_new_pass']}}
                         </button>
                     </div>
-                    <div class="col-ld-2 col-md-2 col-sm-2">
+                    <div class="col-ld-3 col-md-3 col-sm-3">
                         <button class="btn btn-info" name="Service" id="newServiceBtn">
-                            <span class="fa fa-wrench"></span>New service
+                            <span class="fa fa-wrench"></span>{{$lang['new_service']}}
                         </button>
                     </div>
                     {{--<div class="col-ld-3 col-md-3 col-sm-3">--}}
@@ -154,7 +156,7 @@
             </div>
         </div>
         <div class="panel panel-primary">
-            <div class="panel-heading services-panel"><b>Worker's Services</b></div>
+            <div class="panel-heading services-panel"><b>{{$lang['worker_service']}}</b></div>
             <div class="panel-body">
                 <div class="row">
                     @foreach($services as $service)
@@ -173,20 +175,23 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <div>Duration: {{$service['duration']}} min</div>
-                                <div>Price MIN: {{$service['duration']}} <i class="fa fa-sheqel" aria-hidden="true"></i>
+                                <div>{{$lang['duration']}}: {{$service['duration']}} {{$lang['minute']}}</div>
+                                <div>{{$lang['price_min']}}: {{$service['price_min']}}₪
                                 </div>
-                                <div>Price MAX: {{$service['duration']}} <i class="fa fa-eur" aria-hidden="true"></i>
+                                <div>{{$lang['price_max']}}: {{$service['price_max']}} ₪
                                 </div>
-                                <div>Description: {{$service['worker']['description']}}</div>
+                                <div>{{$lang['description']}}: {{$service['worker']['description']}}</div>
                             </div>
                         </div>
                     </div>
+                    <?php $loop_max = $loop->iteration?>
                     @endforeach
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-primary" id="showServiceBtn">Show more services</button>
+                @if ($loop_max > 4)
+                    <button class="btn btn-primary" id="showServiceBtn">{{$lang['show_more_service']}}</button>
+                @endif
             </div>
         </div>
         <div class="new-form-wrapper">
@@ -200,11 +205,11 @@
                         <div class="wrapper-field">
                             <label><p>Servie ID number</p>
                                 <input type="text" required  name="service_id"></label>
-                            <label><p>Service’s description</p>
-                                <input type="text"  name="description"></label>
+                            <label><p>{{$lang['service_description']}}</p>
+                                <input type="text" placeholder="Service's name for this Worker. " name="description"></label>
                             <div class="btn-wrapper clearfix">
-                                <button type="sumbit" id='serviceSaveBtn' class="btn-primary">Save</button>
-                                <button type="reset" id='serviceCancelBtn' class="btn-cancel">Cancel</button>
+                                <button type="sumbit" id='serviceSaveBtn' class="btn-primary">{{$lang['save']}}</button>
+                                <button type="reset" id='serviceCancelBtn' class="btn-cancel">{{$lang['cancel']}}</button>
                             </div>
                         </div>
                     </form>

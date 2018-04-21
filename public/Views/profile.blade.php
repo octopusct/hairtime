@@ -25,7 +25,7 @@
         }
 
     </style>
-    <h3 class="page-head">Admin Profile</h3><br>
+    <h3 class="page-head">{{$lang['admin_profile']}}</h3><br>
     <div class="container-fluid" style="width: 95%">
             <div class="panel panel-primary">
                 <div class="panel-heading"><b>{{$admin['first_name']}} # {{$admin['admin_id']}}</b></div>
@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sl-4">
                             <div class="main-info">
-                                <div class="info-head">Avatar</div>
+                                <div class="info-head">{{$lang['avatar']}}</div>
                                 <div class="main-avatar-div">
                                     <img class="img-main-avatar" id="img-main-avatar" alt="Click to load new avatar"
                                          style="cursor: pointer;"
@@ -55,39 +55,38 @@
                                 </form>
                             </div>
                         </div>
-                        <form class="form-horizontal" name="form" method="post"
-                              action="/admin/profile/{{$admin->admin_id}}">
+                        <form class="form-horizontal" id='admin-form' name="form" method="post" action="/api/admin/profile/{{$admin['admin_id']}}">
 
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="main-info">
-                                    <div class="info-head">Login info</div>
-                                    <label for="email">Email: </label>
+                                    <div class="info-head">{{$lang['login_info']}}</div>
+                                    <label for="email">{{$lang['email']}}: </label>
                                     <input name="email" id="email" value="{{$admin->email}}">
 
-                                    <label for="pass">Password:</label>
+                                    <label for="pass">{{$lang['password']}}:</label>
                                     <input type="password" value="{{$admin->password}}" id="pass" name="password">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="main-info">
-                                    <div class="info-head">Main info</div>
-                                    <label for="first_name">First name: </label><input name="first_name" id="first_name" value="{{$admin->first_name}}">
+                                    <div class="info-head">{{$lang['main_info']}}</div>
+                                    <label for="first_name">{{$lang['first_name']}}: </label><input name="first_name" id="first_name" value="{{$admin->first_name}}">
 
-                                    <label for="last_name">Last name: </label><input name="last_name" id="last_name" value="{{$admin->last_name}}">
+                                    <label for="last_name">{{$lang['last_name']}}: </label><input name="last_name" id="last_name" value="{{$admin->last_name}}">
                                 </div>
                                 <div class="buttons-group">
                                     <div class="control-group">
                                         <div class="row">
                                             <div class="col-ld-6 col-md-6 col-sm-6">
-                                                <button style="margin: 0 15px" class="btn btn-primary " type="submit"
-                                                        name="Save"
-                                                        id="save-btn">
-                                                    <i class="fa fa-check"></i>Save
+                                                <button style="margin: 0 15px" class="btn btn-primary "
+                                                        name="save"
+                                                        id="save-admin-btn">
+                                                    <i class="fa fa-check"></i>{{$lang['save']}}
                                                 </button>
                                             </div>
                                             <div class="col-ld-6 col-md-6 col-sm-6">
-                                                <button class="btn btn-danger" type="cancel" name="cancel">
-                                                    <i class="fa fa-times"></i>Cancel
+                                                <button class="btn btn-danger" type="reset" name="cancel">
+                                                    <i class="fa fa-times"></i>{{$lang['cancel']}}
                                                 </button>
                                             </div>
                                         </div>
@@ -125,9 +124,51 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-primary" id="showServiceBtn">Show more services >>></button>
+                <button class="btn btn-primary" id="showServiceBtn">Show more admins</button>
             </div>
 
         </div>
     </div>
+    <script>
+        $('#save-admin-btn').click(function (e) {
+                e.preventDefault();
+                admin_id = '<?=$admin['entry_id']?>';
+                user_id = '<?=$admin['admin_id']?>';
+                console.log('admin: ',user_id);
+                token = '<?=$admin['token']?>';
+                $.ajax({
+                    method: 'POST',
+                    type: 'POST',
+                    url: "/api/admin/profile/{{$admin['admin_id']}}",
+                    data: $('form#admin-form').serialize()+
+                        '&user_id='+admin_id+'&token='+token,
+                    success: function (result, textStatus) {
+                        if (!result.error){
+                            alert('OK. Admin changed.');
+                            // document.location.href = 'https://hairtime.co.il/api/admin/profile/';
+                        }else{
+                            alert('Admin doesn\'t changed! Error.' + result.message)
+                        }
+                    },
+                    error: function (jqXHR, exception) {
+                        if (jqXHR.status === 0) {
+                            alert('Worker doesn\'t created! Not connect.\n Verify Network.');
+                        } else if (jqXHR.status == 404) {
+                            alert('Worker doesn\'t created! Requested page not found. [404]');
+                        } else if (jqXHR.status == 500) {
+                            alert('Worker doesn\'t created! Internal Server Error [500].');
+                        } else if (exception === 'parsererror') {
+                            alert('Worker doesn\'t created! Requested JSON parse failed.');
+                        } else if (exception === 'timeout') {
+                            alert('Worker doesn\'t created! Time out error.');
+                        } else if (exception === 'abort') {
+                            alert('Worker doesn\'t created! Ajax request aborted.');
+                        } else {
+                            alert('Worker doesn\'t created! Uncaught Error.\n' + jqXHR.responseText);
+                        }
+                    }
+                });
+                
+            });
+    </script>
 @stop

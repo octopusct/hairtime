@@ -177,13 +177,13 @@
             </div>
             <div class="panel-footer" id="panel-footer">
                 <div class="row">
-                    <div class="col-ld-2 col-md-2 col-sm-2">
+                    <div class="col-ld-3 col-md-3 col-sm-3">
                         <button class="btn btn-primary" name="Message" id="messageBtn">
                             <span class="fa fa-envelope-o"></span>{{$lang['send_message']}}
                         </button>
                     </div>
-                    <div class="col-ld-2 col-md-2 col-sm-2">
-                        <button class="btn btn-info" name="Password" id="password">
+                    <div class="col-ld-3 col-md-3 col-sm-3">
+                    <button class="btn btn-info" name="Password" id="password">
                             <span class="fa fa-lock"></span>{{$lang['send_new_pass']}}
                         </button>
                     </div>
@@ -197,7 +197,7 @@
                             <span class="fa fa-lock"></span>{{$lang['new_service']}}
                         </button>
                     </div>
-                    <div class="col-ld-4 col-md-4 col-sm-4" id="activebutton">
+                    <div class="col-ld-2 col-md-2 col-sm-2">
                         <button class="btn btn-primary small" name="status"
                                 @if ($salon['status']=='Active') style='display: none' @endif id="activeBtn">{{$lang['activate']}}
                         </button>
@@ -216,10 +216,11 @@
             <div class="panel-body">
                 <div class="row">
                     @foreach($workers as $worker)
-                        @if (gmp_mod($loop->iteration, 5)==0)
+                        @php($loop_max = $loop->iteration)
+                    @if (gmp_mod($loop->iteration, 5)==0)
                 </div>
                 <div class="row">
-                    @endif
+                        @endif
                     <div @if ($loop->iteration >4)
                          class="col-lg-3 col-md-3 col-sm-3 hidden-worker"
                          @else
@@ -236,8 +237,8 @@
                             </div>
                             <div class="panel-footer">
                                 <div><b>{{$lang['spec']}}</b> {{$worker['specialization']}}</div>
-                                <div><b>{{$lang['start_year'].':'}}</b> {{$worker['start_year']}}</div>
-                                <div><b>{{$lang['phone']}}:</b> {{$worker['phone']}} </div>
+                                <div><b>{{$lang['from']}}</b> {{$worker['start_year']}}</div>
+                                <div><b>{{$lang['phone']}}</b> {{$worker['phone']}} </div>
                             </div>
                         </div>
                     </div>
@@ -245,7 +246,9 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-primary" id="showWorkerBtn">{{$lang['show_mode_workers']}}</button>
+                @if ($loop_max >4)
+                    <button class="btn btn-primary" id="showWorkerBtn" data-value="Show more workers">{{$lang['show_more_workers']}}</button>
+                @endif
             </div>
         </div>
     </div>
@@ -255,6 +258,7 @@
             <div class="panel-body">
                 <div class="row">
                     @foreach($services as $service)
+                        @php($loop_max = $loop->iteration)
                         <div @if ($loop->iteration >4)
                              class="col-lg-3 col-md-3 col-sm-3 hidden-service"
                              @else
@@ -287,7 +291,9 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-primary" id="showServiceBtn">{{$lang['show_more_service']}}</button>
+                @if ($loop_max > 4)
+                    <button class="btn btn-primary" id="showServiceBtn" data-value="Show more services">{{$lang['show_more_service']}}</button>
+                @endif
             </div>
         </div>
     </div>
@@ -323,8 +329,6 @@
                         <input type="text" hidden value="{{$salon['salon_id']}}" name="salon_id">
                         <label><p>Service’s name. </p>
                             <input type="text" required name="name"></label>
-                        <label><p>service’s duration min, min </p>
-                            <input type="text" name="duration_min"></label>
                         <label><p>service’s duration max, min </p>
                             <input type="text" required name="duration"></label>
                         <label><p>Service’s minimal price. </p>
@@ -471,13 +475,15 @@
         });
         $('#showWorkerBtn').click(function (e) {
             e.preventDefault();
-            if ($('#showWorkerBtn').text() == 'Show more workers') {
-                $('#showWorkerBtn').text('Hide workers');
+            if ($('#showWorkerBtn').data('value') == 'Show more workers') {
+                $('#showWorkerBtn').data('value', 'Hide workers');
+                $('#showWorkerBtn').text('{{$lang['hide_workers']}}');
                 changeClass = $(".hidden-worker");
                 changeClass.removeClass('hidden-worker');
                 changeClass.addClass('active-worker');
-            } else if ($('#showWorkerBtn').text() == 'Hide workers') {
-                $('#showWorkerBtn').text('Show more workers');
+            } else if ($('#showWorkerBtn').data('value') == 'Hide workers') {
+                $('#showWorkerBtn').data('value', 'Show more workers');
+                $('#showWorkerBtn').text('{{$lang['show_more_workers']}}');
                 changeClass = $(".active-worker");
                 changeClass.removeClass('active-worker');
                 changeClass.addClass('hidden-worker');
@@ -487,13 +493,15 @@
             e.preventDefault();
             console.log('showServiceBtn click');
 
-            if ($('#showServiceBtn').text() == 'Show more services') {
-                $('#showServiceBtn').text('Hide services');
+            if ($('#showServiceBtn').data('value') == 'Show more services') {
+                $('#showServiceBtn').data('value','Hide services');
+                $('#showServiceBtn').text('{{$lang['hide_services']}}');
                 changeClass = $(".hidden-service");
                 changeClass.removeClass('hidden-service');
                 changeClass.addClass('active-service');
-            } else if ($('#showServiceBtn').text() == 'Hide services') {
-                $('#showServiceBtn').text('Show more services');
+            } else if ($('#showServiceBtn').data('value') == 'Hide services') {
+                $('#showServiceBtn').data('value', 'Show more services');
+                $('#showServiceBtn').text('{{$lang['show_more_service']}}');
                 changeClass = $(".active-service");
                 changeClass.removeClass('active-service');
                 changeClass.addClass('hidden-service');

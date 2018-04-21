@@ -12,7 +12,7 @@
         }
 
         .btn-primary {
-            width: 120px;
+            min-width: 120px;
         }
 
         th {
@@ -100,10 +100,10 @@
 
         }
     </style>
-    <h3>Answer to message</h3><br>
+    <h3 style="margin-top: 50px">{{$lang['answer_to_message']}}</h3><br>
     <div class="container-fluid">
         <div class="container-fluid">
-            <p style="margin-left: 25px"><b>Messages with user: {{$message['name']}}</b></p>
+            <p style="margin-left: 25px"><b>{{$lang['messages_with_user']}} {{$message['name']}}</b></p>
             <div class="row">
                 <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11" style="text-align: right">
                     <div class="bubble">
@@ -132,9 +132,11 @@
                     <textarea name="textanswer" maxlength="500" autofocus></textarea>
                     <p>
                         <button class="btn btn-primary" id="btn" type="submit" name="operator" value="Send">
-                            <span class="fa fa-envelope-o"></span>Send Message
+                            <span class="fa fa-envelope-o"></span>{{$lang['send_message']}}
                         </button>
-                        <button class="btn btn-danger" type="submit" name="operator" value="Cancel">Cancel</button>
+                        <button class="btn btn-danger" type="submit" name="operator" value="Cancel">
+                            <span class="fa fa-times"></span>{{$lang['cancel']}}
+                        </button>
                     </p>
                 </form>
             </div>

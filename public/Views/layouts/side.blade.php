@@ -1,6 +1,6 @@
 
 
-<nav class="navbar-default navbar-static-side" role="navigation" style="position: fixed">
+<nav class="navbar-default navbar-static-side" role="navigation" style="position: fixed; text-align: center">
     <div class="mu_left_btn">
         <i class="fa fa-angle-right" aria-hidden="true"></i>
     </div>

@@ -8,6 +8,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Admin;
 use App\Models\Customer;
 use App\Models\Salon;
 use App\Models\Service;
@@ -78,6 +79,16 @@ class UploadController extends BaseController
                     $worker->save();
                     return $res->withJson([
                         'url' => $worker->logo,
+                        'message' => $this->errors['2017'],
+                        'status'  => $this->errors['2011'],
+                        'error' => false
+                    ])->withStatus(200);
+                }elseif ($user->entry_type == 'App\Models\Admin') {
+                    $admin = Admin::where('admin_id', $user->entry_id)->first();
+                    $admin->logo = 'https://hairtime.co.il/api/public/uploads/' . $name;
+                    $admin->save();
+                    return $res->withJson([
+                        'url' => $admin->logo,
                         'message' => $this->errors['2017'],
                         'status'  => $this->errors['2011'],
                         'error' => false

@@ -8,7 +8,7 @@
 return [
     'settings' => [
         'determineRouteBeforeAppMiddleware' => true,
-        'devMode' => true,
+        'devMode' => false,
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,
         'lang' => 'he',

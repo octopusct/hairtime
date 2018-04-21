@@ -27,14 +27,14 @@
             max-width: 100px;
         }
     </style>
-    <h3>Messages</h3><br>
+    <h3 style="margin-top: 50px">{{$lang['messages']}}</h3><br>
     <div class="container-fluid">
         <table class="table">
             <tr>
                 <td>
-                    <form name="search" action="/admin/message" method="GET">
-                        <div class="form-inline form-search">
-                            <label for="search">Search user</label>
+                    <form name="search" action="/api/admin/message" method="GET">
+                        <div class="form-inline form-search" style="direction: rtl">
+                            <label for="search">{{$lang['search']}}</label>
                             <input type="text" class="search-query" style="width:250px" id="search" name="search">
                         </div>
                     </form>
@@ -46,10 +46,10 @@
             <table id='messages' class="table-striped" cellspacing="0" style="width: 100%">
                 <thead>
                 <tr style="text-align: center">
-                    <th>Name</th>
-                    <th>Message</th>
-                    <th>Receive</th>
-                    <th>Actions</th>
+                    <th>{{$lang['name']}}</th>
+                    <th>{{$lang['message']}}</th>
+                    <th>{{$lang['received']}}</th>
+                    <th>{{$lang['action']}}</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -70,22 +70,21 @@
                                 @if ($message['answer_at'] == null)
                                     <INPUT TYPE="HIDDEN">
                                     <p>
-                                        <button class="btn btn-warning" id="btn" type="submit" name="operator"
-                                                value="Answer">
-                                            Answer
+                                        <button class="btn btn-warning" id="btn" type="submit" style="margin-bottom: 3px" name="operator" value="Answer">
+                                            {{$lang['answer']}}
                                         </button>
-                                        <button class="btn btn-danger" type="submit" name="operator" value="Delete">
-                                            Delete
+                                        <button class="btn btn-danger" type="submit" name="operator">
+                                            {{$lang['delete']}}
                                         </button>
                                     </p>
                                 @else
                                     <INPUT TYPE="HIDDEN">
                                     <p>
-                                        <button class="btn btn-primary" type="submit" name="operator" value="Answer"
-                                        >Answer again
+                                        <button class="btn btn-primary" type="submit" style="margin-bottom: 3px" name="operator" value="Answer"
+                                        >{{$lang['answer_again']}}
                                         </button>
                                         <button class="btn btn-danger" type="submit" name="operator" value="Delete">
-                                            Delete
+                                            {{$lang['delete']}}
                                         </button>
                                     </p>
                                 @endif

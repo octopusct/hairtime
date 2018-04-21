@@ -18,8 +18,8 @@
         </div>
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Please Sign In</h3>
+                <div class="panel-heading" style="align-content:right ">
+                    <h3 class="panel-title">{{$lang['please_sign_in']}}</h3>
                 </div>
                 <div class="panel-body">
                     <form method="post" action="/api/login">
@@ -35,15 +35,21 @@
                                        value="">
                             </div>
                             <div class="checkbox">
-                                <label>
-                                    <input name="remember" type="checkbox" value="Remember Me">{{$lang['remember_me']}}
-                                </label>
-                                <label style="align-items:right">
-                                    <a href="/api/admin/fogot">{{$lang['forgot_password']}}</a>
-                                </label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>
+                                            <input name="remember" type="checkbox" value="Remember Me">{{$lang['remember_me']}}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{--<label style="align-items:right">--}}
+                                            {{--<a href="/api/admin/fogot">{{$lang['forgot_password']}}</a>--}}
+                                        {{--</label>--}}
+                                    </div>
+                                </div>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
-                            <input type="submit" class="btn btn-lg btn-success btn-block" value="Login" name="log_in"/>
+                            <input type="submit" class="btn btn-lg btn-success btn-block" value="{{$lang['login']}}" name="log_in"/>
                             <!-- <a class="btn btn-lg btn-success btn-block" type="submit" name="log_in"  >Login</a> -->
                         </fieldset>
                     </form>

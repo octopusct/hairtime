@@ -34,7 +34,7 @@ class AjaxController extends BaseController
     {
         $servce = Service::find($args['service_id']);
         $servce->delete();
-        return $res->withJson(['message' => 'Service successfully deleted!', 'status' => 'success', 'error' => ''], 200);
+        return $res->withJson(['message' => 'Service successfully deleted!', 'status' => 'success', 'error' => false], 200);
     }
 
     /**

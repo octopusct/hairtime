@@ -80,7 +80,7 @@ class AdminController extends BaseController
                 return;
             }
         }
-        echo $this->blade->render("login");
+        echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
     }
 
@@ -170,7 +170,7 @@ The HairTime Team.</p>',
                 return;
             }
         }
-        echo $this->blade->render("login");
+        echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
 
     }
@@ -197,7 +197,7 @@ The HairTime Team.</p>',
                 return;
             }
         }
-        echo $this->blade->render("login");
+        echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
     }
 
@@ -282,11 +282,11 @@ The HairTime Team.</p>';
                 }
             }
         } else {
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
         }
 
-        echo $this->blade->render("login");
+        echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
     }
 
@@ -496,7 +496,7 @@ The HairTime Team.</p>';
             }
 
         } else {
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
         }
     }
@@ -521,18 +521,16 @@ The HairTime Team.</p>';
                 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $admin = Admin::where('admin_id', $args['admin_id'])->first();
                     $user = $admin->user;
+                    $params = $req->getParams();
+                    $user->update($params );
                     $admin->first_name = $req->getParam('first_name');
                     $admin->last_name = $req->getParam('last_name');
                     $admin->save();
-                    echo $this->blade->render("profile", [
-                        'lang'      => $this->admin,
-                        'edit' => true,
-                        'admin' => $admin,
-                        'user' => $user,
-                        'menu' => 'profile',
-                    ]);
-                    return;
-
+                    return $res->withJson([
+                        'message'=>'ok',
+                        'status' => 'success',
+                        'error' => false,
+                        ], 200);
                 }
 
             } else {
@@ -561,7 +559,7 @@ The HairTime Team.</p>';
                 return;
             }
         }
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
     }
 
@@ -587,7 +585,7 @@ The HairTime Team.</p>';
                 ]);
             }
         } else {
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
         }
 
@@ -627,7 +625,7 @@ The HairTime Team.</p>';
                 return;
             }
         }
-        echo $this->blade->render("login");
+        echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
 
     }
@@ -654,7 +652,7 @@ The HairTime Team.</p>';
                 return;
             }
         }
-        echo $this->blade->render("login");
+        echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
     }
 
@@ -670,7 +668,7 @@ The HairTime Team.</p>';
         $_SESSION['token'] = null;
 
         
-        echo $this->blade->render("login");
+        echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
 
     }
@@ -682,7 +680,6 @@ The HairTime Team.</p>';
 
     public function login(Request $req, Response $res)
     {
-
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try { 
@@ -711,7 +708,7 @@ The HairTime Team.</p>';
         if (isset($_SESSION['user_id']) && isset($_SESSION['token'])) {
             header('Location: https://hairtime.co.il/api/admin');
         } else {
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
         }
     }
@@ -740,7 +737,7 @@ The HairTime Team.</p>';
             ]);
             return;
         } else {
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
         }
     }
@@ -781,7 +778,7 @@ The HairTime Team.</p>';
         } else {
             return $res->withJson(['message' => 'Please use your email and pass for login.', 'status' => 'error', 'error' => '401 Unauthorized '], 401);
         }
-        echo $this->blade->render("login");
+        echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
     }
 
@@ -846,7 +843,7 @@ The HairTime Team.</p>';
                 return;
             }
         }
-        echo $this->blade->render("login");
+        echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
     }
 
@@ -887,12 +884,11 @@ The HairTime Team.</p>';
                 'salons'    => $salons->toArray(),
                 'req'       => $req->getParams(),
                 'menu'      => 'salons',
-                'lang'      => $this->admin,
             ]);
             return;
         } else {
 
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
         }
     }
@@ -936,7 +932,7 @@ The HairTime Team.</p>';
             ]);
             return;
         } else {
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
         }
 
@@ -1007,7 +1003,7 @@ The HairTime Team.</p>';
                 return;
             }
         } else {
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
         }
     }
@@ -1035,7 +1031,7 @@ The HairTime Team.</p>';
             ]);
             return;
         } else {
-            echo $this->blade->render("login");
+            echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
         }
     }
@@ -1057,11 +1053,12 @@ The HairTime Team.</p>';
               ]);
               return;
             }else{
-              echo $this->blade->render("login");
+              echo $this->blade->render("login", ['lang'=> $this->admin]);
               return;
             }
+
         } else {
-    echo $this->blade->render("login");
+    echo $this->blade->render("login", ['lang'=> $this->admin]);
     return;
 }
 

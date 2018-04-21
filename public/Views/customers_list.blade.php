@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
 @section('content')
-    <h3 style="margin-top: 45px">Customer's list</h3><br>
+    <h3 style="margin-top: 45px">{{$lang['customer_list']}}</h3><br>
     <div class="container-fluid">
         <!-- Advanced Tables -->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <button style="margin: 10px" id='addNewCustomerBtn' class="btn btn-primary" name="new_salon">Add new Customer
+                <button style="margin: 10px" id='addNewCustomerBtn' class="btn btn-primary" name="new_salon">{{$lang['new_customer']}}
                 </button>
 
             </div>
@@ -15,11 +15,11 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                         <tr>
-                            <th style="text-align: center">Customer ID</th>
-                            <th style="text-align: center">First Name</th>
-                            <th style="text-align: center">Last Name</th>
-                            <th style="text-align: center">Phone</th>
-                            <th style="text-align: center;">Action</th>
+                            <th style="text-align: center">{{$lang['customer_id']}}</th>
+                            <th style="text-align: center">{{$lang['first_name']}}</th>
+                            <th style="text-align: center">{{$lang['last_name']}}</th>
+                            <th style="text-align: center">{{$lang['phone']}}</th>
+                            <th style="text-align: center;">{{$lang['action']}}</th>
                         </tr>
                         </thead>
 
@@ -65,22 +65,21 @@
             <div class="new-salon-form">
                 <div class="form">
                     <form id='newCustomerForm' class="n-form">
-                        <div class="title">New Customer</div>
+                        <div class="title">{{$lang['new_customer']}}</div>
                         <div class="wrapper-field">
-                            <label><p>e-mail use as username </p><input type="text" required="" tabindex="1"
-                                                                        autofocus
-                                                                        name="email"></label>
-                            <label><p>Customer’s password. </p><input type="text" required="" tabindex="2"
-                                                                   name="password"></label>
-                            <label><p>User’s first name. </p><input type="text" required="" tabindex="3"
-                                                                    name="first_name"></label>
-                            <label><p>User’s last name. </p><input type="text" required="" tabindex="4"
-                                                                   name="last_name"></label>
-                            <label><p>Customer’s phone. </p><input type="text" required="" tabindex="5"
-                                                                name="phone"></label>
+                            <label><p>{{$lang['email']}}</p>
+                                <input type="text" required="" tabindex="1" autofocus name="email"></label>
+                            <label><p>{{$lang['password']}}. </p>
+                                <input type="text" required="" tabindex="2" name="password"></label>
+                            <label><p>{{$lang['first_name']}}. </p>
+                                <input type="text" required="" tabindex="3" name="first_name"></label>
+                            <label><p>{{$lang['last_name']}}. </p>
+                                <input type="text" required="" tabindex="4" name="last_name"></label>
+                            <label><p>{{$lang['phone']}}. </p>
+                                <input type="text" required="" tabindex="5" name="phone"></label>
                             <div class="btn-wrapper clearfix">
-                                <button id='saveCustomerBtn' class="btn-primary" tabindex="6">Save</button>
-                                <button type="reset" id="cancelCustomerBtn" class="btn-cancel" tabindex="7">Cancel
+                                <button id='saveCustomerBtn' class="btn-primary" tabindex="6">{{$lang['save']}}</button>
+                                <button type="reset" id="cancelCustomerBtn" class="btn-cancel" tabindex="7">{{$lang['cancel']}}
                                 </button>
                             </div>
                         </div>
@@ -178,8 +177,12 @@
                   url: "/api/auth/singup/customer",
                   data: $('form#newCustomerForm').serialize(),
                   success: function (result) {
-                    alert('Customer successfully created');
-                    document.location.href = '/api/admin/customer/' + result.customer_id;
+                      if (result.error){
+                          alert('Customer doesn\'t created! Error: '+ result.message);
+                      }else{
+                          alert('Customer successfully created');
+                          document.location.href = '/api/admin/customer/' + result.customer_id;
+                      }
                   },
                   error: function (jqXHR, exception) {
                     if (jqXHR.status === 0) {

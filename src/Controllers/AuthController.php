@@ -67,9 +67,9 @@ class AuthController extends BaseController
             }
             $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
             return $res->withJson([
-                'message'=> $this->errors['1002'],
+                'message'=> $result,
                 'status'=>'error 1002',
-                'error'=>$result])->withStatus(400);
+                'error'=>true])->withStatus(400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
             return $res->withJson([
@@ -135,11 +135,18 @@ The HairTime Team.</p></h6>';
                 $type . '_id' => $user->entry_id,
                 'confirm_email' => '0',
                 'email-status' => $this->locale['messages']['2002'],
+                'message' => 'Ok',
+                'status' => 'sucess',
+                'error' => false,
                 ])->withStatus(201);
         } else {
 
             return $res->withJson($user->getEntry()->toArray() + ['user_id' => $user->user_id, 'token' => $token, $type . '_id' => $user->entry_id,
-                    'confirm_email' => '0', 'email-status' => $mail->ErrorInfo])->withStatus(400);
+                    'confirm_email' => '0',
+                    'message' => $mail->ErrorInfo,
+                    'status' => 'error',
+                    'error' => true,
+                ])->withStatus(400);
         }
     }
 
@@ -207,13 +214,14 @@ The HairTime Team.</p></h6>';
             return $res->withJson([
                 'message'=> $this->errors['1002'],
                 'status'=>'error 1002',
-                'error'=>$result
+                'error' => true
             ])->withStatus(400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
             return $res->withJson([
                 'message' => $this->errors['1001'],
-                'status' => 'error 1001'
+                'status' => 'error 1001',
+                'error' => true
             ])
                 ->withStatus(400)
                 ;
@@ -275,16 +283,28 @@ The HairTime Team.</p></h6>';
                 'salon_id' => $user->entry_id,
                 'token' => $token,
                 'confirm_email' => '0',
-                'email-status' => $this->messages['2002']
+                'email-status' => $this->messages['2002'],
+                'message' => 'Ok',
+                'status' => 'success',
+                'error' => false,
+
                 ])
                 ->withStatus(201)
                 ;
         } else {
 
-            return $res->withJson($user->getEntry()->toArray() + ['user_id' => $user->user_id, 'salon_id' => $user->entry_id, 'token' => $token,
-                    'confirm_email' => '0', 'email-status' => $mail->ErrorInfo])
+            return $res->withJson($user->getEntry()->toArray() + [
+                'user_id' => $user->user_id,
+                'salon_id' => $user->entry_id,
+                'token' => $token,
+                'confirm_email' => '0',
+                'email-status' => $mail->ErrorInfo,
+                'message' => 'Ok',
+                'status' => 'error',
+                'error' => false,
+                ])
 
-                ->withStatus(400);
+                ->withStatus(201);
         }
 
     }
@@ -428,10 +448,16 @@ The HairTime Team.</p>';
                 $i++;
             }
             // $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
-            return $res->withJson(['message'=>$result, 'status'=>400, 'error'=>true], 400);
+            return $res->withJson([
+                'message'=>$result,
+                'status'=>400,
+                'error'=>true], 400);
         }
         if (User::where('email', $req->getParam('email'))->count() > 0) {
-            return $res->withJson(['message' => 'This e-mail already exist. Try other e-mail', 'status'=>400, 'error' => true], 400);
+            return $res->withJson([
+                'message' => $this->errors['1001'],
+                'status'=>'error 1001',
+                'error' => true], 400);
         }
         //$token = $this->makeToken();
         $salon = Salon::where('salon_id', $req->getParam('salon_id'))->first();
@@ -489,7 +515,10 @@ The HairTime Team.</p>';
                 'user_id' => $user->user_id,
                 'worker_id' => $user->entry_id,
                 'confirm_email' => '0',
-                'email-status' => $this->messages['2002']
+                'email-status' => $this->messages['2002'],
+                'message'=>'Ok',
+                'status' => 'success',
+                'error' => false,
             ])->withStatus(201);
         } else {
 //            $mail->AddAddress('mr.zalyotin@gmail.com', 'Mr.Z'); // Получатель
@@ -498,7 +527,9 @@ The HairTime Team.</p>';
                 'user_id' => $user->user_id,
                 'worker_id' => $user->entry_id,
                 'confirm_email' => '0',
-                'email-status' => $mail->ErrorInfo
+                'message' => $mail->ErrorInfo,
+                'status' => 'error',
+                'error' => true,
             ])->withStatus(400);
         }
     }
@@ -572,7 +603,7 @@ The HairTime Team.</p>';
             'first_name' => v::noWhitespace()->notEmpty()->length(1, 100),
             'last_name' => v::noWhitespace()->notEmpty()->length(1, 100),
             'specialization' => v::notEmpty()->length(1, 100),
-            'start_year' => v::between(1980, date("Y")),
+            'start_year' => v::notEmpty()->length(1, 2),
 //            'password' => v::notEmpty()->length(1, 50),
             //'salon_id' => v::notEmpty(),
             'phone' => v::phone(),

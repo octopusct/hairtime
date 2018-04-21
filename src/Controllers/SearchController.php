@@ -23,9 +23,11 @@ class SearchController extends BaseController
                 ->OrWhere('business_name', 'like', '%' . $city . '%')
                 ->get()->toArray();
         }else{
-            $list = Salon::where('city', 'like', '%' . $city . '%')
-                ->OrWhere('business_name', 'like', '%' . $city . '%')
+            $city_list = Salon::where('city', 'like', '%' . $city . '%')
+                ->where('status', 'Active');
+            $list = Salon::where('business_name', 'like', '%' . $city . '%')
                 ->where('status', 'Active')
+                ->union($city_list)
                 ->get()->toArray();
         }
         return $res

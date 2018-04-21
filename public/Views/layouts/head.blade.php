@@ -16,6 +16,14 @@
     <!-- navbar-top-links -->
     <ul class="nav navbar-top-links navbar-right">
         <!-- main dropdown -->
+        {{--<li class="dropdown">--}}
+                {{--@if ($lang['lang'] == 'he')--}}
+                    {{--<img src="/img/israel.png" style="margin-top:-19px;">--}}
+                {{--@else--}}
+                    {{--<img src="/img/usa.png" style="margin-top:-19px;">--}}
+                {{--@endif--}}
+        {{--</li>--}}
+
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <span class="top-label label label-danger" id="mesCount">
@@ -65,8 +73,8 @@
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="/api/admin/profile"><i class="fa fa-user fa-fw"></i>{{$lang['user_profile']}}</a>
                 </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i>{{$lang['settings']}}</a>
-                </li>
+                {{--<li><a href="/api/admin/lang"><i class="fa fa-user fa-fw"></i>{{$lang['change_lang']}}</a>--}}
+                {{--</li>--}}
                 <li class="divider"></li>
                 <li><a href="/api/admin/logout"><i class="fa fa-sign-out fa-fw"></i>{{$lang['logout']}}</a>
                 </li>

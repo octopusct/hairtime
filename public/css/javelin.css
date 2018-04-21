@@ -111,7 +111,7 @@
 }
 
 .fa {
-    margin-right: 5px;
+    margin: 0 5px;
 }
 
 .activeBtn {
@@ -145,6 +145,7 @@
     background: #fff;
     border-radius: 5px;
     width: 30%;
+    min-width: 500px;
     position: relative;
     transition: all 5s ease-in-out;
     text-align: center;
@@ -199,7 +200,7 @@ th {
 }
 
 .btn {
-    margin-right: 10px;
+    margin:0 7px!important;
 }
 input {
     text-align: right;

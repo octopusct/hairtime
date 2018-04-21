@@ -7,7 +7,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <button style="margin: 10px"
-                        class="btn btn-primary" id="newWorkerBtn" name="new_salon">Add new Worker
+                        class="btn btn-primary" id="newWorkerBtn" name="new_salon">{{$lang['add_new_worker']}}
                 </button>
             </div>
             <div class="panel-body">
@@ -15,12 +15,12 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                         <tr>
-                            <th style="text-align: center">Worker ID</th>
-                            <th style="text-align: center">First Name</th>
-                            <th style="text-align: center">Last Name</th>
-                            <th style="text-align: center">Salon ID</th>
-                            <th style="text-align: center">Phone</th>
-                            <th style="text-align: center;">Action</th>
+                            <th style="text-align: center">{{$lang['worker_id']}}</th>
+                            <th style="text-align: center">{{$lang['first_name']}}</th>
+                            <th style="text-align: center">{{$lang['last_name']}}</th>
+                            <th style="text-align: center">{{$lang['salon_id']}}</th>
+                            <th style="text-align: center">{{$lang['phone']}}</th>
+                            <th style="text-align: center;">{{$lang['action']}}</th>
                         </tr>
                         </thead>
 
@@ -60,17 +60,17 @@
             <div class="new-worker-form">
                 <div class="form">
                     <form method="post" id="newWorkerForm" class="n-form">
-                        <div class="title">Make new Worker</div>
+                        <div class="title">{{$lang['new_worker']}}</div>
                         <div class="wrapper-field">
-                            <label><p>e-mail </p>
+                            <label><p>{{$lang['email']}}</p>
                                 <input type="text" required name="email"
                                        id="newWorkerEmail"></label>
-                            <label><p>Salon ID</p>
+                            <label><p>{{$lang['salon_id']}}</p>
                                 <input type="text" required
                                        name="salon_id"></label>
                             <div class="btn-wrapper clearfix">
-                                <button id="submit_btn" class="btn-primary">Save</button>
-                                <button type="reset" id="cancel_btn" class="btn-cancel">Cancel</button>
+                                <button id="submit_btn" class="btn-primary">{{$lang['save']}}</button>
+                                <button type="reset" id="cancel_btn" class="btn-cancel">{{$lang['cancel']}}</button>
                             </div>
                         </div>
                     </form>
@@ -166,13 +166,13 @@
                     type: 'POST',
                     url: "/api/auth/singup/worker/start",
                     data: $('form#newWorkerForm').serialize(),
-                    headers: {
-                        'User-ID': admin_id,
-                        'Token': token,
-                    },
                     success: function (result, textStatus) {
-                        alert('OK. Worker created.');
-                        document.location.href = '/api/admin/worker/' + result.worker_id;
+                        if (result.error){
+                            alert('Worker doesn\'t created! Error: '+ result.message);
+                        }else {
+                            alert('OK. Worker created.');
+                            document.location.href = '/api/admin/worker/' + result.worker_id;
+                        }
                     },
                     error: function (jqXHR, exception) {
                         if (jqXHR.status === 0) {
@@ -198,7 +198,7 @@
                 e.preventDefault();
                 $(".new-form-wrapper").fadeIn(500);
             });
-            $('#btn_cancel').click(function () {
+            $('#cancel_btn').click(function () {
                 $(".new-form-wrapper").fadeOut(500);
             });
         })

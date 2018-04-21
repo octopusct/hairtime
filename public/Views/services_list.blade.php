@@ -2,12 +2,12 @@
 
 @section('content')
 
-    <h3 class="page-header">Services's list</h3>
+    <h3 class="page-header">{{$lang['service_list']}}</h3>
     <div class="container-fluid">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <button style="margin: 10px"
-                        class="btn btn-primary" id="addNewServiceBtn" name="new_salon">Add new Service
+                        class="btn btn-primary" id="addNewServiceBtn" name="new_service">{{$lang['new_service']}}
                 </button>
             </div>
             <div class="panel-body">
@@ -15,11 +15,11 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                         <tr>
-                            <th style="text-align: center">Service ID</th>
-                            <th style="text-align: center">Name</th>
-                            <th style="text-align: center">Salon ID</th>
-                            <th style="text-align: center">Duration</th>
-                            <th style="text-align: center;">Action</th>
+                            <th style="text-align: center">{{$lang['service_id']}}</th>
+                            <th style="text-align: center">{{$lang['name']}}</th>
+                            <th style="text-align: center">{{$lang['salon_id']}}</th>
+                            <th style="text-align: center">{{$lang['duration']}}</th>
+                            <th style="text-align: center;">{{$lang['action']}}</th>
                         </tr>
                         </thead>
 
@@ -58,19 +58,18 @@
             <div class="new-service-form">
                 <div class="form">
                     <form class="n-form" method="post"  id="newServiceForm">
-                        <div class="title">Salon's Services</div>
+                        <div class="title">{{$lang['new_service']}}</div>
                         <div class="wrapper-field">
-                            <label><p>Salon ID</p><input type="text" required tabindex="1" name="salon_id" id="salon_id"></label>
-                            <label><p>Service’s name.</p><input type="text" required tabindex="2" name="name"></label>
-                            <label><p>service’s duration min</p><input type="text" required tabindex="3" name="duration"></label>
-                            <label><p>service’s duration max</p><input type="text" required tabindex="4"  name="duration"></label>
-                            <label><p>Service’s minimal price.</p><input type="text" required tabindex="5"  name="price_min"></label>
-                            <label><p>Service’s maximal price.</p><input type="text" required tabindex="6" name="price_max"></label>
+                            <label><p>{{$lang['salon_id']}}</p><input type="text" required tabindex="1" name="salon_id" id="salon_id"></label>
+                            <label><p>{{$lang['name']}}.</p><input type="text" required tabindex="2" name="name"></label>
+                            <label><p>{{$lang['duration']}} </p><input type="text" required tabindex="4"  name="duration"></label>
+                            <label><p>{{$lang['price_min']}}.</p><input type="text" required tabindex="5"  name="price_min"></label>
+                            <label><p>{{$lang['price_max']}}.</p><input type="text" required tabindex="6" name="price_max"></label>
                             <input type="text" required hidden value="{{$admin['entry_id']}}" name="User-ID"></label>
                             <input type="text" required hidden value="{{$admin['token']}}" name="Token"></label>
                             <div class="btn-wrapper clearfix">
-                                <button id="saveServiceBtn" class="btn-primary"  tabindex="7">Save</button>
-                                <button id="cancelServiceBtn" class="btn-cancel"  tabindex="8">Cancel</button>
+                                <button id="saveServiceBtn" class="btn-primary"  tabindex="7">{{$lang['save']}}</button>
+                                <button id="cancelServiceBtn" class="btn-cancel"  tabindex="8">{{$lang['cancel']}}</button>
                             </div>
                         </div>
                     </form>

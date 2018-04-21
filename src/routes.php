@@ -100,7 +100,7 @@ $app->map(['post','options'], '/api/upload', 'App\Controllers\UploadController:u
 $app->any('/api/login', 'App\Controllers\AdminController:login');
 
 $app->group('/api/message', function () {
-    $this->map(['post', 'options'], '', 'App\Controllers\AdminController:messageToAdmin');
+    $this->map(['post'], '', 'App\Controllers\AdminController:messageToAdmin');
     $this->map(['post', 'options'], '/user', 'App\Controllers\AdminController:messageToUser');
 });
 
@@ -153,7 +153,7 @@ $app->group('/api/admin', function () {
     $this->group('/api', function () {
         $this->get('', 'App\Controllers\ApiController:api');
     });
-    $this->post('/login', 'App\Controllers\AdminController:login');
+    $this->map(['post', 'get'],'/login', 'App\Controllers\AdminController:login');
     $this->get('/singin', 'App\Controllers\AdminController:singin');
     $this->get('/logout', 'App\Controllers\AdminController:logout');
     $this->group('/salon', function () {
@@ -163,7 +163,7 @@ $app->group('/api/admin', function () {
 
     });
     $this->get('/profile', 'App\Controllers\AdminController:profile');
-    $this->get('/profile/{admin_id:[0-9]*}', 'App\Controllers\AdminController:profile');
+    $this->map(['get', 'post', 'options'],'/profile/{admin_id:[0-9]*}', 'App\Controllers\AdminController:profile');
     $this->get('/comments', 'App\Controllers\AdminController:comments');
     $this->post('/comments', 'App\Controllers\AdminController:comments');
     $this->post('/comments/{comment_id:[0-9]*}', 'App\Controllers\AdminController:comments');
