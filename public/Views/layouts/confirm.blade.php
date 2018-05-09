@@ -24,7 +24,7 @@
 @include('layouts.headconfirm')
 <!-- end navbar top -->
 
-    <div id="page-wrapper">
+    <div id="page-wrapper" style="padding: 10% 20%">
 
         <div class="row">
             <!-- Page Header -->

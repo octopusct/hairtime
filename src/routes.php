@@ -33,11 +33,12 @@ $app->group('/api/del', function () {
 })->add(new AuthChecker());
 
 $app->get('/api/recalccomments', 'App\Controllers\CommentController:recalc');
+$app->get('/api/recalcworker', 'App\Controllers\AuthController:recalc');
 
 $app->get('/api/forgot_password/{email}', 'App\Controllers\AuthController:forgotPassword');
 
 
-$app->map(['options', 'post', 'get'], '/api/telegram', 'App\Components\TelegramBot:index');
+$app->map(['options', 'post', 'get'], '/telegram', 'App\Components\TelegramBot:index');
 
 $app->group('/api/queue', function () {
     $this->get('/salon/{salon_id}/service/{service_id}/{date}', 'App\Controllers\QueueController:salonServiceFreeTime');

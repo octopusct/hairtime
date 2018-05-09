@@ -12,7 +12,7 @@
     </style>
 <div class="container">
 
-    <div class="row">
+    <div class="row" @if ($lang['lang']=='he') style="direction:rtl"@endif>
         <div class="col-md-4 col-md-offset-4 text-center logo-margin ">
             <img src="/img/image.jpg" style="width: 100%" alt=""/>
         </div>
@@ -35,18 +35,8 @@
                                        value="">
                             </div>
                             <div class="checkbox">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>
-                                            <input name="remember" type="checkbox" value="Remember Me">{{$lang['remember_me']}}
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        {{--<label style="align-items:right">--}}
-                                            {{--<a href="/api/admin/fogot">{{$lang['forgot_password']}}</a>--}}
-                                        {{--</label>--}}
-                                    </div>
-                                </div>
+                                <label for="remember">{{trim($lang['remember_me'])}}</label>
+                                <input name="remember" id="remember" type="checkbox" value="Remember Me"  @if ($lang['lang']=='he') style="float:none" @endif>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
                             <input type="submit" class="btn btn-lg btn-success btn-block" value="{{$lang['login']}}" name="log_in"/>

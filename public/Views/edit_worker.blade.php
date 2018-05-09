@@ -201,12 +201,12 @@
                 <div class="form">
                     <form method="post" action="/api/service/worker/{{$worker['worker_id']}}/" class="n-form"
                           id='newServiceForm'>
-                        <div class="title">Services</div>
+                        <div class="title">{{$lang['service']}}</div>
                         <div class="wrapper-field">
-                            <label><p>Servie ID number</p>
+                            <label><p>{{$lang['service_id']}}</p>
                                 <input type="text" required  name="service_id"></label>
                             <label><p>{{$lang['service_description']}}</p>
-                                <input type="text" placeholder="Service's name for this Worker. " name="description"></label>
+                                <input type="text" name="description"></label>
                             <div class="btn-wrapper clearfix">
                                 <button type="sumbit" id='serviceSaveBtn' class="btn-primary">{{$lang['save']}}</button>
                                 <button type="reset" id='serviceCancelBtn' class="btn-cancel">{{$lang['cancel']}}</button>
@@ -286,10 +286,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var events = [];
-            console.log('docum redy');
+            // console.log('docum redy');
             moment().format();
-            console.log(moment().dayOfYear(1).format('DD.MM.YYYY'));
-            console.log(moment().dayOfYear(366).format('DD.MM.YYYY'));
+            // console.log(moment().dayOfYear(1).format('DD.MM.YYYY'));
+            // console.log(moment().dayOfYear(366).format('DD.MM.YYYY'));
             var week_day    = (new Date()).getDay();
             // var start       = moment().day(0);
             var start       = moment().dayOfYear(1).format('DD.MM.YYYY');
@@ -336,9 +336,13 @@
                             timeFormat          : 'H:mm', // uppercase H for 24-hour clock
                             displayEvantEnd     : true,
                             defaultView         : 'listWeek',
+                            isRTL               : true,
+                            locale              : '{{$lang['lang']}}',
                             events:  events
                         });
-                        $('.fc-toolbar .fc-left h2').css('font-size', 18);
+                        $('.fc-toolbar h2').css('font-size', 18);
+                        $('.fc-toolbar ').css('text-align', 'center');
+                        $('.fc-toolbar button').css('margin-top', '15px');
                     }
                 },
                 error: function (jqXHR, exception) {

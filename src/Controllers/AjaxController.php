@@ -89,6 +89,7 @@ class AjaxController extends BaseController
     private function _deleteWorker($entry_id)
     {
         $worker = Worker::where('worker_id', $entry_id)->first();
+//        $worker_confirm_email = $worker->co
         $salon = $worker->salon;
         $user = User::where('entry_id', $worker->worker_id)->where('entry_type', 'App\\Models\\Worker')->first();
         $queue = Queue::where('worker_id', $worker->worker_id)->get();
@@ -105,11 +106,11 @@ class AjaxController extends BaseController
         }
         $worker->delete();
 
-        if ($user->delete()) {
+        if ($user->confirm_email==1 ) {
             $salon->staff_number = intval($salon->staff_number) - 1;
             $salon->save();
         }
-        return true;
+        return $user->delete();
     }
 
     private function _deleteSalon($entry_id)

@@ -44,6 +44,7 @@
     "2016"  : "Successfully deleted.",
     "2017"  : "File successfully uploaded.",
     "2018"  : "OK"
+
   },
   "admin" : {
     "lang"            : "he",
@@ -136,6 +137,7 @@
     "actions"         : "פעולות",
     "worker_id"       : "מזהה איש צוות",
     "customer_id"     : "מזהה לקוח",
-    "service_id"      : "מזהה שירות"
+    "service_id"      : "מזהה שירות",
+    "new_password_sent"      : "New password successfully sent to user"
   }
 }

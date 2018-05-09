@@ -303,15 +303,15 @@
         <div class="new-worker-form">
             <div class="form">
                 <form method="post" id="newWorkerForm" class="n-form">
-                    <div class="title">Make new Worker</div>
+                    <div class="title">{{$lang['new_worker']}}</div>
                     <div class="wrapper-field">
-                        <label><p>e-mail </p>
+                        <label><p>{{$lang['email']}}</p>
                             <input type="text" required  name="email"
                                    id="newWorkerEmail"></label>
                         <input type="text" hidden value="{{$salon['salon_id']}}" name="salon_id">
                         <div class="btn-wrapper clearfix">
-                            <button id="submit_btn" class="btn-primary">Save</button>
-                            <button type="reset" id="cancelBtn" class="btn-cancel">Cancel</button>
+                            <button id="submit_btn" class="btn-primary">{{$lang['save']}}</button>
+                            <button type="reset" id="cancelBtn" class="btn-cancel">{{$lang['cancel']}}</button>
                         </div>
                     </div>
                 </form>
@@ -324,20 +324,20 @@
         <div class="new-service-form">
             <div class="form">
                 <form method="post" id="newServiceForm" class="n-form">
-                    <div class="title">Salon's Services</div>
+                    <div class="title">{{$lang['new_service']}}</div>
                     <div class="wrapper-field">
                         <input type="text" hidden value="{{$salon['salon_id']}}" name="salon_id">
-                        <label><p>Service’s name. </p>
+                        <label><p>{{$lang['name']}}</p>
                             <input type="text" required name="name"></label>
-                        <label><p>service’s duration max, min </p>
+                        <label><p>{{$lang['duration']}}</p>
                             <input type="text" required name="duration"></label>
-                        <label><p>Service’s minimal price. </p>
+                        <label><p>{{$lang['price_min']}} </p>
                             <input type="text" required name="price_min"></label>
-                        <label><p>Service’s maximal price. </p>
+                        <label><p>{{$lang['price_max']}} </p>
                             <input type="text" name="price_max"></label>
                         <div class="btn-wrapper clearfix">
-                            <button type="sumbit" id='serviceSaveBtn' class="btn-primary">Save</button>
-                            <button type="reset" id="serviceCancelBtn" class="btn btn-danger">Cancel</button>
+                            <button type="sumbit" id='serviceSaveBtn' class="btn-primary">{{$lang['save']}}</button>
+                            <button type="reset" id="serviceCancelBtn" class="btn btn-danger">{{$lang['cancel']}}</button>
                         </div>
                     </div>
                 </form>

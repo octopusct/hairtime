@@ -63,6 +63,9 @@ class ScheduleController extends BaseController
         if ($validation->failed()) {
             return $res->withJson($validation->errors)->withStatus(400);
         }
+        if ($req->getParam('day')>7 OR $req->getParam('day')<1){
+            return $res->withJson(['message'=>'Validation error: day must be between 1 and 7', 'error'=>true, 'status'=>'validation error'])->withStatus(400);
+        }
         $worker = Worker::where('worker_id', $args['worker_id'])->first();
         $schedules = Schedule::where('worker_id', $args['worker_id'])->where('day', $req->getParam('day'))->orderBy('start')->get();
 

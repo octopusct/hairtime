@@ -211,8 +211,6 @@ The HairTime Team.</p>',
 
     public function newPaddssword(Request $req, Response $res, $args)
     {
-        
-
         if (isset($_SESSION['user_id'])) {
             if ($admin = Admin::where('entry_id', $_SESSION['user_id'])->count() > 0) {
                 $user = User::where('user_id', $args['user_id'])->first();
@@ -245,42 +243,18 @@ The HairTime Team.</p>',
 
                 $mail->Subject = htmlspecialchars('New password for HairTime application');  // Тема письма
                 //return $res->withJson($mail, 200);
-
-                $letter_body = '
-<head>
-<title>New password for HairTime application</title>
-</head>
-<body>
-<img alt="HairTime" src="https://hairtime.co.il/img/image.jpg" style="float: right; align-items:right; width: 400px; height: 107px;" />
-<br>
-<h1>&nbsp;</h1>
-
-<h1>&nbsp;</h1>
-
-<h2>Dear {$user_name},</h2>
-<p>temporary password for your account in HairTime application is: <b>{$password}</b></p>
-Please, login in your application and change this temporary password!
-<br><br>
-If you have any issues confirming your email we will be happy to help you. You can contact us on 
-<a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a></p><br>
-
-<p>With best regards, <br /><br>
-
-The HairTime Team.</p>';
-
-                $mail->MsgHTML($letter_body); // Текст сообщения
-                $mail->AltBody = "Dear " . $user_name . ", temporary password for your account in HairTime application is: " . $password;
-                $result = $mail->Send();
-                if ($result) {
-                    return $res->withJson(['message' => 'OK', 'status' => 'success', 'error' => ''])
-
-                        ->withStatus(200);
-                } else {
-                    return $res->withJson(['message' => 'Error, something wrong', 'status' => 'error', 'error' => '400'])
-
-                        ->withStatus(400);
+                $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass_EN.html');
+                if ($letter) {
+                    $letter_body = sprintf($user_name, $password);
+                    $mail->MsgHTML($letter_body); // Текст сообщения
+                    $mail->AltBody = "Dear " . $user_name . ", you new password: " . $password;
+                    if (!$mail->send()) {
+                        return $res->withJson(['message' => $mail->ErrorInfo, 'status' => 'error', 'error' => true])->withStatus(200);
+                    } else {
+                        return $res->withJson(['message' => 'OK', 'status' => 'sucess', 'error' => false])->withStatus(200);
+                    }
                 }
-            }
+
         } else {
             echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
@@ -288,6 +262,7 @@ The HairTime Team.</p>';
 
         echo $this->blade->render("login", ['lang'=> $this->admin]);
         return;
+        }
     }
 
     public function messageToAdmin(Request $req, Response $res)
@@ -333,37 +308,16 @@ The HairTime Team.</p>';
             }
             $mail->AddAddress($user->email, $user_name); // Получатель
             $mail->Subject = htmlspecialchars('New message from Hairtime admin');  // Тема письма
-            $letter_body = '
-<head>
-<title>You are have new message from HairTime application admin</title>
-</head>
-<body>
-<img alt="HairTime" src="https://hairtime.co.il/img/image.jpg" style="float: right; align-items:right; width: 400px; height: 107px;" />
-<br>
-<h1>&nbsp;</h1>
-
-<h1>&nbsp;</h1>
-
-<h2>Dear ' . $user_name . ',</h2>
-<p>You are heve new message from HairTime application admin</p>
-<br>
-' . $textMsg . '
-<br>
-<br>
-If you have any questions, we will be happy to help you. You can contact us on 
-<a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a></p><br>
-
-<p>With best regards, <br /><br>
-
-The HairTime Team.</p>';
-
-            $mail->MsgHTML($letter_body); // Текст сообщения
-            $mail->AltBody = "Dear " . $user_name . ", new email from HairTaime admin";
-            //$result = $mail->Send();
-            if (!$mail->send()) {
-                return $res->withJson(['message' => $mail->ErrorInfo, 'status' => 'error', 'error' => ''])->withStatus(200);
-            } else {
-                return $res->withJson(['message' => 'OK', 'status' => 'sucess', 'error' => ''])->withStatus(200);
+            $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass_EN.html');
+            if ($letter) {
+                $letter_body = sprintf($user_name, $textMsg);
+                $mail->MsgHTML($letter_body); // Текст сообщения
+                $mail->AltBody = "Dear " . $user_name . ", you has new emain from HairTime admin";
+                if (!$mail->send()) {
+                    return $res->withJson(['message' => $mail->ErrorInfo, 'status' => 'error', 'error' => true])->withStatus(400);
+                } else {
+                    return $res->withJson(['message' => 'OK', 'status' => 'sucess', 'error' => false])->withStatus(200);
+                }
             }
         } else {
             return $res->withJson(['message' => "User with this e-mail does't found.", 'error' => "404"])->withStatus(404);
@@ -404,37 +358,16 @@ The HairTime Team.</p>';
             }
             $mail->AddAddress($user->email, $user_name); // Получатель
             $mail->Subject = htmlspecialchars('New password for HairTime application');  // Тема письма
-            $letter_body = '
-<head>
-<title>New password for HairTime application</title>
-</head>
-<body>
-<img alt="HairTime" src="https://hairtime.co.il/img/image.jpg" style="float: right; align-items:right; width: 400px; height: 107px;" />
-<br>
-<h1>&nbsp;</h1>
-
-<h1>&nbsp;</h1>
-
-<h2>Dear ' . $user_name . ',</h2>
-<p>temporary password for your account in HairTime application is: <b>' . $password . '</b></p>
-Please, login in your application and change this temporary password!
-<br><br>
-Dont show it to anybody!
-<br>
-If you have any questions, we will be happy to help you. You can contact us on 
-<a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a></p><br>
-
-<p>With best regards, <br /><br>
-
-The HairTime Team.</p>';
-
-            $mail->MsgHTML($letter_body); // Текст сообщения
-            $mail->AltBody = "Dear " . $user_name . ", new password for HairTaime app: " . $password;
-            //$result = $mail->Send();
-            if (!$mail->send()) {
-                return $res->withJson(['message' => $mail->ErrorInfo, 'status' => 'error', 'error' => ''])->withStatus(200);
-            } else {
-                return $res->withJson(['message' => 'OK', 'status' => 'sucess', 'error' => ''])->withStatus(200);
+            $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass_EN.html');
+            if ($letter) {
+                $letter_body = sprintf($user_name, $password);
+                $mail->MsgHTML($letter_body); // Текст сообщения
+                $mail->AltBody = "Dear " . $user_name . ", you new password: " . $password;
+                if (!$mail->send()) {
+                    return $res->withJson(['message' => $mail->ErrorInfo, 'status' => 'error', 'error' => true])->withStatus(200);
+                } else {
+                    return $res->withJson(['message' => 'OK', 'status' => 'sucess', 'error' => false])->withStatus(200);
+                }
             }
         } else {
             return $res->withJson(['message' => "User with this e-mail does't found.", 'error' => "404"])->withStatus(404);

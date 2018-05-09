@@ -132,8 +132,8 @@
     <script>
         $('#save-admin-btn').click(function (e) {
                 e.preventDefault();
-                admin_id = '<?=$admin['entry_id']?>';
-                user_id = '<?=$admin['admin_id']?>';
+                admin_id = '<?=$admin['admin_id']?>';
+                user_id = '<?=$admin['entry_id']?>';
                 console.log('admin: ',user_id);
                 token = '<?=$admin['token']?>';
                 $.ajax({

@@ -33,7 +33,7 @@ class UploadController extends BaseController
         }
         //$token = $req->getParam('token');
         $user_id = $req->getParam('user_id');
-        //return $res->withJson(['message' =>  $user_id, 'error' =>"400", 'success' => 'false'])->withStatus(400);
+//        return $res->withJson(['user' =>  $user_id, 'error' =>"400", 'success' => 'false'])->withStatus(200);
 
         if (!isset($_FILES['uploads'])) {
             return $res->withJson([
@@ -53,8 +53,8 @@ class UploadController extends BaseController
                 //return $res->withJson(['message' => 'loaded!', 'error' =>'uploads/' . $name, 'success' => $user_id])->withStatus(200);
 
                 $user = User::where('user_id', $user_id)->first();
-                //$user_type = $user->getEntry();
-                //return $res->withJson(['message' => $user, 'error' =>"400", 'success' => ' ok' ])->withStatus(200);
+//                $user_type = $user->getEntry();
+//                return $res->withJson(['user_id' => $user, 'error' =>"400", 'success' => ' ok' ])->withStatus(200);
                 if ($user->entry_type == 'App\Models\Customer') {
                     $customer = Customer::where('customer_id', $user->entry_id)->first();
                     $customer->logo = 'https://hairtime.co.il/api/public/uploads/' . $name;

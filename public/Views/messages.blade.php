@@ -73,7 +73,7 @@
                                         <button class="btn btn-warning" id="btn" type="submit" style="margin-bottom: 3px" name="operator" value="Answer">
                                             {{$lang['answer']}}
                                         </button>
-                                        <button class="btn btn-danger" type="submit" name="operator">
+                                        <button class="btn btn-danger" type="submit" name="operator" value="Delete">
                                             {{$lang['delete']}}
                                         </button>
                                     </p>

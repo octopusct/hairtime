@@ -72,13 +72,18 @@ class TelegramBot
                 $reply_markup = new ReplyKeyboardMarkup( $keyboard);
 
                 $this->bot->sendMessage( $this->getChatId(),
-                    "Hello ".$this->getUserName(),
+                    "Hello !!!".$this->getUserName(),
                     null,
                     false,
                     $this->getMessageId(),
                     $reply_markup );
             }else{
-                $this->bot->sendMessage( $this->getChatId(),  "Hello ".$this->getUserName());
+                $this->bot->sendMessage( $this->getChatId(),
+                    "You press".$this->text,
+                    null,
+                    false,
+                    $this->getMessageId()
+                    );
             }
         } catch (InvalidArgumentException $e) {
             $mail = new EmailController();

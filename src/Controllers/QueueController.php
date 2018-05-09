@@ -465,46 +465,43 @@ class QueueController extends BaseController
         $user_name = $customer->last_name . " " . $customer->first_name;
         $mail->AddAddress($email, $user_name); // Получатель
         $mail->Subject = htmlspecialchars('You have new queue!');  // Тема письма
-        $letter_body = '
-<head>
-<title>Your queue has been confirmed!</title>
-</head>
-<body>
-<img alt="HairTime" src="https://hairtime.co.il/img/image.jpg" style="float: left; width: 400px; height: 107px;" />
-<br>
-<h1>&nbsp;</h1>
-
-<h1>&nbsp;</h1>
-
-<h2>Dear ' . $user_name . '</h2>
-<p>Your queue has been confirmed! If you want to check it, please visit to the application.</p>
-<br>
-<p>If you have any question we will be happy to help you. You can contact us on 
-<a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a></p>
-
-<p>With best regards, <br /><br>
-
-The HairTime Team.</p>';
-        $mail->MsgHTML($letter_body); // Текст сообщения
-        $mail->AltBody = "Dear " . $user_name . ", You have new queue!";
-        $result = $mail->Send();
-        return $res->withJson(['message'=>'OK', 'success'=>true, 'error'=>''])
-
+        $letter = file_get_contents(__DIR__.'/../letters/confirm_queue.html');
+        if ($letter) {
+            $letter_body = sprintf($letter, $user_name);
+            $mail->MsgHTML($letter_body); // Текст сообщения
+            $mail->AltBody = "Dear " . $user_name . ", You have new queue!";
+            $result = $mail->Send();
+            return $res->withJson(['message'=>'OK', 'success'=>'', 'error'=>false])
+                ->withStatus(200);
+        }
+        return $res->withJson(['message'=>'cant send email', 'success'=>'warning', 'error'=>false])
             ->withStatus(200);
-
     }
 
 
     public function addQueue(Request $req, Response $res, $args)
     {
+//        return $res->withJson(['message'=>'ff', '$time_stamp'=>'$time_stamp', 'error'=> true ],200);
 
         //$week_day = strftime("%u", strtotime($req->getParam('time')));
         //$customer_id = $req->getParam('customer_id');
+        $Queue = Queue::where('worker_id', $args['worker_id'])->get();
+        $time_stamp = (new DateTime($req->getParam('time')))->format("U")+2*60*60;
+//        return  $res->withJson(['message'=>$Queue, '$time_stamp'=>$time_stamp, 'error'=> $args['worker_id'] ],200);
+        foreach ($Queue as $item){
+            $service = Service::find($args['service_id']);
+
+            if ($item->time_stamp <= $time_stamp && $item->time_stamp+($service->duration*60)>$time_stamp  ){
+                $error_msg= 'This time is busy';
+               return $res->withJson(['message'=>$error_msg, 'status'=>'error', 'error'=> true ],200);
+            }
+        }
+
         $time = date('Y-m-d H:i:s', strtotime($req->getParam('time')));
         $queue = Queue::create([
             'time' => $time,
             'customer_id' => $req->getParam('customer_id'),
-            'time_stamp'=> (new DateTime($req->getParam('time')))->format("U")+2*60*60,
+            'time_stamp'=> $time_stamp,
             ] + $args);
 
         $message = array('message' => 'Dear worker you are have new queue!');
@@ -532,32 +529,15 @@ The HairTime Team.</p>';
         $user_name = $worker->last_name . " " . $worker->first_name;
         $mail->AddAddress($email, $user_name); // Получатель
         $mail->Subject = htmlspecialchars('You have new queue!');  // Тема письма
-        $letter_body = '
-<head>
-<title>You have new queue!</title>
-</head>
-<body>
-<img alt="HairTime" src="https://hairtime.co.il/img/image.jpg" style="float: left; width: 400px; height: 107px;" />
-<br>
-<h1>&nbsp;</h1>
-
-<h1>&nbsp;</h1>
-
-<h2>Dear ' . $user_name . '</h2>
-<p>You have new queue! Please visit to the application.</p>
-<br>
-<p>If you have any question we will be happy to help you. You can contact us on 
-<a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a></p>
-
-<p>With best regards, <br /><br>
-
-The HairTime Team.</p>';
-        $mail->MsgHTML($letter_body); // Текст сообщения
-        $mail->AltBody = "Dear " . $user_name . ", You have new queue!";
-        $result = $mail->Send();
-
-        return $res->withJson($queue)
-
-            ->withStatus(200);
+        $letter = file_get_contents(__DIR__ . '/../letters/worker_new_queue_EN.html');
+        if ($letter) {
+            $letter_body = sprintf($letter, $user_name);
+            $mail->MsgHTML($letter_body); // Текст сообщения
+            $mail->AltBody = "Dear " . $user_name . ", You have new queue!";
+            $result = $mail->Send();
+            return $res->withJson($queue)
+                ->withStatus(200);
+        }
+        return $res->withJson(['message'=>'cant send email', 'success'=>'warning', 'error'=>false],201);
     }
 }

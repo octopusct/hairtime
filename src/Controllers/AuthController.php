@@ -92,62 +92,38 @@ class AuthController extends BaseController
         $user_name = $req->getParam('last_name') . " " . $req->getParam('first_name');
         $mail->AddAddress($req->getParam('email'), $user_name); // Получатель
         $mail->Subject = htmlspecialchars(' אימות כתובת המייל שלך ב ' . ' /  Verify e-mail address, please');  // Тема письма
-        $letter_body = '
-<head>
-<title>אימות כתובת המייל שלך ב / Verify e-mail address, please</title>
-</head>
-<body>
-<img alt="HairTime" src="https://hairtime.co.il/img/image.jpg" style="align-items: center; width: 400px; height: 107px;" />
-<br><br>
+        $letter = file_get_contents(__DIR__ . '/../letters/singup_customer_EN.html');
+        if ($letter) {
+            $letter_body = sprintf($letter, $confirm, $confirm);
+            $mail->MsgHTML($letter_body); // Текст сообщения
+            $mail->AltBody = "Dear " . $user_name . ", confirm your email, please. Copy next string to your browser and press enter: https://hairtime.co.il/auth/confirm_email/" . $confirm;
+            $result = $mail->Send();
+            /* $login_data = ['user_id' => $user->user_id, 'token' => $token, 'type' => explode('\\', get_class($user->getEntry()))[2],
+                 'confirm_email'=> $user->confirm_email];
+             return $res->withJson($user->getEntry()->toArray() + $login_data);*/
+            $type = mb_strtolower(explode("\\", $user->entry_type)[2]);
 
-<p align="right"><b>
- אנו שמחים ומודים לך שנרשמת לאפליקציית HAIR-TIME
- </b><br><a href="https://hairtime.co.il/auth/confirm_email/' . $confirm . '" title="Go!!!"> כנס\י לקישור</a>
-רק רצינו לוודא שכתובת המייל שלך הוזנה בצורה תקינה. לשם כך אנא 
- <br>לאחר מכן חשבונך יופעל ותוכל\י להתחיל להשתמש באפליקציה
- <a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a>-כל שאלה ניתן לשלוח מייל לתמיכה שלנו בכתובת </p>
+            if ($result) {
 
-<p align="right">,בברכה<br>
-  צוות  HAIR-TIME
- </p>
-<hr>
-<h6><p align="left">We invite you to register in HairTime application! We just need to verify your email address:
-<a href="https://hairtime.co.il/auth/confirm_email/' . $confirm . '" title="Go!!!">Verify e-mail</a><br>
-If you have any issues confirming your email we will be happy to help you. You can contact us on 
-<a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a></p>
-
-<p align="left">With best regards,<br /><br>
-
-The HairTime Team.</p></h6>';
-        $mail->MsgHTML($letter_body); // Текст сообщения
-        $mail->AltBody = "Dear " . $user_name . ", confirm your email, please. Copy next string to your browser and press enter: https://hairtime.co.il/auth/confirm_email/" . $confirm;
-        $result = $mail->Send();
-        /* $login_data = ['user_id' => $user->user_id, 'token' => $token, 'type' => explode('\\', get_class($user->getEntry()))[2],
-             'confirm_email'=> $user->confirm_email];
-         return $res->withJson($user->getEntry()->toArray() + $login_data);*/
-        $type = mb_strtolower(explode("\\", $user->entry_type)[2]);
-
-        if ($result) {
-
-            return $res->withJson($user->getEntry()->toArray() + [
-                'user_id' => $user->user_id,
-                'token' => $token,
-                $type . '_id' => $user->entry_id,
-                'confirm_email' => '0',
-                'email-status' => $this->locale['messages']['2002'],
-                'message' => 'Ok',
-                'status' => 'sucess',
-                'error' => false,
-                ])->withStatus(201);
-        } else {
-
-            return $res->withJson($user->getEntry()->toArray() + ['user_id' => $user->user_id, 'token' => $token, $type . '_id' => $user->entry_id,
+                return $res->withJson($user->getEntry()->toArray() + [
+                    'user_id' => $user->user_id,
+                    'token' => $token,
+                    $type . '_id' => $user->entry_id,
                     'confirm_email' => '0',
-                    'message' => $mail->ErrorInfo,
-                    'status' => 'error',
-                    'error' => true,
-                ])->withStatus(400);
+                    'email-status' => $this->locale['messages']['2002'],
+                    'message' => 'Ok',
+                    'status' => 'sucess',
+                    'error' => false,
+                ])->withStatus(201);
+            }
         }
+
+        return $res->withJson($user->getEntry()->toArray() + ['user_id' => $user->user_id, 'token' => $token, $type . '_id' => $user->entry_id,
+                'confirm_email' => '0',
+                'message' => $mail->ErrorInfo,
+                'status' => 'error',
+                'error' => true,
+        ])->withStatus(400);
     }
 
     public function editCustomer(Request $req, Response $res)
@@ -244,68 +220,39 @@ The HairTime Team.</p></h6>';
         $user_name = $req->getParam('last_name') . " " . $req->getParam('first_name');
         $mail->AddAddress($req->getParam('email'), $user_name); // Получатель
         $mail->Subject = htmlspecialchars(' אימות כתובת המייל שלך ב ' . ' /  Verify e-mail address, please');  // Тема письма
-        $letter_body = '
-<head>
-<title>אימות כתובת המייל שלך ב / Verify e-mail address, please</title>
-</head>
-<body>
-<img alt="HairTime" src="https://hairtime.co.il/img/image.jpg" style="align-items: center; width: 400px; height: 107px;" />
-<br><br>
+        $letter = file_get_contents(__DIR__ . '/../letters/singup_salon_EN.html');
+        if ($letter) {
+            $letter_body = sprintf($letter, $confirm, $confirm);
+            $mail->MsgHTML($letter_body); // Текст сообщения
+            $mail->AltBody = "Confirm your email, please. Copy next string to your browser and press enter: https://hairtime.co.il/auth/confirm_email/" . $confirm;
+            $result = $mail->Send();
 
-<p align="right"><b>
- אנו שמחים ומודים לך שנרשמת לאפליקציית HAIR-TIME
- </b><br><a href="https://hairtime.co.il/auth/confirm_email/' . $confirm . '" title="Go!!!"> כנס\י לקישור</a>
-רק רצינו לוודא שכתובת המייל שלך הוזנה בצורה תקינה. לשם כך אנא 
- <br>לאחר מכן חשבונך יופעל ותוכל\י להתחיל להשתמש באפליקציה
- <a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a>-כל שאלה ניתן לשלוח מייל לתמיכה שלנו בכתובת </p>
+            if ($result) {
+                return $res->withJson($user->getEntry()->toArray() + [
+                    'user_id' => $user->user_id,
+                    'email' => $user->email,
+                    'salon_id' => $user->entry_id,
+                    'token' => $token,
+                    'confirm_email' => '0',
+                    'email-status' => $this->messages['2002'],
+                    'message' => 'Ok',
+                    'status' => 'success',
+                    'error' => false,
 
-<p align="right">,בברכה<br>
-  צוות  HAIR-TIME
- </p>
-<hr>
-<h6><p align="left">We invite you to register in HairTime application! We just need to verify your email address:
-<a href="https://hairtime.co.il/auth/confirm_email/' . $confirm . '" title="Go!!!">Verify e-mail</a><br>
-If you have any issues confirming your email we will be happy to help you. You can contact us on 
-<a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a></p>
-
-<p align="left">With best regards,<br /><br>
-
-The HairTime Team.</p></h6>';
-
-        $mail->MsgHTML($letter_body); // Текст сообщения
-        $mail->AltBody = "Confirm your email, please. Copy next string to your browser and press enter: https://hairtime.co.il/auth/confirm_email/" . $confirm;
-        $result = $mail->Send();
-
-        if ($result) {
-            return $res->withJson($user->getEntry()->toArray() + [
-                'user_id' => $user->user_id,
-                'email' => $user->email,
-                'salon_id' => $user->entry_id,
-                'token' => $token,
-                'confirm_email' => '0',
-                'email-status' => $this->messages['2002'],
-                'message' => 'Ok',
-                'status' => 'success',
-                'error' => false,
-
-                ])
-                ->withStatus(201)
-                ;
-        } else {
-
-            return $res->withJson($user->getEntry()->toArray() + [
-                'user_id' => $user->user_id,
-                'salon_id' => $user->entry_id,
-                'token' => $token,
-                'confirm_email' => '0',
-                'email-status' => $mail->ErrorInfo,
-                'message' => 'Ok',
-                'status' => 'error',
-                'error' => false,
-                ])
-
-                ->withStatus(201);
+                ])->withStatus(201);
+            }
         }
+
+        return $res->withJson($user->getEntry()->toArray() + [
+            'user_id' => $user->user_id,
+            'salon_id' => $user->entry_id,
+            'token' => $token,
+            'confirm_email' => '0',
+            'email-status' => $mail->ErrorInfo,
+            'message' => 'Ok',
+            'status' => 'error',
+            'error' => false,
+        ])->withStatus(201);
 
     }
 
@@ -348,17 +295,6 @@ The HairTime Team.</p></h6>';
         //return $res->withJson(['sdgasdg'=>$user->user_id])->withStatus(201);
         $salon = Salon::where('salon_id', $user->entry_id)->first();
         $salon->update($req->getParams());
-//        $salon->first_name = $req->getParam('first_name');
-//        $salon->last_name = $req->getParam('last_name');
-//        $salon->business_name = $req->getParam('business_name');
-//        $salon->founded_in = $req->getParam('founded_in');
-//        $salon->address = $req->getParam('address');
-//        $salon->house = $req->getParam('house');
-//        $salon->password = $req->getParam('password');
-//        $salon->lat = $req->getParam('lat');
-//        $salon->lng = $req->getParam('lng');
-//        $salon->phone = $req->getParam('phone');
-//        $salon->save();
         return $res->withJson($salon->toArray()+[
             'message' => 'Ok',
             'error' => false,
@@ -388,42 +324,23 @@ The HairTime Team.</p></h6>';
             $user_name = $user->last_name . " " . $user->first_name;
             $mail->AddAddress($args['email'], $user_name); // Получатель
             $mail->Subject = htmlspecialchars('New password for HairTime application');  // Тема письма
-            $letter_body = '
-<head>
-<title>New password for HairTime application</title>
-</head>
-<body>
-<img alt="HairTime" src="https://hairtime.co.il/img/image.jpg" style="float: right; align-items:right; width: 400px; height: 107px;" />
-<br>
-<h1>&nbsp;</h1>
-
-<h1>&nbsp;</h1>
-
-<h2>Dear ' . $user_name . ',</h2>
-<p>temporary password for your account in HairTime application is: <b>' . $password . '</b></p>
-Please, login in your application and change this temporary password!
-<br><br>
-If you have any issues confirming your email we will be happy to help you. You can contact us on 
-<a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a></p><br>
-
-<p>With best regards, <br /><br>
-
-The HairTime Team.</p>';
-
-            $mail->MsgHTML($letter_body); // Текст сообщения
-            $mail->AltBody = "Dear " . $user_name . ", temporary password for your account in HairTime application is: " . $password;
-            $result = $mail->Send();
-            if ($result) {
-                return $res->withJson([
-                    'message' => $this->messages['2003'],
-                    'error' => null
-                ])->withStatus(200);
-            } else {
-                return $res->withJson([
-                    'message' => $this->errors['1007'].' '.$this->errors['1008'],
-                    'status' => 'error 1008',
-                    'error' => '520',
-                ])->withStatus(520);
+            $letter = file_get_contents(__DIR__ . '/../letters/forgot_pass_EN.html');
+            if ($letter) {
+                $letter_body = sprintf($letter, $user_name, $password);
+                $mail->MsgHTML($letter_body); // Текст сообщения
+                $mail->AltBody = "Dear " . $user_name . ", temporary password for your account in HairTime application is: " . $password;
+                $result = $mail->Send();
+                if ($result) {
+                    return $res->withJson([
+                        'message' => $this->messages['2003'],
+                        'error' => null
+                    ])->withStatus(200);
+                }
+            return $res->withJson([
+                'message' => $this->errors['1007'].' '.$this->errors['1008'],
+                'status' => 'error 1008',
+                'error' => '520',
+            ])->withStatus(520);
             }
         }
         return $res->withJson([
@@ -470,7 +387,7 @@ The HairTime Team.</p>';
         while ($max--)
             $password .= $chars[rand(0, 61)];
         $user->password = $password;
-        $user->confirm_email = true;
+        $user->confirm_email = false;
         $user->save();
 
         //$confirm = $user->user_id;
@@ -478,60 +395,37 @@ The HairTime Team.</p>';
         $mail = new EmailController();
 
         $user_name = $req->getParam('last_name') . " " . $req->getParam('first_name');
+        $user_email = $req->getParam('email') ;
         $mail->AddAddress($req->getParam('email'), $user_name); // Получатель
         $mail->Subject = htmlspecialchars('Salon ' . $salon->business_name . ' added you as HairMaster');  // Тема письма
-        $letter_body = '
-<head>
-<title>Download HairTime application and register</title>
-</head>
-<body>
-<img alt="HairTime" src="https://hairtime.co.il/img/image.jpg" style="float: right; align-items:right; width: 400px; height: 107px;" />
-<br>
-<h1>&nbsp;</h1>
+        $letter = file_get_contents(__DIR__ . '/../letters/start_worker_EN.html');
+        if ($letter){
+            $letter_body = sprintf($letter, $user_name, $user_email, $password);
+            $mail->MsgHTML($letter_body); // Текст сообщения
+            $mail->AltBody = "Dear " . $user_name . ", confirm your email, please. Copy next string to your browser and press enter: https://play.google.com/apps/testing/com.haduken.hairtime";
+            $result = $mail->Send();
 
-<h1>&nbsp;</h1>
-
-<h2>Dear ' . $user_name . '</h2>
-<p>We invite you to register in HairTime application as Workers! We just need to complete your registration. Download 
-"HairTime" applications and complete your registration.<br><br>
-<a href="https://play.google.com/apps/testing/com.haduken.hairtime" title="Go!!!">Download application</a><br><br>
-For SingIn in to application use this e-mail as Username: ' . $req->getParam('email') . ' <br> and temporary password: ' . $password . '
-<br><br>
-If you have any issues confirming your email we will be happy to help you. You can contact us on 
-<a href="mailto:admin@hairtime.co.il">admin@hairtime.co.il</a></p><br>
-
-<p>With best regards, <br /><br>
-
-The HairTime Team.</p>';
-
-        $mail->MsgHTML($letter_body); // Текст сообщения
-        $mail->AltBody = "Dear " . $user_name . ", confirm your email, please. Copy next string to your browser and press enter: https://play.google.com/apps/testing/com.haduken.hairtime";
-        $result = $mail->Send();
-
-        if ($result) {
-            $mail->AddAddress('mr.zalyotin@gmail.com', 'Mr.Z'); // Получатель
-            $mail->Send();
-            return $res->withJson([
-                'user_id' => $user->user_id,
-                'worker_id' => $user->entry_id,
-                'confirm_email' => '0',
-                'email-status' => $this->messages['2002'],
-                'message'=>'Ok',
-                'status' => 'success',
-                'error' => false,
-            ])->withStatus(201);
-        } else {
-//            $mail->AddAddress('mr.zalyotin@gmail.com', 'Mr.Z'); // Получатель
-//            $mail->Send();
-            return $res->withJson([
-                'user_id' => $user->user_id,
-                'worker_id' => $user->entry_id,
-                'confirm_email' => '0',
-                'message' => $mail->ErrorInfo,
-                'status' => 'error',
-                'error' => true,
-            ])->withStatus(400);
+            if ($result) {
+                return $res->withJson([
+                    'user_id' => $user->user_id,
+                    'worker_id' => $user->entry_id,
+                    'confirm_email' => '0',
+                    'email-status' => $this->messages['2002'],
+                    'message'=>'Ok',
+                    'status' => 'success',
+                    'error' => false,
+                ])->withStatus(201);
+            }
         }
+        return $res->withJson([
+            'user_id' => $user->user_id,
+            'worker_id' => $user->entry_id,
+            'confirm_email' => '0',
+            'message' => $mail->ErrorInfo,
+            'status' => 'error',
+            'error' => true,
+        ])->withStatus(400);
+
     }
 
     public function singupWorker(Request $req, Response $res)
@@ -904,6 +798,23 @@ The HairTime Team.</p>';
 
                 ->withStatus(200);
         }
+    }
+    function recalc(Request $req, Response $res)
+    {
+        $salons = Salon::all();
+        $i=0;
+        $result=[];
+        foreach ($salons as $salon){
+            $workers = Worker::where('salon_id', $salon->salon_id)->count();
+//            return $res->withJson(['w'=>$workers, 's'=>$salon],200);
+            if ($salon->staff_number != $workers) {
+                $salon->staff_number = $workers;
+                $salon->save();
+                $result[$i]['salon_id'] = $salon->salon_id;
+                $i++;
+            }
+        }
+        return $res->withJson(['message'=>'ok', 'error'=>false, 'ststus'=>'success', 'body'=>$result], 200);
     }
 
     protected function makeToken()

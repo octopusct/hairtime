@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale-all.js"></script>
 
     <link href="/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <!--
@@ -294,7 +295,8 @@
             },
             success: function (ajax_result, textStatus) {
                 var popup = $('.result-message-popup');
-                popup.find('#messageDiv').append('New password successfully sent to user!');
+                popup.find('#messageDiv').html('');
+                popup.find('#messageDiv').wrapInner('{{$lang['new_password_sent']}}');
                 popup.fadeIn(400);
                 popup.find("#close").click(function () {
                     e.preventDefault();
