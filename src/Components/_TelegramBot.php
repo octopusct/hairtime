@@ -83,7 +83,7 @@ class TelegramBot
         } catch (InvalidArgumentException $e) {
             $mail = new EmailController();
             $mail->AddAddress('mr.zalyotin@gmail.com', 'Vitaliy'); // Получатель
-            $mail->Subject = htmlspecialchars('InvalidArgumentException');  // Тема письма
+//            $mail->Subject = htmlspecialchars('InvalidArgumentException');  // Тема письма
             $letter_body = json_encode ($req->getParams()).var_dump($e);
             $mail->MsgHTML($letter_body); // Текст сообщения
             $mail->AltBody = "Something wrong";

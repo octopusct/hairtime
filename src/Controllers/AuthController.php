@@ -91,8 +91,11 @@ class AuthController extends BaseController
 
         $user_name = $req->getParam('last_name') . " " . $req->getParam('first_name');
         $mail->AddAddress($req->getParam('email'), $user_name); // Получатель
-        $mail->Subject = htmlspecialchars(' אימות כתובת המייל שלך ב ' . ' /  Verify e-mail address, please');  // Тема письма
-        $letter = file_get_contents(__DIR__ . '/../letters/singup_customer_EN.html');
+
+        $letter = file_get_contents(__DIR__ . '/../letters/singup_customer.html');
+        $title = explode('title', $letter)[1];
+        $title = substr($title, 1, strlen($title)-3);
+        $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter) {
             $letter_body = sprintf($letter, $confirm, $confirm);
             $mail->MsgHTML($letter_body); // Текст сообщения
@@ -219,8 +222,11 @@ class AuthController extends BaseController
 
         $user_name = $req->getParam('last_name') . " " . $req->getParam('first_name');
         $mail->AddAddress($req->getParam('email'), $user_name); // Получатель
-        $mail->Subject = htmlspecialchars(' אימות כתובת המייל שלך ב ' . ' /  Verify e-mail address, please');  // Тема письма
-        $letter = file_get_contents(__DIR__ . '/../letters/singup_salon_EN.html');
+//        $mail->Subject = htmlspecialchars(' אימות כתובת המייל שלך ב ' . ' /  Verify e-mail address, please');  // Тема письма
+        $letter = file_get_contents(__DIR__ . '/../letters/singup_salon.html');
+        $title = explode('title', $letter)[1];
+        $title = substr($title, 1, strlen($title)-3);
+        $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter) {
             $letter_body = sprintf($letter, $confirm, $confirm);
             $mail->MsgHTML($letter_body); // Текст сообщения
@@ -323,8 +329,11 @@ class AuthController extends BaseController
 
             $user_name = $user->last_name . " " . $user->first_name;
             $mail->AddAddress($args['email'], $user_name); // Получатель
-            $mail->Subject = htmlspecialchars('New password for HairTime application');  // Тема письма
-            $letter = file_get_contents(__DIR__ . '/../letters/forgot_pass_EN.html');
+//            $mail->Subject = htmlspecialchars('New password for HairTime application');  // Тема письма
+            $letter = file_get_contents(__DIR__ . '/../letters/forgot_pass.html');
+            $title = explode('title', $letter)[1];
+            $title = substr($title, 1, strlen($title)-3);
+            $mail->Subject = htmlspecialchars($title);  // Тема письма
             if ($letter) {
                 $letter_body = sprintf($letter, $user_name, $password);
                 $mail->MsgHTML($letter_body); // Текст сообщения
@@ -397,8 +406,11 @@ class AuthController extends BaseController
         $user_name = $req->getParam('last_name') . " " . $req->getParam('first_name');
         $user_email = $req->getParam('email') ;
         $mail->AddAddress($req->getParam('email'), $user_name); // Получатель
-        $mail->Subject = htmlspecialchars('Salon ' . $salon->business_name . ' added you as HairMaster');  // Тема письма
-        $letter = file_get_contents(__DIR__ . '/../letters/start_worker_EN.html');
+//        $mail->Subject = htmlspecialchars('Salon ' . $salon->business_name . ' added you as HairMaster');  // Тема письма
+        $letter = file_get_contents(__DIR__ . '/../letters/start_worker.html');
+        $title = explode('title', $letter)[1];
+        $title = substr($title, 1, strlen($title)-3);
+        $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter){
             $letter_body = sprintf($letter, $user_name, $user_email, $password);
             $mail->MsgHTML($letter_body); // Текст сообщения

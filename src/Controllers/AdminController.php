@@ -241,9 +241,12 @@ The HairTime Team.</p>',
                 $mail = new EmailController();
                 $mail->AddAddress($user->email, 'Vasya Pupkin'); // Получатель
 
-                $mail->Subject = htmlspecialchars('New password for HairTime application');  // Тема письма
+//                $mail->Subject = htmlspecialchars('New password for HairTime application');  // Тема письма
                 //return $res->withJson($mail, 200);
-                $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass_EN.html');
+                $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass.html');
+                $title = explode('title', $letter)[1];
+                $title = substr($title, 1, strlen($title)-3);
+                $mail->Subject = htmlspecialchars($title);  // Тема письма
                 if ($letter) {
                     $letter_body = sprintf($user_name, $password);
                     $mail->MsgHTML($letter_body); // Текст сообщения
@@ -307,8 +310,8 @@ The HairTime Team.</p>',
                 $user_name = $admin->last_name . " " . $admin->first_name;
             }
             $mail->AddAddress($user->email, $user_name); // Получатель
-            $mail->Subject = htmlspecialchars('New message from Hairtime admin');  // Тема письма
-            $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass_EN.html');
+//            $mail->Subject = htmlspecialchars('New message from Hairtime admin');  // Тема письма
+            $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass.html');
             if ($letter) {
                 $letter_body = sprintf($user_name, $textMsg);
                 $mail->MsgHTML($letter_body); // Текст сообщения
@@ -358,9 +361,11 @@ The HairTime Team.</p>',
             }
             $mail->AddAddress($user->email, $user_name); // Получатель
             $mail->Subject = htmlspecialchars('New password for HairTime application');  // Тема письма
-            $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass_EN.html');
+            $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass.html');
+
             if ($letter) {
-                $letter_body = sprintf($user_name, $password);
+                $letter_body = sprintf($letter, $user_name, $password);
+
                 $mail->MsgHTML($letter_body); // Текст сообщения
                 $mail->AltBody = "Dear " . $user_name . ", you new password: " . $password;
                 if (!$mail->send()) {

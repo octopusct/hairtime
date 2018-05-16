@@ -102,15 +102,17 @@ class QueueController extends BaseController
         $schedules_array=[];
         foreach ($schedules as $schedule){
             $unix_start_stamp = \DateTime::createFromFormat("d-m-Y H:i:s", $args['date'].' 00:00:00')
-                    ->format("U") + 60*60*(intval(explode(':', $schedule->start)[0])+2);
+                    ->format("U") + 60*60*(intval(explode(':', $schedule->start)[0])+3);
             $unix_stop_stamp = \DateTime::createFromFormat("d-m-Y H:i:s", $args['date'].' 00:00:00')
-                    ->format("U") + 60*60*(intval(explode(':', $schedule->stop)[0])+2);
+                    ->format("U") + 60*60*(intval(explode(':', $schedule->stop)[0])+3);
+//            return ['time'=> 'start: '.$unix_start_stamp.' stop: '.$unix_stop_stamp];
             $queue = Queue::where('worker_id', $worker->worker_id)
                 ->leftJoin('services', 'queue.service_id', '=', 'services.service_id')
                 ->where('time_stamp', '>=',$unix_start_stamp )
                 ->where('time_stamp', '<=',$unix_stop_stamp)
                 ->orderBy('time_stamp')
                 ->get();
+//            return $queue;
             $schedules_array[$k] = $schedule;
             $schedules_array['q'][$k] = $queue;
             $i=0;
@@ -464,8 +466,11 @@ class QueueController extends BaseController
         $mail = new EmailController();
         $user_name = $customer->last_name . " " . $customer->first_name;
         $mail->AddAddress($email, $user_name); // Получатель
-        $mail->Subject = htmlspecialchars('You have new queue!');  // Тема письма
+//        $mail->Subject = htmlspecialchars('You have new queue!');  // Тема письма
         $letter = file_get_contents(__DIR__.'/../letters/confirm_queue.html');
+        $title = explode('title', $letter)[1];
+        $title = substr($title, 1, strlen($title)-3);
+        $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter) {
             $letter_body = sprintf($letter, $user_name);
             $mail->MsgHTML($letter_body); // Текст сообщения
@@ -486,7 +491,7 @@ class QueueController extends BaseController
         //$week_day = strftime("%u", strtotime($req->getParam('time')));
         //$customer_id = $req->getParam('customer_id');
         $Queue = Queue::where('worker_id', $args['worker_id'])->get();
-        $time_stamp = (new DateTime($req->getParam('time')))->format("U")+2*60*60;
+        $time_stamp = (new DateTime($req->getParam('time')))->format("U")+3*60*60;
 //        return  $res->withJson(['message'=>$Queue, '$time_stamp'=>$time_stamp, 'error'=> $args['worker_id'] ],200);
         foreach ($Queue as $item){
             $service = Service::find($args['service_id']);
@@ -528,8 +533,11 @@ class QueueController extends BaseController
         $mail = new EmailController();
         $user_name = $worker->last_name . " " . $worker->first_name;
         $mail->AddAddress($email, $user_name); // Получатель
-        $mail->Subject = htmlspecialchars('You have new queue!');  // Тема письма
-        $letter = file_get_contents(__DIR__ . '/../letters/worker_new_queue_EN.html');
+//        $mail->Subject = htmlspecialchars('You have new queue!');  // Тема письма
+        $letter = file_get_contents(__DIR__ . '/../letters/worker_new_queue.html');
+        $title = explode('title', $letter)[1];
+        $title = substr($title, 1, strlen($title)-3);
+        $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter) {
             $letter_body = sprintf($letter, $user_name);
             $mail->MsgHTML($letter_body); // Текст сообщения
