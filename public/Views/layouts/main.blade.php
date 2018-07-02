@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    {{--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>--}}
 
     <link href="/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <!--
@@ -19,11 +19,11 @@
     <link href="/css/form.css" rel="stylesheet"/>
     <link href="/css/javelin.css" rel="stylesheet"/>
     <!-- CSS React table -->
-    <link rel="stylesheet" href="https://unpkg.com/react-table@latest/react-table.css">
+    {{--<link rel="stylesheet" href="https://unpkg.com/react-table@latest/react-table.css">--}}
 
-    <script src="https://unpkg.com/react@15.3.1/dist/react.min.js"></script>
-    <script src="https://unpkg.com/react-dom@15.3.1/dist/react-dom.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+    {{--<script src="https://unpkg.com/react@15.3.1/dist/react.min.js"></script>--}}
+    {{--<script src="https://unpkg.com/react-dom@15.3.1/dist/react-dom.min.js"></script>--}}
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>--}}
     <!-- Page-Level CSS -->
     <style>
         th {
@@ -101,7 +101,7 @@
 
 
 <!-- JS React Table -->
-<script src="https://unpkg.com/react-table@latest/react-table.js"></script>
+{{--<script src="https://unpkg.com/react-table@latest/react-table.js"></script>--}}
 
 @if (isset($result) && $result )
     <!-- start info dialog -->
