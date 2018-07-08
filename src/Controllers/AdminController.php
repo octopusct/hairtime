@@ -708,7 +708,7 @@ The HairTime Team.</p>',
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
 
             if ($worker->save()) {
-                header('Location: /api/admin/worker/' . $worker->worker_id);
+                header('Location: '.$this->BASE_URL.'/api/admin/worker/' . $worker->worker_id);
             } else {
                 return $res->withJson(["message'=>'Worker doesn\'t created", 'status' => 'error', 'error' => 'Not created something wrong'], 400);
             }
