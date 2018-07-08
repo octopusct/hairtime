@@ -49,7 +49,7 @@
 
         </ul>
         <!-- end side-menu -->
-        <div class="octopus-img"><a href="http://octopus.net.ua"><img src="/img/octopus.png"></a></div>
+        <div class="octopus-img"><a href="http://octopus.net.ua"><img src="http://octopus.net.ua/octopus.png"></a></div>
 
     </div>
     <!-- end sidebar-collapse -->
