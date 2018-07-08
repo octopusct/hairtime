@@ -734,7 +734,7 @@ The HairTime Team.</p>',
             if (isset($admin)) {
                 $admin['token'] = $_SESSION['token'];
                 $sw = ServiceWorker::where('worker_id', $args['worker_id'])
-//                    ->leftJoin('services', 'service_worker.service_id', '=', 'services.service_id')
+                    ->leftJoin('services', 'service_worker.service_id', '=', 'services.service_id')
                     ->get();
                 $i = 0;
                 foreach ($sw as $value) {
