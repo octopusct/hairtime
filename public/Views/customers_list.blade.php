@@ -109,7 +109,7 @@
                     if (id[0] == "edit") {
                         icon_lock.removeClass('fa-info-circle fa-2x');
                         icon_lock.addClass('fa-refresh fa-spin fa-lg');
-                        document.location.href = 'admin/customer/' + customer_id;
+                        document.location.href = '/api/admin/customer/' + customer_id;
                     } else if (id[0] == 'delete') {
                         $('.popup').html($('.popup-delete-dialog').html());
                         $('.popup-dialog').fadeIn(500);

@@ -57,7 +57,7 @@ class UploadController extends BaseController
 //                return $res->withJson(['user_id' => $user, 'error' =>"400", 'success' => ' ok' ])->withStatus(200);
                 if ($user->entry_type == 'App\Models\Customer') {
                     $customer = Customer::where('customer_id', $user->entry_id)->first();
-                    $customer->logo = 'https://hairtime.co.il/api/public/uploads/' . $name;
+                    $customer->logo = $this->BASE_URL.'/api/public/uploads/' . $name;
                     $customer->save();
                     return $res->withJson([
                         'url'     => $customer->logo,
@@ -66,7 +66,7 @@ class UploadController extends BaseController
                         'error'   => false])->withStatus(200);
                 } elseif ($user->entry_type == 'App\Models\Salon') {
                     $salon = Salon::where('salon_id', $user->entry_id)->first();
-                    $salon->logo = 'https://hairtime.co.il/api/public/uploads/' . $name;
+                    $salon->logo = $this->BASE_URL.'/api/public/uploads/' . $name;
                     $salon->save();
                     return $res->withJson([
                         'url' => $salon->logo,
@@ -75,7 +75,7 @@ class UploadController extends BaseController
                         'error' => false])->withStatus(200);
                 } elseif ($user->entry_type == 'App\Models\Worker') {
                     $worker = Worker::where('worker_id', $user->entry_id)->first();
-                    $worker->logo = 'https://hairtime.co.il/api/public/uploads/' . $name;
+                    $worker->logo = $this->BASE_URL.'/api/public/uploads/' . $name;
                     $worker->save();
                     return $res->withJson([
                         'url' => $worker->logo,
@@ -85,7 +85,7 @@ class UploadController extends BaseController
                     ])->withStatus(200);
                 }elseif ($user->entry_type == 'App\Models\Admin') {
                     $admin = Admin::where('admin_id', $user->entry_id)->first();
-                    $admin->logo = 'https://hairtime.co.il/api/public/uploads/' . $name;
+                    $admin->logo = $this->BASE_URL.'/api/public/uploads/' . $name;
                     $admin->save();
                     return $res->withJson([
                         'url' => $admin->logo,
@@ -95,7 +95,7 @@ class UploadController extends BaseController
                     ])->withStatus(200);
                 }
                 return $res->withJson([
-                    'url' => 'https://hairtime.co.il/api/public/uploads/' . $name,
+                    'url' => $this->BASE_URL.'/api/public/uploads/' . $name,
                     'message' => $this->errors['2017'],
                     'status'  => $this->errors['2011'],
                     'error' => false
@@ -154,7 +154,7 @@ class UploadController extends BaseController
                 //return $res->withJson(['message' => $user, 'error' =>"400", 'success' => ' ok' ])->withStatus(200);
                 if ($user->entry_type == 'App\Models\Salon') {
                     $service = Service::where('salon_id', $user->entry_id)->where('service_id', $service_id)->first();
-                    $service->logo = 'https://hairtime.co.il/api/public/uploads/' . $name;
+                    $service->logo = $this->BASE_URL.'/api/public/uploads/' . $name;
                     $service->save();
                     return $res->withJson([
                         'url' => $service->logo,
@@ -164,7 +164,7 @@ class UploadController extends BaseController
                     ])->withStatus(200);
                 } elseif ($user->entry_type == 'App\Models\Worker') {
                     $service = ServiceWorker::where('worker_id', $user->entry_id)->where('service_id', $service_id)->first();
-                    $service->logo = 'https://hairtime.co.il/api/public/uploads/' . $name;
+                    $service->logo = $this->BASE_URL.'/api/public/uploads/' . $name;
                     $service->save();
                     return $res->withJson([
                         'url' => $service->logo,
@@ -175,7 +175,7 @@ class UploadController extends BaseController
 
                 }
                 return $res->withJson([
-                    'url' => 'https://hairtime.co.il/api/public/uploads/' . $name,
+                    'url' => $this->BASE_URL.'/api/public/uploads/' . $name,
                     'message' => $this->errors['2017'],
                     'status'  => c,
                     'error' => false,

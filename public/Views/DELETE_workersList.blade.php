@@ -106,7 +106,7 @@
                 if (id[0] == "edit") {
                     icon_lock.removeClass('fa-info-circle fa-2x');
                     icon_lock.addClass('fa-refresh fa-spin fa-lg');
-                    document.location.href = 'admin/worker/'+ customer_id;
+                    document.location.href = '/api/admin/worker/'+ customer_id;
 
                 } else if (id[0] == 'delete') {
                     admin_id = '<?=$admin['entry_id']?>';
@@ -130,7 +130,7 @@
                                 'Token': token,
                             },
                             success: function (result, textStatus) {
-                                document.location.href = 'admin/worker';
+                                document.location.href = '/api/admin/worker';
                                 history.pushState('', '', href);
                             },
                             error: function (jqXHR, exception) {

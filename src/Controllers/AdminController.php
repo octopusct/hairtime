@@ -161,10 +161,10 @@ The HairTime Team.</p>',
 
                     //return $res->withStatus(200)->withJson($result);
 
-                    header('Location: ' . 'https://hairtime.co.il/api/admin/message/' . $message->message_id . '?operator=Answer');
+                    header('Location: ' . 'admin/message/' . $message->message_id . '?operator=Answer');
 
                 } elseif ($req->getParam('operator') == 'Cancel') {
-                    header('Location: ' . 'https://hairtime.co.il/api/admin/message');
+                    header('Location: ' . 'admin/message');
                 }
 
                 return;
@@ -644,7 +644,7 @@ The HairTime Team.</p>',
             }
         }
         if (isset($_SESSION['user_id']) && isset($_SESSION['token'])) {
-            header('Location: https://hairtime.co.il/api/admin');
+            header('Location: admin');
         } else {
             echo $this->blade->render("login", ['lang'=> $this->admin]);
             return;
@@ -708,7 +708,7 @@ The HairTime Team.</p>',
             $admin = Admin::where('entry_id', $_SESSION['user_id'])->first();
 
             if ($worker->save()) {
-                header('Location: https://hairtime.co.il/api/admin/worker/' . $worker->worker_id);
+                header('Location: /api/admin/worker/' . $worker->worker_id);
             } else {
                 return $res->withJson(["message'=>'Worker doesn\'t created", 'status' => 'error', 'error' => 'Not created something wrong'], 400);
             }

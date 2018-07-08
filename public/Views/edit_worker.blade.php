@@ -223,7 +223,7 @@
            $('.panel-heading-select').click(function (e) {
             e.preventDefault();
             console.log('select', e.currentTarget.id);
-            document.location.href = 'admin/'+e.currentTarget.id.split('_')[0]+'/' + e.currentTarget.id.split('_')[1];
+            document.location.href = '/api/admin/'+e.currentTarget.id.split('_')[0]+'/' + e.currentTarget.id.split('_')[1];
         });
         $('#serviceSaveBtn').click(function (e) {
             e.preventDefault();

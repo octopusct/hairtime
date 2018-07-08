@@ -230,7 +230,7 @@ class AuthController extends BaseController
         if ($letter) {
             $letter_body = sprintf($letter, $confirm, $confirm);
             $mail->MsgHTML($letter_body); // Текст сообщения
-            $mail->AltBody = "Confirm your email, please. Copy next string to your browser and press enter: https://hairtime.co.il/auth/confirm_email/" . $confirm;
+            $mail->AltBody = "Confirm your email, please. Copy next string to your browser and press enter: ".$this->BASE_URL."/auth/confirm_email/" . $confirm;
             $result = $mail->Send();
 
             if ($result) {

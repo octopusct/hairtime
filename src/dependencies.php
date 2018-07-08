@@ -34,6 +34,10 @@ $container['logger'] = function($c) {
 $container['VIEW_PATH']= function ($c){
     return __DIR__."/../public/Views";
 };
+
+$container['BASE_URL']= function ($c){
+    return $_SERVER['SERVER_NAME'];
+};
 /**
  * @param Request $req
  * @return array
