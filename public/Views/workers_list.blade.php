@@ -107,7 +107,7 @@
                     $.ajax({
                         method: 'POST',
                         type: 'POST',
-                        url: "ajax/worker/delete/" + worker_id,
+                        url: "/api/ajax/worker/delete/" + worker_id,
                         headers: {
                             'User-ID': admin_id,
                             'Token': token,
