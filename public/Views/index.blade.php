@@ -119,9 +119,9 @@
     </div>
 
         <!-- Page-Level Plugin Scripts-->
-        <script src="/plugins/dataTables/jquery.dataTables.js"></script>
-        <script src="/plugins/dataTables/dataTables.bootstrap.js"></script>
-        <link href="/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
+        <script src="/api/public/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/api/public/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <link href="/api/public/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
 
     {{--new salon form--}}
         <script type="text/javascript">

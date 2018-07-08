@@ -362,7 +362,7 @@
                     success: function (result, textStatus) {
                         if (!result.error){
                             alert('OK. Worker created.');
-                            document.location.href = 'https://hairtime.co.il/api/admin/salon/{{$salon['salon_id']}}';
+                            document.location.href = 'admin/salon/{{$salon['salon_id']}}';
                         }else{
                             alert('Worker doesn\'t created! Error.' + result.message)
                         }
@@ -406,7 +406,7 @@
                     success: function (result) {
                         if (!result.error){
                             alert('OK. Service created.');
-                            document.location.href = 'https://hairtime.co.il/api/admin/salon/{{$salon['salon_id']}}';
+                            document.location.href = 'admin/salon/{{$salon['salon_id']}}';
                         }else{
                             alert('Service doesn\'t created. Error: ' + result.message)
                         }
@@ -471,7 +471,7 @@
         $('.panel-heading-select').click(function (e) {
             e.preventDefault();
             console.log('select', e.currentTarget.id);
-            document.location.href = 'https://hairtime.co.il/api/admin/'+ e.currentTarget.id.split('_')[0]+'/' + e.currentTarget.id.split('_')[1];
+            document.location.href = 'admin/'+ e.currentTarget.id.split('_')[0]+'/' + e.currentTarget.id.split('_')[1];
         });
         $('#showWorkerBtn').click(function (e) {
             e.preventDefault();

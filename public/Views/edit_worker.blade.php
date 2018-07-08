@@ -223,7 +223,7 @@
            $('.panel-heading-select').click(function (e) {
             e.preventDefault();
             console.log('select', e.currentTarget.id);
-            document.location.href = 'https://hairtime.co.il/api/admin/'+e.currentTarget.id.split('_')[0]+'/' + e.currentTarget.id.split('_')[1];
+            document.location.href = 'admin/'+e.currentTarget.id.split('_')[0]+'/' + e.currentTarget.id.split('_')[1];
         });
         $('#serviceSaveBtn').click(function (e) {
             e.preventDefault();
@@ -319,7 +319,7 @@
                                 title   : value.queue.name,
                                 start   : value.queue.time,
                                 end     : moment(value.queue.time).add(value.queue.duration,'m').format('YYYY-MM-DD HH:mm'),
-                                description: 'https://hairtime.co.il/api/admin/service/'+value.queue.service_id
+                                description: 'admin/service/'+value.queue.service_id
                             });
                         });
                         console.log('events ',events);

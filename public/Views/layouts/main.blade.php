@@ -5,19 +5,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HairTime | Admin Panel</title>
-    <link href="/plugins/bootstrap/bootstrap.css" rel="stylesheet"/>
+    <link href="/api/public/plugins/bootstrap/bootstrap.css" rel="stylesheet"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     {{--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>--}}
 
-    <link href="/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/api/public/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <!--
     <link href="/plugins/pace/pace-theme-big-counter.css" rel="stylesheet" />-->
-    <link href="/css/style.css" rel="stylesheet"/>
-    <link href="/css/main-style.css" rel="stylesheet"/>
-    <link href="/css/form.css" rel="stylesheet"/>
-    <link href="/css/javelin.css" rel="stylesheet"/>
+    <link href="/api/public/css/style.css" rel="stylesheet"/>
+    <link href="/api/public/css/main-style.css" rel="stylesheet"/>
+    <link href="/api/public/css/form.css" rel="stylesheet"/>
+    <link href="/api/public/css/javelin.css" rel="stylesheet"/>
     <!-- CSS React table -->
     {{--<link rel="stylesheet" href="https://unpkg.com/react-table@latest/react-table.css">--}}
 
@@ -93,11 +93,11 @@
 <!--end result-message popup-->
 <!-- Core Scripts - Include with every page -->
 <!-- <script src="/plugins/jquery-1.10.2.js"></script> -->
-<script src="/plugins/bootstrap/bootstrap.min.js"></script>
-<script src="/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/api/public/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="/api/public/plugins/metisMenu/jquery.metisMenu.js"></script>
 <!-- Page-Level Plugin Scripts-->
-<script src="/plugins/dataTables/jquery.dataTables.js"></script>
-<script src="/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="/api/public/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/api/public/plugins/dataTables/dataTables.bootstrap.js"></script>
 
 
 <!-- JS React Table -->
@@ -246,7 +246,7 @@
             admin_id = '<?=$admin['entry_id']?>',
             token = '<?=$admin['token']?>';
         $.ajax({
-            url: "/admin/message/new",
+            url: "/api/admin/message/new",
             method: 'GET',
             dataType: 'json',
             headers: {

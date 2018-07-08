@@ -92,9 +92,9 @@
         <!-- add new worker form -->
 
         <!-- Page-Level Plugin Scripts-->
-        <script src="/plugins/dataTables/jquery.dataTables.js"></script>
-        <script src="/plugins/dataTables/dataTables.bootstrap.js"></script>
-        <link href="/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+        <script src="/api/public/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/api/public/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <link href="/api/public/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
 
         <script type="text/javascript">
             $(".icon-btn").click(function (e) {
@@ -106,7 +106,7 @@
                 if (id[0] == "edit") {
                     icon_lock.removeClass('fa-info-circle fa-2x');
                     icon_lock.addClass('fa-refresh fa-spin fa-lg');
-                    document.location.href = 'https://hairtime.co.il/admin/worker/'+ customer_id;
+                    document.location.href = 'admin/worker/'+ customer_id;
 
                 } else if (id[0] == 'delete') {
                     admin_id = '<?=$admin['entry_id']?>';
@@ -130,7 +130,7 @@
                                 'Token': token,
                             },
                             success: function (result, textStatus) {
-                                document.location.href = 'https://hairtime.co.il/admin/worker';
+                                document.location.href = 'admin/worker';
                                 history.pushState('', '', href);
                             },
                             error: function (jqXHR, exception) {

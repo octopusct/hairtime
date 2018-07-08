@@ -6,13 +6,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HairTime | Admin Panel</title>
-    <link href="/plugins/bootstrap/bootstrap.css" rel="stylesheet"/>
+    <link href="/api/public/plugins/bootstrap/bootstrap.css" rel="stylesheet"/>
 
-    <link href="/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/api/public/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <!--
     <link href="/plugins/pace/pace-theme-big-counter.css" rel="stylesheet" />-->
-    <link href="/css/style.css" rel="stylesheet"/>
-    <link href="/css/main-style.css" rel="stylesheet"/>
+    <link href="/api/public/css/style.css" rel="stylesheet"/>
+    <link href="/api/public/css/main-style.css" rel="stylesheet"/>
     <!-- Page-Level CSS -->
 
 </head>

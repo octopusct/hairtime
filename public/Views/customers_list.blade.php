@@ -90,9 +90,9 @@
         {{--end new Customer--}}
 
         <!-- Page-Level Plugin Scripts-->
-        <script src="/plugins/dataTables/jquery.dataTables.js"></script>
-        <script src="/plugins/dataTables/dataTables.bootstrap.js"></script>
-        <link href="/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
+        <script src="/api/public/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/api/public/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <link href="/api/public/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
 
         <!-- click on icons -->
 
@@ -109,7 +109,7 @@
                     if (id[0] == "edit") {
                         icon_lock.removeClass('fa-info-circle fa-2x');
                         icon_lock.addClass('fa-refresh fa-spin fa-lg');
-                        document.location.href = 'https://hairtime.co.il/api/admin/customer/' + customer_id;
+                        document.location.href = 'admin/customer/' + customer_id;
                     } else if (id[0] == 'delete') {
                         $('.popup').html($('.popup-delete-dialog').html());
                         $('.popup-dialog').fadeIn(500);

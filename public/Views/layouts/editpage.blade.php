@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HairTime | Admin Panel</title>
-    <link href="/plugins/bootstrap/bootstrap.css" rel="stylesheet"/>
+    <link href="/api/public/plugins/bootstrap/bootstrap.css" rel="stylesheet"/>
     <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.js"></script>
@@ -14,20 +14,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale-all.js"></script>
 
-    <link href="/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/api/public/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <!--
     <link href="/plugins/pace/pace-theme-big-counter.css" rel="stylesheet" />-->
-    <link href="/css/style.css" rel="stylesheet"/>
-    <link href="/css/main-style.css" rel="stylesheet"/>
-    <link href="/css/form.css" rel="stylesheet"/>
-    <link href="/css/javelin.css" rel="stylesheet"/>
-    <link href="/css/fullcalendar.css" rel="stylesheet"/>
+    <link href="/api/public/css/style.css" rel="stylesheet"/>
+    <link href="/api/public/css/main-style.css" rel="stylesheet"/>
+    <link href="/api/public/css/form.css" rel="stylesheet"/>
+    <link href="/api/public/css/javelin.css" rel="stylesheet"/>
+    <link href="/api/public/css/fullcalendar.css" rel="stylesheet"/>
     <!-- CSS React table -->
-    <link rel="stylesheet" href="https://unpkg.com/react-table@latest/react-table.css">
+    {{--<link rel="stylesheet" href="https://unpkg.com/react-table@latest/react-table.css">--}}
 
-    <script src="https://unpkg.com/react@15.3.1/dist/react.min.js"></script>
-    <script src="https://unpkg.com/react-dom@15.3.1/dist/react-dom.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+    {{--<script src="https://unpkg.com/react@15.3.1/dist/react.min.js"></script>--}}
+    {{--<script src="https://unpkg.com/react-dom@15.3.1/dist/react-dom.min.js"></script>--}}
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>--}}
     <!-- Page-Level CSS -->
     <style>
         th {
@@ -99,14 +99,14 @@
 <!--end result-message popup-->
 <!-- Core Scripts - Include with every page -->
 <!-- <script src="/plugins/jquery-1.10.2.js"></script> -->
-<script src="/plugins/bootstrap/bootstrap.min.js"></script>
-<script src="/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/api/public/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="/api/public/plugins/metisMenu/jquery.metisMenu.js"></script>
 <!-- Page-Level Plugin Scripts-->
-<script src="/plugins/dataTables/jquery.dataTables.js"></script>
-<script src="/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="/api/public/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/api/public/plugins/dataTables/dataTables.bootstrap.js"></script>
 
 <!-- Calendar -->
-<script src="/plugins/calendar/responsive-calendar.js"></script>
+<script src="/api/public/plugins/calendar/responsive-calendar.js"></script>
 
 <!-- JS React Table -->
 <script src="https://unpkg.com/react-table@latest/react-table.js"></script>
@@ -181,9 +181,9 @@
         var formData = new FormData(this);
         console.log('form#data', formData);
         if (window.location.toString().split('/')[5] == 'service'){
-            uploadUrl = 'https://hairtime.co.il/api/service/salon/{{$salon['salon_id']}}/upload/{{$service['service_id']}}';
+            uploadUrl = 'service/salon/{{$salon['salon_id']}}/upload/{{$service['service_id']}}';
         }else{
-            uploadUrl = 'https://hairtime.co.il/api/upload';
+            uploadUrl = 'upload';
         }
         console.log(uploadUrl);
         $.ajax({
