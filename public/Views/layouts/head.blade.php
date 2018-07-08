@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/api/admin">
-            <img src="/img/image.jpg" alt=""/>
+            <img src="/api/public/img/image.jpg" alt=""/>
         </a>
     </div>
     <!-- end navbar-header -->

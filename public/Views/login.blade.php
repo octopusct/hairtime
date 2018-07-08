@@ -14,7 +14,7 @@
 
     <div class="row" @if ($lang['lang']=='he') style="direction:rtl"@endif>
         <div class="col-md-4 col-md-offset-4 text-center logo-margin ">
-            <img src="/img/image.jpg" style="width: 100%" alt=""/>
+            <img src="/api/public/img/image.jpg" style="width: 100%" alt=""/>
         </div>
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">

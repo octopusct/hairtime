@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="admin">
-            <img src="/img/image.jpg" style="height:50px " alt=""/>
+            <img src="/api/public/img/image.jpg" style="height:50px " alt=""/>
         </a>
     </div>
     <!-- end navbar-header -->
