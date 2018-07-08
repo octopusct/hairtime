@@ -37,7 +37,7 @@
                                 <div class="main-avatar-div">
                                     <img class="img-main-avatar" id="img-main-avatar" alt="Click to load new avatar"
                                          style="cursor: pointer;"
-                                         src="@if ($admin['logo']!=null) {{$admin['logo']}} @else /img/mystery-man.png @endif"/>
+                                         src="@if ($admin['logo']!=null) {{$admin['logo']}} @else /api/public/img/mystery-man.png @endif"/>
 
                                 </div>
                                 <form id="data" method="post" enctype="multipart/form-data">
@@ -115,7 +115,7 @@
                             <div class="panel-body">
                                 <div></div>
                                 <div class="panel-img">
-                                    <img src="@if ($this_admin['logo']!=null) {{$this_admin['logo']}} @else /img/mystery-man.png @endif">
+                                    <img src="@if ($this_admin['logo']!=null) {{$this_admin['logo']}} @else /api/public/img/mystery-man.png @endif">
                                 </div>
                             </div>
                         </div>

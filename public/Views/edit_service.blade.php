@@ -20,7 +20,7 @@
                             <div class="main-avatar-div">
                                 <img class="img-main-avatar" id="img-main-avatar" alt="Click to load new avatar"
                                      style="cursor: pointer;"
-                                     src="@if ($service['logo']!=null) {{$service['logo']}} @else /img/mystery-man.png @endif"/>
+                                     src="@if ($service['logo']!=null) {{$service['logo']}} @else /api/public/img/mystery-man.png @endif"/>
 
                             </div>
                             <form id="data" method="post" enctype="multipart/form-data">

@@ -12,7 +12,7 @@
                 <!-- user image section-->
                 <div class="user-section">
                     <div class="user-section-inner">
-                        <img src="@if ($admin['logo'] != null){{$admin['logo']}}@else{{'/img/mystery-man.png'}} @endif"
+                        <img src="@if ($admin['logo'] != null){{$admin['logo']}}@else{{'/api/public/img/mystery-man.png'}} @endif"
                              class="img-circle" alt="admin logo">
                     </div>
                     <div class="user-info">
