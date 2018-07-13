@@ -14,6 +14,7 @@ class BaseController
 {
     protected $ci;
     protected $errors;
+    protected $config;
     protected $messages;
     protected $admin;
 
@@ -24,6 +25,7 @@ class BaseController
         $this->errors   = $this->locale['errors'];
         $this->messages = $this->locale['messages'];
         $this->admin    = $this->locale['admin'];
+        $this->config   = $this->config_data;
 
     }
 

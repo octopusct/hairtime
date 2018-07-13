@@ -38,6 +38,12 @@ $container['VIEW_PATH']= function ($c){
 $container['BASE_URL']= function ($c){
     return $_SERVER['SERVER_NAME'];
 };
+
+$container['config_data']= function ($container){
+    return $container['settings'];
+};
+
+
 /**
  * @param Request $req
  * @return array

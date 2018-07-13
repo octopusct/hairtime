@@ -11,6 +11,7 @@ return [
         'devMode' => false,
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,
+        'queue_days' => 14,
         'lang' => 'he',
         'db' => [
             'driver' => 'mysql',

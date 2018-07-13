@@ -503,12 +503,23 @@ class QueueController extends BaseController
         }
 
         $time = date('Y-m-d H:i:s', strtotime($req->getParam('time')));
+        $now= date("U", time());
+
+        if ($time_stamp < $now + 60*60*24* $this->config['queue_days']) {
+            $queue = Queue::create([
+                    'time' => $time,
+                    'customer_id' => $req->getParam('customer_id'),
+                    'time_stamp'=> $time_stamp,
+                    'status'=> 2,
+                ] + $args);
+            return $res->withJson($queue->toArray() + ['message'=>'OK', 'status'=>'success', 'error'=> false],200);
+        }
         $queue = Queue::create([
             'time' => $time,
             'customer_id' => $req->getParam('customer_id'),
             'time_stamp'=> $time_stamp,
             ] + $args);
-
+        $queue = Queue::where('queue_id', $queue->queue_id)->first();
         $message = array('message' => 'Dear worker you are have new queue!');
         $message = 'Dear worker you are have new queue: '.$time;
         $user = User::where('entry_type', 'App\Models\Worker')->where('entry_id', $args['worker_id'])->first();
@@ -543,9 +554,9 @@ class QueueController extends BaseController
             $mail->MsgHTML($letter_body); // Текст сообщения
             $mail->AltBody = "Dear " . $user_name . ", You have new queue!";
             $result = $mail->Send();
-            return $res->withJson($queue)
+            return $res->withJson($queue->toArray()+['message'=>'ok', 'status'=>'success', 'error'=>false ])
                 ->withStatus(200);
         }
-        return $res->withJson(['message'=>'cant send email', 'success'=>'warning', 'error'=>false],201);
+        return $res->withJson(['message'=>'cant send email', 'status'=>'warning', 'error'=>false],201);
     }
 }
