@@ -281,6 +281,7 @@ class QueueController extends BaseController
         $i = 0;
         foreach ($salons_id as $key=>$value) {
             $salon = Salon::where('salon_id', $value)->first();
+            if ( !isset($salon) ) continue;       
             $result[$i]['salons'] = $salon->toArray();
             if (isset($to)) {
                 $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
