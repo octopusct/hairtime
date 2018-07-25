@@ -472,7 +472,7 @@ class QueueController extends BaseController
         $title = substr($title, 1, strlen($title)-3);
         $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter) {
-            $letter_body = sprintf($letter, $user_name);
+            $letter_body = sprintf($letter, $this->BASE_URL.'/'.$this->PREFIX, $user_name);
             $mail->MsgHTML($letter_body); // Текст сообщения
             $mail->AltBody = "Dear " . $user_name . ", You have new queue!";
             $result = $mail->Send();
@@ -486,11 +486,25 @@ class QueueController extends BaseController
 
     public function addQueue(Request $req, Response $res, $args)
     {
-//        return $res->withJson(['message'=>'ff', '$time_stamp'=>'$time_stamp', 'error'=> true ],200);
-
-        //$week_day = strftime("%u", strtotime($req->getParam('time')));
-        //$customer_id = $req->getParam('customer_id');
-        $Queue = Queue::where('worker_id', $args['worker_id'])->get();
+        $validation = $this->validator;
+        $validation->validate($req, array(
+            'worker_id' => v::notEmpty()->noWhitespace(),
+            'service_id' => v::notEmpty()->noWhitespace(),
+            'customer_id' => v::notEmpty()->noWhitespace(),
+            'time' => v::notEmpty(),
+        ));
+        if ($validation->failed()) {
+            $i=0; $result= Array();
+            foreach ($validation->errors as $error){
+                $result[$i]= $error;
+                $i++;
+            }
+            $this->logger->info('Validation error', array('MESSAGE'=>$result, 'REQUEST'=>$req->getParams()));
+            return $res->withJson([
+                'message'=> $result,
+                'status'=>'error 1002',
+                'error'=>true])->withStatus(400);
+        }        $Queue = Queue::where('worker_id', $args['worker_id'])->get();
         $time_stamp = (new DateTime($req->getParam('time')))->format("U")+3*60*60;
 //        return  $res->withJson(['message'=>$Queue, '$time_stamp'=>$time_stamp, 'error'=> $args['worker_id'] ],200);
         foreach ($Queue as $item){
@@ -550,7 +564,7 @@ class QueueController extends BaseController
         $title = substr($title, 1, strlen($title)-3);
         $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter) {
-            $letter_body = sprintf($letter, $user_name);
+            $letter_body = sprintf($letter, $this->BASE_URL.'/'.$this->PREFIX,  $user_name);
             $mail->MsgHTML($letter_body); // Текст сообщения
             $mail->AltBody = "Dear " . $user_name . ", You have new queue!";
             $result = $mail->Send();

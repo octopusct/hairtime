@@ -248,7 +248,7 @@ The HairTime Team.</p>',
                 $title = substr($title, 1, strlen($title)-3);
                 $mail->Subject = htmlspecialchars($title);  // Тема письма
                 if ($letter) {
-                    $letter_body = sprintf($user_name, $password);
+                    $letter_body = sprintf($user_name, $this->BASE_URL.'/'.$this->PREFIX, $password);
                     $mail->MsgHTML($letter_body); // Текст сообщения
                     $mail->AltBody = "Dear " . $user_name . ", you new password: " . $password;
                     if (!$mail->send()) {
@@ -313,7 +313,7 @@ The HairTime Team.</p>',
 //            $mail->Subject = htmlspecialchars('New message from Hairtime admin');  // Тема письма
             $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass.html');
             if ($letter) {
-                $letter_body = sprintf($user_name, $textMsg);
+                $letter_body = sprintf($user_name, $this->BASE_URL.'/'.$this->PREFIX, $textMsg);
                 $mail->MsgHTML($letter_body); // Текст сообщения
                 $mail->AltBody = "Dear " . $user_name . ", you has new emain from HairTime admin";
                 if (!$mail->send()) {
@@ -364,7 +364,7 @@ The HairTime Team.</p>',
             $letter = file_get_contents(__DIR__ . '/../letters/admin_new_pass.html');
 
             if ($letter) {
-                $letter_body = sprintf($letter, $user_name, $password);
+                $letter_body = sprintf($letter, $this->BASE_URL.'/'.$this->PREFIX, $user_name, $password);
 
                 $mail->MsgHTML($letter_body); // Текст сообщения
                 $mail->AltBody = "Dear " . $user_name . ", you new password: " . $password;

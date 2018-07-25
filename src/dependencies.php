@@ -39,6 +39,10 @@ $container['BASE_URL']= function ($c){
     return $_SERVER['SERVER_NAME'];
 };
 
+$container['PREFIX']= function ($c){
+    if ($c['settings']['prefix']) return $c['settings']['prefix']; else return '';
+};
+
 $container['config_data']= function ($container){
     return $container['settings'];
 };

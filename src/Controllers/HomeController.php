@@ -20,7 +20,8 @@ class HomeController extends BaseController
     {
         return $res->withJson([
             'message' => $this->messages['2009'],
-            'error' => '',
+            'error' => $this->PREFIX,
+            'error1' => $this->BASE_URL.'/'.$this->PREFIX,
             'success' => true])
             ->withStatus(200);
     }

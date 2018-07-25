@@ -192,15 +192,14 @@ class ServiceController extends BaseController
             $worker_id = $args['worker_id'];
             $i = 0;
             $sw = ServiceWorker::where('worker_id', $worker_id)->get();
+            $result = [];
             foreach ($sw as $value) {
                 $result[$i] = Service::where('service_id', $value['service_id'])->first();
                 $result[$i]['worker'] = Worker::where('worker_id', $worker_id)->first();
                 $result[$i]['worker']['description'] = $value['description'];
                 $i++;
             }
-            return $res->withJson($result)
-
-                ->withStatus(200);
+            return $res->withJson($result)->withStatus(200);
         } else {
             return $res
 

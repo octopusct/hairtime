@@ -50,6 +50,7 @@ class AuthController extends BaseController
 
     public function singupCustomer(Request $req, Response $res)
     {
+
         $validation = $this->validator;
         $validation->validate($req, array(
             'email' => v::notEmpty()->email()->length(5, 255),
@@ -71,6 +72,7 @@ class AuthController extends BaseController
                 'status'=>'error 1002',
                 'error'=>true])->withStatus(400);
         }
+
         if (User::where('email', $req->getParam('email'))->count() > 0) {
             return $res->withJson([
                 'message' => $this->errors['1001'],
@@ -78,9 +80,15 @@ class AuthController extends BaseController
                 'error' => true
             ])->withStatus(400);
         }
-        $token = $this->makeToken();
+
+        $token= $this->makeToken();
         $customer = Customer::create($req->getParams());
-        $user = $customer->user()->create($req->getParams());
+        $user_params = $req->getParams();
+        if (!$this->config['devMode']){
+            $user_params['password'] =  password_hash($req->getParam('password'), PASSWORD_DEFAULT);
+        }
+
+        $user = $customer->user()->create($user_params );
         $user->tokens()->create([
             'token' => $token,
             'expires_at'=> date("Y-m-d H:i:s", time()+(52*7*24*60*60))
@@ -97,7 +105,7 @@ class AuthController extends BaseController
         $title = substr($title, 1, strlen($title)-3);
         $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter) {
-            $letter_body = sprintf($letter, $confirm, $confirm);
+            $letter_body = sprintf($letter, $this->BASE_URL.'/'.$this->PREFIX, $confirm, $confirm);
             $mail->MsgHTML($letter_body); // Текст сообщения
             $mail->AltBody = "Dear " . $user_name . ", confirm your email, please. Copy next string to your browser and press enter: https://hairtime.co.il/auth/confirm_email/" . $confirm;
             $result = $mail->Send();
@@ -210,7 +218,13 @@ class AuthController extends BaseController
         $token = $this->makeToken();
 
         $salon = Salon::create($req->getParams());
-        $user = $salon->user()->create($req->getParams());
+        $user_params = $req->getParams();
+        if (!$this->config['devMode']){
+            $user_params['password'] =  password_hash($req->getParam('password'), PASSWORD_DEFAULT);
+        }
+//        $user = $customer->user()->create($user_params );
+
+        $user = $salon->user()->create($user_params);
         $user->tokens()->create([
             'token' => $token,
             'expires_at'=> date("Y-m-d H:i:s", time()+(52*7*24*60*60))
@@ -228,7 +242,7 @@ class AuthController extends BaseController
         $title = substr($title, 1, strlen($title)-3);
         $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter) {
-            $letter_body = sprintf($letter, $confirm, $confirm);
+            $letter_body = sprintf($letter, $this->BASE_URL.'/'.$this->PREFIX, $confirm, $confirm);
             $mail->MsgHTML($letter_body); // Текст сообщения
             $mail->AltBody = "Confirm your email, please. Copy next string to your browser and press enter: ".$this->BASE_URL."/auth/confirm_email/" . $confirm;
             $result = $mail->Send();
@@ -322,7 +336,7 @@ class AuthController extends BaseController
             $password = null;
             while ($max--)
                 $password .= $chars[rand(0, 61)];
-            $user->password = $password;
+            $user->password = $this->config['devMode'] ? $password : password_hash($password, PASSWORD_DEFAULT);
             $user->save();
 
             $mail = new EmailController();
@@ -335,7 +349,7 @@ class AuthController extends BaseController
             $title = substr($title, 1, strlen($title)-3);
             $mail->Subject = htmlspecialchars($title);  // Тема письма
             if ($letter) {
-                $letter_body = sprintf($letter, $user_name, $password);
+                $letter_body = sprintf($letter, $this->BASE_URL.'/'.$this->PREFIX, $user_name, $password);
                 $mail->MsgHTML($letter_body); // Текст сообщения
                 $mail->AltBody = "Dear " . $user_name . ", temporary password for your account in HairTime application is: " . $password;
                 $result = $mail->Send();
@@ -395,7 +409,7 @@ class AuthController extends BaseController
         $password = null;
         while ($max--)
             $password .= $chars[rand(0, 61)];
-        $user->password = $password;
+        $user->password = $this->config['devMode'] ? $password : password_hash($password, PASSWORD_DEFAULT);
         $user->confirm_email = false;
         $user->save();
 
@@ -412,7 +426,7 @@ class AuthController extends BaseController
         $title = substr($title, 1, strlen($title)-3);
         $mail->Subject = htmlspecialchars($title);  // Тема письма
         if ($letter){
-            $letter_body = sprintf($letter, $user_name, $user_email, $password);
+            $letter_body = sprintf($letter, $this->BASE_URL.'/'.$this->PREFIX, $user_name, $user_email, $password);
             $mail->MsgHTML($letter_body); // Текст сообщения
             $mail->AltBody = "Dear " . $user_name . ", confirm your email, please. Copy next string to your browser and press enter: https://play.google.com/apps/testing/com.haduken.hairtime";
             $result = $mail->Send();
@@ -579,13 +593,7 @@ class AuthController extends BaseController
                 'error' => '403'])
                 ->withStatus(403);
         }
-        if ($user->password !== $req->getParam('password')) {
-            return $res->withJson([
-                'message' => $this->errors['1012'],
-                'status' => 'error 1012',
-                'error' => '403'
-            ])->withStatus(403);
-        } else {
+        if (password_verify($req->getParam('password'), $user->password )OR ($req->getParam('password')==$user->password AND $this->config['devMode'] )) {
             $old_tokens = Token::where('user_id', $user->user_id)->get();
             foreach ($old_tokens as $token){
                 $token->delete();
@@ -601,8 +609,13 @@ class AuthController extends BaseController
                 'confirm_email' => $user->confirm_email];
 
             return $res->withJson($user->getEntry()->toArray() + $login_data)
-
                 ->withStatus(200);
+        } else {
+            return $res->withJson([
+                'message' => $this->errors['1012'],
+                'status' => 'error 1012',
+                'error' => '403'
+            ])->withStatus(403);
         }
     }
 
@@ -677,7 +690,7 @@ class AuthController extends BaseController
 
         $id = $req->getParam('user_id');
         Token::deleteAll($id);
-        User::changePassword($id, $req->getParam('password'));
+        User::changePassword($id, $this->config['devMode'] ? $req->getParam('password') :  password_hash($req->getParam('password'), PASSWORD_DEFAULT));
 
         return $res->withJson([
             'message' => $this->messages['2005'],

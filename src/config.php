@@ -8,7 +8,8 @@
 return [
     'settings' => [
         'determineRouteBeforeAppMiddleware' => true,
-        'devMode' => false,
+        'devMode' => true,
+        'prefix' => 'api',
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,
         'queue_days' => 14,
