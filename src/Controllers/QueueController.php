@@ -262,18 +262,17 @@ class QueueController extends BaseController
         $customer = intval($args['customer_id']);
         $is_from = $req->getParam('from');
         if (isset($is_from)) {
-            $from = \DateTime::createFromFormat("d.m.Y", $is_from)->format("Y-m-d H:m:s");
+            $from = \DateTime::createFromFormat("d.m.Y", $is_from)->setTime(0,0,0)->format("Y-m-d H:m:s");
         } else {
             $today = new DateTime();
             $from = $today->format("Y-m-d H:m:s");
         }
         $is_to = $req->getParam('to');
         if (isset($is_to)) {
-            $to = \DateTime::createFromFormat("d.m.Y", $req->getParam('to'))->format("Y-m-d H:m:s");
+            $to = \DateTime::createFromFormat("d.m.Y", $req->getParam('to'))->setTime(23,59,59)->format("Y-m-d H:m:s");
         } else {
             $to = null;
         }
-        // return $res->withJson(['to'=>$to,'from'=>$from])->withStatus(200);
         $salons_id = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
         join('salons', 'salons.salon_id', '=', 'services.salon_id')->
         where('customer_id', $args['customer_id'])->pluck('salons.salon_id');
@@ -287,7 +286,7 @@ class QueueController extends BaseController
                 $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
                 join('salons', 'salons.salon_id', '=', 'services.salon_id')->
                 where('salons.salon_id', $value)->where('time', '>', $from)->
-                where('time', '<', $to)->get([
+                where('time', '<', $to)->orderBy('queue.time')->get([
                     'queue.queue_id',
                     'services.service_id',
                     'services.name',
@@ -304,7 +303,7 @@ class QueueController extends BaseController
                 $queue = Queue::join('services', 'services.service_id', '=', 'queue.service_id')->
                 join('salons', 'salons.salon_id', '=', 'services.salon_id')->
                 where('salons.salon_id', $value)->where('queue.customer_id', intval($customer))->
-                where('time', '>', $from)->get([
+                where('time', '>', $from)->orderBy('queue.time')->get([
                     'queue.queue_id',
                     'services.service_id',
                     'services.name',
